@@ -141,7 +141,7 @@ void PlayScene::Update(float deltaTime) {
 		// Check if we should create new enemy.
 		ticks += deltaTime;
 		if (enemyWaveData.empty()) {
-			if (EnemyGroup->GetObjects().empty()) {
+			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
 				delete GroundEffectGroup;
