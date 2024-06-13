@@ -23,6 +23,7 @@ public:
 	int x2;
 	int y2;
 	Engine::Label* Title;
+	Engine::Image* rec;
     explicit CharacterSelectScene() = default;
 	void Initialize() override;
 	void Terminate() override;
@@ -34,6 +35,9 @@ public:
 	void DrawName();
 	void RemoveChar();
 	void DrawTitle();
+	void SelectedOnClick(int stage, int from);
+	void DrawSelected_1(int stage);
+	void DrawSelected_2(int stage);
 };
 
 #endif // CharacterSelectScene_HPP
