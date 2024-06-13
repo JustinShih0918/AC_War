@@ -1,4 +1,6 @@
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/color.h>
 #include <functional>
 #include <memory>
 #include <string>
