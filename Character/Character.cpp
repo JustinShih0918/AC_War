@@ -32,7 +32,7 @@ void Character::OnExplode() {
 		getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
 	}
 }
- Character::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money) :
+ Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money) :
 	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money) {
 	CollisionRadius = radius;
 	reachEndTime = 0;
