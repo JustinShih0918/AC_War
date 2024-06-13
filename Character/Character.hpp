@@ -24,6 +24,7 @@ protected:
 	int money;
 	float coolDown;
 	float reload = 0;
+	float rotateRadian = 2 * ALLEGRO_PI;
 	PlayScene* getPlayScene();
 	virtual void OnExplode();
 public:
@@ -37,5 +38,6 @@ public:
 	void Draw() const override;
 
 	virtual void CreateBullet() = 0;
+	Turret* Target = nullptr;
 };
 #endif // ENEMY_HPP
