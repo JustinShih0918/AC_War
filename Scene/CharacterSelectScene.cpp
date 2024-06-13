@@ -14,6 +14,7 @@
 #include "Engine/Resources.hpp"
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
+#include "MainPlayScene.cpp"
 using namespace std;
 
 const float detX = 192;
@@ -63,6 +64,12 @@ void CharacterSelectScene::Initialize() {
         btn->SetOnClickCallback(std::bind(&CharacterSelectScene::SelectedOnClick, this, i, 2));
         AddNewControlObject(btn); 
     }
+
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW, halfH, 400, 100);
+    btn->SetOnClickCallback(std::bind(&CharacterSelectScene::GoOnClick, this));
+    AddNewControlObject(btn); 
+    AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW + 500, halfH / 2 + 300, 0, 0, 0, 255, 0.5, 0.5));
+
 }
 
 void CharacterSelectScene::Terminate() {
@@ -71,18 +78,10 @@ void CharacterSelectScene::Terminate() {
 	IScene::Terminate();
 }
 
-void CharacterSelectScene::BackOnClick(int stage) {
-    Engine::GameEngine::GetInstance().ChangeScene("start");
-}
-
-void CharacterSelectScene::PlayOnClick(int stage) {
-    PlayScene* scene = dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"));
-    scene->MapId = stage;
-    Engine::GameEngine::GetInstance().ChangeScene("play");
-}
-
-void CharacterSelectScene::ScoreboardOnClick() {
-    Engine::GameEngine::GetInstance().ChangeScene("scoreboard-scene");
+void CharacterSelectScene::GoOnClick(){
+    MainPlayScene* scene = dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetScene("MainPlay"));
+    scene->MapId = 3;
+    Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
 }
 
 void CharacterSelectScene::DrawTitle(){
@@ -189,6 +188,8 @@ char CharacterSelectScene::parseKeyCode(int keyCode,int mode){
 		if(keyCode <= 26 && keyCode >= 1) return keyCode + 64; // upper
 	}
 	else return 0;
+
+    return 0;
 }
 
 void CharacterSelectScene::DrawSelected_1(int stage){

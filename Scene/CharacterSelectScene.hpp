@@ -6,7 +6,7 @@
 #include "Engine/IScene.hpp"
 #include <vector>
 #include <iostream>
-
+using namespace std;
 class CharacterSelectScene final : public Engine::IScene {
 private:
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
@@ -27,15 +27,13 @@ public:
     explicit CharacterSelectScene() = default;
 	void Initialize() override;
 	void Terminate() override;
-	void PlayOnClick(int stage);
-    void ScoreboardOnClick();
-	void BackOnClick(int stage);
 	void OnKeyDown(int keyCode) override;
 	char parseKeyCode(int keyCode,int mode);
 	void DrawName();
 	void RemoveChar();
 	void DrawTitle();
 	void SelectedOnClick(int stage, int from);
+	void GoOnClick();
 	void DrawSelected_1(int stage);
 	void DrawSelected_2(int stage);
 };
