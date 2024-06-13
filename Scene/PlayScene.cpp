@@ -163,8 +163,8 @@ void PlayScene::Update(float deltaTime) {
 		ticks -= current.second;
 		enemyWaveData.pop_front();
 		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
-		Enemy* enemy;
-		Character* character;
+		Enemy* enemy = nullptr;
+		Character* character = nullptr;
 		switch (current.first) {
 		case 1:
 			CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
@@ -184,13 +184,17 @@ void PlayScene::Update(float deltaTime) {
 		default:
 			continue;
 		}
-		enemy->UpdatePath(mapDistance);
-		// Compensate the time lost.
-		enemy->Update(ticks);
+		if(enemy != nullptr){
+			enemy->UpdatePath(mapDistance);
+			// Compensate the time lost.
+			enemy->Update(ticks);
+		}
 		// character
-		character->UpdatePath(mapDistance);
-		// Compensate the time lost.
-		character->Update(ticks);
+		if(character != nullptr){
+			character->UpdatePath(mapDistance);
+			// Compensate the time lost.
+			character->Update(ticks);
+		}
 	}
 	if (preview) {
 		preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
