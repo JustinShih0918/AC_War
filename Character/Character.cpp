@@ -16,6 +16,19 @@
 #include "Engine/LOG.hpp"
 #include "Scene/PlayScene.hpp"
 #include "Turret/Turret.hpp"
+#include <allegro5/color.h>
+#include <allegro5/allegro_primitives.h>
+#include <cmath>
+#include <utility>
+
+#include "Enemy/Enemy.hpp"
+#include "Engine/GameEngine.hpp"
+#include "Engine/Group.hpp"
+#include "Engine/IObject.hpp"
+#include "Engine/IScene.hpp"
+#include "Scene/PlayScene.hpp"
+#include "Engine/Point.hpp"
+#include "Turret/Turret.hpp"
 
 PlayScene* Character::getPlayScene() {
 	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
@@ -32,8 +45,8 @@ void Character::OnExplode() {
 		getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
 	}
 }
- Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money) :
-	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money) {
+ Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown) :
+	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown) {
 	CollisionRadius = radius;
 	reachEndTime = 0;
 }
@@ -94,6 +107,12 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance) {
 }
 void Character::Update(float deltaTime) {
 	// Pre-calculate the velocity.
+	reload -= deltaTime;
+	if (reload <= 0) {
+		// shoot.
+		reload = coolDown;
+		CreateBullet();
+	}
 	float remainSpeed = speed * deltaTime;
 	while (remainSpeed != 0) {
 		if (path.empty()) {

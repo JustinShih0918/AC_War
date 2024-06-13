@@ -5,5 +5,6 @@
 class TestCharacter : public Character {
 public:
 	TestCharacter(int x, int y);
+	void CreateBullet() override;
 };
 #endif // TESTCHARACTER_HPP
