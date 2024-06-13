@@ -37,7 +37,7 @@ void Character::OnExplode() {
 	CollisionRadius = radius;
 	reachEndTime = 0;
 }
-void  Character::Hit(float damage) {
+void Character::Hit(float damage) {
 	hp -= damage;
 	if(damage == 0.5){
 		if(speed - 10 >= 20) speed -= 10;

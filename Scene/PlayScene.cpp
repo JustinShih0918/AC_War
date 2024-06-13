@@ -29,6 +29,8 @@
 #include "Turret/Shovel.cpp"
 #include "Engine/LOG.hpp"
 #include "Engine/GameEngine.hpp"
+#include "Character/Character.hpp"
+#include "Character/TestCharacter.hpp"
 #include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
@@ -62,6 +64,7 @@ void PlayScene::Initialize() {
 	AddNewObject(EnemyGroup = new Group());
 	AddNewObject(BulletGroup = new Group());
 	AddNewObject(EffectGroup = new Group());
+	AddNewObject(CharacterGroup = new Group());
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
@@ -95,6 +98,10 @@ void PlayScene::Update(float deltaTime) {
 	std::vector<float> reachEndTimes;
 	for (auto& it : EnemyGroup->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Enemy*>(it)->reachEndTime);
+	}
+	// character
+	for (auto& it : CharacterGroup->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	// Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
 	std::sort(reachEndTimes.begin(), reachEndTimes.end());
@@ -157,9 +164,10 @@ void PlayScene::Update(float deltaTime) {
 		enemyWaveData.pop_front();
 		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
 		Enemy* enemy;
+		Character* character;
 		switch (current.first) {
 		case 1:
-			EnemyGroup->AddNewObject(enemy = new SoldierEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+			CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
 			break;
 		case 2:
 			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
@@ -179,6 +187,10 @@ void PlayScene::Update(float deltaTime) {
 		enemy->UpdatePath(mapDistance);
 		// Compensate the time lost.
 		enemy->Update(ticks);
+		// character
+		character->UpdatePath(mapDistance);
+		// Compensate the time lost.
+		character->Update(ticks);
 	}
 	if (preview) {
 		preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();

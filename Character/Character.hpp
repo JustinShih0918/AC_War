@@ -1,5 +1,5 @@
-#ifndef ENEMY_HPP
-#define ENEMY_HPP
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
 #include <list>
 #include <vector>
 #include <string>
