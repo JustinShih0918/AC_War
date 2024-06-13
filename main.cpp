@@ -11,6 +11,7 @@
 #include "Scene/SettingsScene.hpp"
 #include "Scene/CharacterSelectScene.cpp"
 #include "Scene/ScoreBoard.cpp" // Q: include hpp can't work
+#include "Scene/MainPlayScene.cpp"
 #include <iostream>
 using namespace std;
 int main(int argc, char **argv) {
@@ -24,6 +25,7 @@ int main(int argc, char **argv) {
 	game.AddNewScene("scoreboard-scene", new ScoreBoard());
 	game.AddNewScene("character-select",new CharacterSelectScene());
 	game.AddNewScene("play", new PlayScene());
+	game.AddNewScene("MainPlay", new MainPlayScene());
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
 	//game.AddNewScene("StageSelectScene", new StageSelectScene());
