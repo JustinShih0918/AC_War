@@ -45,8 +45,8 @@ void Character::OnExplode() {
 		getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
 	}
 }
- Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown) :
-	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown) {
+ Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player) :
+	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown), player(player) {
 	CollisionRadius = radius;
 	reachEndTime = 0;
 }
@@ -124,14 +124,30 @@ void Character::Update(float deltaTime) {
 		// Lock first seen target.
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
-		for (auto& it : getPlayScene()->TowerGroup->GetObjects()) {
-			Engine::Point diff = it->Position - Position;
-			if (diff.Magnitude() <= CollisionRadius) {
-				Target = dynamic_cast<Turret*>(it);
-				//Target->lockedTurrets.push_back(this);
-				//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
-				break;
+		if (player == 1){
+			for (auto& it : getPlayScene()->CharacterGroup_Player2->GetObjects()) {
+				Engine::Point diff = it->Position - Position;
+				if (diff.Magnitude() <= CollisionRadius) {
+					Target = dynamic_cast<Character*>(it);
+					//Target->lockedTurrets.push_back(this);
+					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+					break;
+				}
 			}
+		}
+		else if (player == 2){
+			for (auto& it : getPlayScene()->CharacterGroup_Player1->GetObjects()) {
+				Engine::Point diff = it->Position - Position;
+				if (diff.Magnitude() <= CollisionRadius) {
+					Target = dynamic_cast<Character*>(it);
+					//Target->lockedTurrets.push_back(this);
+					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+					break;
+				}
+			}
+		}
+		else {
+			std::cout << "character attack error\n";
 		}
 	}
 	if (Target) {

@@ -52,7 +52,8 @@ public:
 	Group* EnemyGroup;
 	Group* EffectGroup;
 	Group* UIGroup;
-	Group* CharacterGroup;
+	Group* CharacterGroup_Player1;
+	Group* CharacterGroup_Player2;
 	Engine::Label* UIMoney;
 	Engine::Label* UILives;
 	Engine::Image* imgTarget;

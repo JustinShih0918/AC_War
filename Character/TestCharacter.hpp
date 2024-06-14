@@ -4,7 +4,7 @@
 
 class TestCharacter : public Character {
 public:
-	TestCharacter(int x, int y);
+	TestCharacter(int x, int y, int player);
 	void CreateBullet() override;
 };
 #endif // TESTCHARACTER_HPP

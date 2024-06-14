@@ -6,12 +6,12 @@
 #include <string>
 
 #include "Engine/AudioHelper.hpp"
-#include "Bullet/FireBullet.hpp"
+#include "Bullet/MissileBullet.hpp"
 #include "Engine/Group.hpp"
 #include "Scene/PlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestCharacter::TestCharacter(int x, int y) : Character("play/enemy-1.png", x, y, 1000, 50, 5, 5, 5) {
+TestCharacter::TestCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 1000, 50, 5, 5, 5, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 }
 
@@ -21,6 +21,6 @@ void TestCharacter::CreateBullet() {
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new FireBullet(Position + normalized * 36, diff, rotation, nullptr));
+	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, nullptr));
 	AudioHelper::PlayAudio("gun.wav");
 }

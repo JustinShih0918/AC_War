@@ -25,19 +25,20 @@ protected:
 	float coolDown;
 	float reload = 0;
 	float rotateRadian = 2 * ALLEGRO_PI;
+	int player;
 	PlayScene* getPlayScene();
 	virtual void OnExplode();
 public:
 	float reachEndTime;
 	std::list<Turret*> lockedTurrets;
 	std::list<Bullet*> lockedBullets;
-	Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown);
+	Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player);
  	void Hit(float damage);
 	void UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player);
 	void Update(float deltaTime) override;
 	void Draw() const override;
 
 	virtual void CreateBullet() = 0;
-	Turret* Target = nullptr;
+	Character* Target = nullptr;
 };
 #endif // ENEMY_HPP

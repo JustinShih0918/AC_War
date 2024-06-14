@@ -64,7 +64,8 @@ void PlayScene::Initialize() {
 	AddNewObject(EnemyGroup = new Group());
 	AddNewObject(BulletGroup = new Group());
 	AddNewObject(EffectGroup = new Group());
-	AddNewObject(CharacterGroup = new Group());
+	AddNewObject(CharacterGroup_Player1 = new Group());
+	AddNewObject(CharacterGroup_Player2 = new Group());
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
@@ -102,7 +103,10 @@ void PlayScene::Update(float deltaTime) {
 		reachEndTimes.push_back(dynamic_cast<Enemy*>(it)->reachEndTime);
 	}
 	// character
-	for (auto& it : CharacterGroup->GetObjects()) {
+	for (auto& it : CharacterGroup_Player1->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : CharacterGroup_Player2->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	// Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
@@ -143,7 +147,7 @@ void PlayScene::Update(float deltaTime) {
 		// Check if we should create new enemy.
 		ticks += deltaTime;
 		if (enemyWaveData_Player1.empty() && enemyWaveData_Player2.empty()) {
-			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
+			if (EnemyGroup->GetObjects().empty() && CharacterGroup_Player1->GetObjects().empty() && CharacterGroup_Player1->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
 				delete GroundEffectGroup;
@@ -171,7 +175,7 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
+				CharacterGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 2:
 				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
@@ -209,7 +213,7 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				CharacterGroup->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2));
+				CharacterGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 2:
 				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
