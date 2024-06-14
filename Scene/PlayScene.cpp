@@ -91,6 +91,7 @@ void PlayScene::Terminate() {
 void PlayScene::Update(float deltaTime) {
 	// If we use deltaTime directly, then we might have Bullet-through-paper problem.
 	// Reference: Bullet-Through-Paper
+	std::cout << ticks << "\n";
 	if (SpeedMult == 0)
 		deathCountDown = -1;
 	else if (deathCountDown != -1)
@@ -141,7 +142,7 @@ void PlayScene::Update(float deltaTime) {
 		IScene::Update(deltaTime);
 		// Check if we should create new enemy.
 		ticks += deltaTime;
-		if (enemyWaveData_Player1.empty()) {
+		if (enemyWaveData_Player1.empty() && enemyWaveData_Player2.empty()) {
 			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
@@ -159,80 +160,84 @@ void PlayScene::Update(float deltaTime) {
 			continue;
 		}
 		//player1
-
-		auto current = enemyWaveData_Player1.front();
-		if (ticks < current.second)
-			continue;
-		ticks -= current.second;
-		enemyWaveData_Player1.pop_front();
-		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
-		Enemy* enemy = nullptr;
-		Character* character = nullptr;
-		switch (current.first) {
-		case 1:
-			CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 2:
-			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 3:
-			EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 4:
-			EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-        // TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
-        //         The format is "[EnemyId] [TimeDelay] [Repeat]".
-        // TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
-		default:
-			continue;
+		if (!enemyWaveData_Player1.empty()){
+			auto current = enemyWaveData_Player1.front();
+			if (ticks < current.second)
+				continue;
+			ticks -= current.second;
+			enemyWaveData_Player1.pop_front();
+			const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
+			Enemy* enemy = nullptr;
+			Character* character = nullptr;
+			switch (current.first) {
+			case 1:
+				CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+			case 2:
+				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+			case 3:
+				EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+			case 4:
+				EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+        	// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
+        	//         The format is "[EnemyId] [TimeDelay] [Repeat]".
+        	// TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
+			default:
+				continue;
+			}
+			if(enemy != nullptr){
+				enemy->UpdatePath(mapDistance_Player1);
+				// Compensate the time lost.
+				enemy->Update(ticks);
+			}
+			// character
+			if(character != nullptr){
+				character->UpdatePath(mapDistance_Player1);
+				// Compensate the time lost.
+				character->Update(ticks);
+			}
 		}
-		if(enemy != nullptr){
-			enemy->UpdatePath(mapDistance_Player1);
-			// Compensate the time lost.
-			enemy->Update(ticks);
-		}
-		// character
-		if(character != nullptr){
-			character->UpdatePath(mapDistance_Player1);
-			// Compensate the time lost.
-			character->Update(ticks);
-		}
-		
 		//player2
-		current = enemyWaveData_Player2.front();
-		enemyWaveData_Player2.pop_front();
-
-		switch (current.first) {
-		case 1:
-			CharacterGroup->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2));
-			break;
-		case 2:
-			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 3:
-			EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 4:
-			EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-        // TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
-        //         The format is "[EnemyId] [TimeDelay] [Repeat]".
-        // TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
-		default:
-			continue;
-		}
+		if (!enemyWaveData_Player2.empty()){
+			auto current = enemyWaveData_Player2.front();
+			enemyWaveData_Player2.pop_front();
+			const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
+			Enemy* enemy = nullptr;
+			Character* character = nullptr;
+			switch (current.first) {
+			case 1:
+				CharacterGroup->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2));
+				break;
+			case 2:
+				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+			case 3:
+				EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+			case 4:
+				EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				break;
+        		// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
+        		//         The format is "[EnemyId] [TimeDelay] [Repeat]".
+        		// TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
+			default:
+				continue;
+			}
 		
-		if(enemy != nullptr){
-			enemy->UpdatePath(mapDistance_Player2);
-			// Compensate the time lost.
-			enemy->Update(ticks);
-		}
-		// character
-		if(character != nullptr){
-			character->UpdatePath(mapDistance_Player2);
-			// Compensate the time lost.
-			character->Update(ticks);
+			if(enemy != nullptr){
+				enemy->UpdatePath(mapDistance_Player2);
+				// Compensate the time lost.
+				enemy->Update(ticks);
+			}
+			// character
+			if(character != nullptr){
+				character->UpdatePath(mapDistance_Player2);
+				// Compensate the time lost.
+				character->Update(ticks);
+			}
 		}
 	}
 	if (preview) {
@@ -446,6 +451,7 @@ void PlayScene::ReadEnemyWave() {
 				continue;
 	}
 	fin.close();
+	std::cout << "Read enemy finish\n";
 }
 void PlayScene::ConstructUI() {
 	// Background
