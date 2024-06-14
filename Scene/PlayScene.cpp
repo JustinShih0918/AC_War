@@ -140,7 +140,7 @@ void PlayScene::Update(float deltaTime) {
 		IScene::Update(deltaTime);
 		// Check if we should create new enemy.
 		ticks += deltaTime;
-		if (enemyWaveData.empty()) {
+		if (enemyWaveData_player1.empty()) {
 			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
@@ -157,11 +157,13 @@ void PlayScene::Update(float deltaTime) {
 			}
 			continue;
 		}
-		auto current = enemyWaveData.front();
+		//player1
+
+		auto current = enemyWaveData_player1.front();
 		if (ticks < current.second)
 			continue;
 		ticks -= current.second;
-		enemyWaveData.pop_front();
+		enemyWaveData_player1.pop_front();
 		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
 		Enemy* enemy = nullptr;
 		Character* character = nullptr;
@@ -184,6 +186,42 @@ void PlayScene::Update(float deltaTime) {
 		default:
 			continue;
 		}
+		if(enemy != nullptr){
+			enemy->UpdatePath(mapDistance);
+			// Compensate the time lost.
+			enemy->Update(ticks);
+		}
+		// character
+		if(character != nullptr){
+			character->UpdatePath(mapDistance);
+			// Compensate the time lost.
+			character->Update(ticks);
+		}
+		
+		//player2
+		current = enemyWaveData_player2.front();
+		enemyWaveData_player2.pop_front();
+
+		switch (current.first) {
+		case 1:
+			CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
+			break;
+		case 2:
+			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+			break;
+		case 3:
+			EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+			break;
+		case 4:
+			EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+			break;
+        // TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
+        //         The format is "[EnemyId] [TimeDelay] [Repeat]".
+        // TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
+		default:
+			continue;
+		}
+		
 		if(enemy != nullptr){
 			enemy->UpdatePath(mapDistance);
 			// Compensate the time lost.
@@ -393,12 +431,18 @@ void PlayScene::ReadEnemyWave() {
     // TODO: [HACKATHON-3-BUG] (3/5): There is a bug in these files, which let the game only spawn the first enemy, try to fix it.
     std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
 	// Read enemy file.
-	float type, wait, repeat;
-	enemyWaveData.clear();
+	float type, wait, repeat, player;
+	enemyWaveData_player1.clear();
+	enemyWaveData_player2.clear();
 	std::ifstream fin(filename);
-	while (fin >> type && fin >> wait && fin >> repeat) {
+	while (fin >> type && fin >> wait && fin >> repeat && fin >> player) {
 		for (int i = 0; i < repeat; i++)
-			enemyWaveData.emplace_back(type, wait);
+			if(player == 1)
+				enemyWaveData_player1.emplace_back(type, wait);
+			else if(player == 2)
+				enemyWaveData_player2.emplace_back(type, wait);
+			else
+				continue;
 	}
 	fin.close();
 }

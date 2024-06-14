@@ -60,7 +60,8 @@ public:
 	Turret* preview;
 	std::vector<std::vector<TileType>> mapState;
 	std::vector<std::vector<int>> mapDistance;
-	std::list<std::pair<int, float>> enemyWaveData;
+	std::list<std::pair<int, float>> enemyWaveData_player1;
+	std::list<std::pair<int, float>> enemyWaveData_player2;
 	std::list<int> keyStrokes;
 	static Engine::Point GetClientSize();
 	explicit PlayScene() = default;
