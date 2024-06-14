@@ -141,7 +141,7 @@ void PlayScene::Update(float deltaTime) {
 		IScene::Update(deltaTime);
 		// Check if we should create new enemy.
 		ticks += deltaTime;
-		if (enemyWaveData_Player1.empty()) {
+		if (enemyWaveData_Player1.empty() || enemyWaveData_Player2.empty()) {
 			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
@@ -194,7 +194,7 @@ void PlayScene::Update(float deltaTime) {
 		}
 		// character
 		if(character != nullptr){
-			character->UpdatePath(mapDistance_Player1);
+			character->UpdatePath(mapDistance_Player1, "Player1");
 			// Compensate the time lost.
 			character->Update(ticks);
 		}
@@ -230,7 +230,7 @@ void PlayScene::Update(float deltaTime) {
 		}
 		// character
 		if(character != nullptr){
-			character->UpdatePath(mapDistance_Player2);
+			character->UpdatePath(mapDistance_Player2, "Player2");
 			// Compensate the time lost.
 			character->Update(ticks);
 		}

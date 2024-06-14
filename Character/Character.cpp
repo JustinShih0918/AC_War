@@ -72,7 +72,7 @@ void Character::Hit(float damage) {
 		AudioHelper::PlayAudio("explosion.wav");
 	}
 }
-void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance) {
+void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player) {
 	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
 	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
 	if (x < 0) x = 0;
@@ -103,7 +103,12 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance) {
 		path[num] = pos;
 		num--;
 	}
-	path[0] = PlayScene::EndGridPoint;
+	if(player == "Player1")
+		path[0] = PlayScene::EndGridPoint;
+	else if(player == "Player2")
+		path[0] = PlayScene::SpawnGridPoint;
+	else
+		path[0] = PlayScene::EndGridPoint;
 }
 void Character::Update(float deltaTime) {
 	// Pre-calculate the velocity.

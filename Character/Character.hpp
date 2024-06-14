@@ -33,7 +33,7 @@ public:
 	std::list<Bullet*> lockedBullets;
 	Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown);
  	void Hit(float damage);
-	void UpdatePath(const std::vector<std::vector<int>>& mapDistance);
+	void UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player);
 	void Update(float deltaTime) override;
 	void Draw() const override;
 
