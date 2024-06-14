@@ -7,11 +7,11 @@
 #include "Scene/PlayScene.hpp"
 #include "Scene/StageSelectScene.hpp"
 #include "Scene/WinScene.hpp"
-#include "Scene/StartScene.h"
-#include "Scene/SettingsScene.hpp"
+#include "Scene/StartScene.cpp"
+#include "Scene/SettingsScene.cpp"
 #include "Scene/CharacterSelectScene.cpp"
 #include "Scene/ScoreBoard.cpp" // Q: include hpp can't work
-#include "Scene/MainPlayScene.cpp"
+#include "Scene/MainPlayScene.hpp"
 #include <iostream>
 using namespace std;
 int main(int argc, char **argv) {
@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
 	game.AddNewScene("MainPlay", new MainPlayScene());
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
-	//game.AddNewScene("StageSelectScene", new StageSelectScene());
 
     // TODO: [HACKATHON-1-SCENE] (4/4): Change the start scene
 	game.Start("start", 60, 1600, 832);
