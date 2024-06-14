@@ -69,7 +69,8 @@ void PlayScene::Initialize() {
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
 	ReadEnemyWave();
-	mapDistance = CalculateBFSDistance();
+	mapDistance_Player1 = CalculateBFSDistance_Player1();
+	mapDistance_Player2 = CalculateBFSDistance_Player2();
 	ConstructUI();
 	imgTarget = new Engine::Image("play/target.png", 0, 0);
 	imgTarget->Visible = false;
@@ -140,7 +141,7 @@ void PlayScene::Update(float deltaTime) {
 		IScene::Update(deltaTime);
 		// Check if we should create new enemy.
 		ticks += deltaTime;
-		if (enemyWaveData_player1.empty()) {
+		if (enemyWaveData_Player1.empty()) {
 			if (EnemyGroup->GetObjects().empty() && CharacterGroup->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
@@ -159,11 +160,11 @@ void PlayScene::Update(float deltaTime) {
 		}
 		//player1
 
-		auto current = enemyWaveData_player1.front();
+		auto current = enemyWaveData_Player1.front();
 		if (ticks < current.second)
 			continue;
 		ticks -= current.second;
-		enemyWaveData_player1.pop_front();
+		enemyWaveData_Player1.pop_front();
 		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
 		Enemy* enemy = nullptr;
 		Character* character = nullptr;
@@ -187,24 +188,24 @@ void PlayScene::Update(float deltaTime) {
 			continue;
 		}
 		if(enemy != nullptr){
-			enemy->UpdatePath(mapDistance);
+			enemy->UpdatePath(mapDistance_Player1);
 			// Compensate the time lost.
 			enemy->Update(ticks);
 		}
 		// character
 		if(character != nullptr){
-			character->UpdatePath(mapDistance);
+			character->UpdatePath(mapDistance_Player1);
 			// Compensate the time lost.
 			character->Update(ticks);
 		}
 		
 		//player2
-		current = enemyWaveData_player2.front();
-		enemyWaveData_player2.pop_front();
+		current = enemyWaveData_Player2.front();
+		enemyWaveData_Player2.pop_front();
 
 		switch (current.first) {
 		case 1:
-			CharacterGroup->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y));
+			CharacterGroup->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2));
 			break;
 		case 2:
 			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
@@ -223,13 +224,13 @@ void PlayScene::Update(float deltaTime) {
 		}
 		
 		if(enemy != nullptr){
-			enemy->UpdatePath(mapDistance);
+			enemy->UpdatePath(mapDistance_Player2);
 			// Compensate the time lost.
 			enemy->Update(ticks);
 		}
 		// character
 		if(character != nullptr){
-			character->UpdatePath(mapDistance);
+			character->UpdatePath(mapDistance_Player2);
 			// Compensate the time lost.
 			character->Update(ticks);
 		}
@@ -246,9 +247,9 @@ void PlayScene::Draw() const {
 		// Draw reverse BFS distance on all reachable blocks.
 		for (int i = 0; i < MapHeight; i++) {
 			for (int j = 0; j < MapWidth; j++) {
-				if (mapDistance[i][j] != -1) {
+				if (mapDistance_Player2[i][j] != -1) {
 					// Not elegant nor efficient, but it's quite enough for debugging.
-					Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
+					Engine::Label label(std::to_string(mapDistance_Player2[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
 					label.Anchor = Engine::Point(0.5, 0.5);
 					label.Draw();
 				}
@@ -432,15 +433,15 @@ void PlayScene::ReadEnemyWave() {
     std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
 	// Read enemy file.
 	float type, wait, repeat, player;
-	enemyWaveData_player1.clear();
-	enemyWaveData_player2.clear();
+	enemyWaveData_Player1.clear();
+	enemyWaveData_Player2.clear();
 	std::ifstream fin(filename);
 	while (fin >> type && fin >> wait && fin >> repeat && fin >> player) {
 		for (int i = 0; i < repeat; i++)
 			if(player == 1)
-				enemyWaveData_player1.emplace_back(type, wait);
+				enemyWaveData_Player1.emplace_back(type, wait);
 			else if(player == 2)
-				enemyWaveData_player2.emplace_back(type, wait);
+				enemyWaveData_Player2.emplace_back(type, wait);
 			else
 				continue;
 	}
@@ -529,7 +530,7 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
 		return false;
 	auto map00 = mapState[y][x];
 	mapState[y][x] = TILE_OCCUPIED;
-	std::vector<std::vector<int>> map = CalculateBFSDistance();
+	std::vector<std::vector<int>> map = CalculateBFSDistance_Player1();
 	mapState[y][x] = map00;
 	if (map[0][0] == -1)
 		return false;
@@ -546,12 +547,12 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
 	}
 	// All enemy have path to exit.
 	mapState[y][x] = TILE_OCCUPIED;
-	mapDistance = map;
+	mapDistance_Player1 = map;
 	for (auto& it : EnemyGroup->GetObjects())
-		dynamic_cast<Enemy*>(it)->UpdatePath(mapDistance);
+		dynamic_cast<Enemy*>(it)->UpdatePath(mapDistance_Player1);
 	return true;
 }
-std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
+std::vector<std::vector<int>> PlayScene::CalculateBFSDistance_Player1() {
 	// Reverse BFS to find path.
 	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
 	std::queue<Engine::Point> que;
@@ -561,6 +562,39 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		return map;
 	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
 	map[MapHeight - 1][MapWidth - 1] = 0;
+
+	while (!que.empty()) {
+		Engine::Point p = que.front();
+		que.pop();
+		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
+		//               For each step you should assign the corresponding distance to the most right-bottom block.
+		//               mapState[y][x] is TILE_DIRT if it is empty.
+		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
+		for(auto it : directions){
+			int newX = p.x + it.x;
+			int newY = p.y + it.y;
+			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
+				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
+					map[newY][newX] = map[p.y][p.x] + 1;
+					que.push(Engine::Point(newX,newY));
+				}
+			}
+		}
+		
+	}
+	return map;
+}
+
+std::vector<std::vector<int>> PlayScene::CalculateBFSDistance_Player2() {
+	// Reverse BFS to find path.
+	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
+	std::queue<Engine::Point> que;
+	// Push end point.
+	// BFS from end point.
+	if (mapState[MapHeight - 1][MapWidth - 1] != TILE_DIRT)
+		return map;
+	que.push(Engine::Point(0, 0));
+	map[0][0] = 0;
 
 	while (!que.empty()) {
 		Engine::Point p = que.front();

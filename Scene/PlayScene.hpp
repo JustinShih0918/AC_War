@@ -59,9 +59,10 @@ public:
 	Engine::Sprite* dangerIndicator;
 	Turret* preview;
 	std::vector<std::vector<TileType>> mapState;
-	std::vector<std::vector<int>> mapDistance;
-	std::list<std::pair<int, float>> enemyWaveData_player1;
-	std::list<std::pair<int, float>> enemyWaveData_player2;
+	std::vector<std::vector<int>> mapDistance_Player1;
+	std::vector<std::vector<int>> mapDistance_Player2;
+	std::list<std::pair<int, float>> enemyWaveData_Player1;
+	std::list<std::pair<int, float>> enemyWaveData_Player2;
 	std::list<int> keyStrokes;
 	static Engine::Point GetClientSize();
 	explicit PlayScene() = default;
@@ -82,7 +83,8 @@ public:
 	void UIBtnClicked(int id);
 	bool CheckSpaceValid(int x, int y);
 	void RangeExplode(float x, float y);
-	std::vector<std::vector<int>> CalculateBFSDistance();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player1();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player2();
 	// void ModifyReadMapTiles();
 };
 #endif // PLAYSCENE_HPP
