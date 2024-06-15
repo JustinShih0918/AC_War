@@ -10,7 +10,7 @@ struct Point;
 
 class LightBullet : public Bullet {
 public:
-	explicit LightBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Turret* parent);
-	void OnExplode(Enemy* enemy) override;
+	explicit LightBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent);
+	void OnExplode(Character* character) override;
 };
 #endif // LightBullet_HPP

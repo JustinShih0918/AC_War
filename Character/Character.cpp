@@ -50,28 +50,6 @@ void Character::OnExplode() {
 	CollisionRadius = radius;
 	reachEndTime = 0;
 }
-void Character::Hit(float damage) {
-	hp -= damage;
-	if(damage == 0.5){
-		if(speed - 10 >= 20) speed -= 10;
-	}
-	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
-	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
-	if (hp <= 0) {
-		OnExplode();
-		// Remove all turret's reference to target.
-		for (auto& it: lockedTurrets)
-			it->Target = nullptr;
-		for (auto& it: lockedBullets)
-			it->Target = nullptr;
-		if(money == 100){
-			getPlayScene()->RangeExplode(Position.x,Position.y);
-		}
-		getPlayScene()->EarnMoney(money);
-		getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
-		AudioHelper::PlayAudio("explosion.wav");
-	}
-}
 void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player) {
 	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
 	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
@@ -205,6 +183,32 @@ void Character::Update(float deltaTime) {
 	//Rotation = atan2(Velocity.y, Velocity.x);
 	Sprite::Update(deltaTime);
 }
+
+void Character::Hit(float damage) {
+	hp -= damage;
+	if(damage == 0.5){
+		if(speed - 10 >= 20) speed -= 10;
+	}
+	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
+	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
+	if (hp <= 0) {
+		OnExplode();
+		// Remove all turret's reference to target.
+		for (auto& it: lockedCharacters)
+			it->Target = nullptr;
+		for (auto& it: lockedBullets)
+			it->Target = nullptr;
+		if(money == 100){
+			getPlayScene()->RangeExplode(Position.x,Position.y);
+		}
+		getPlayScene()->EarnMoney(money);
+		getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
+		AudioHelper::PlayAudio("explosion.wav");
+	}
+}
+
+
+
 void Character::Draw() const {
 	Sprite::Draw();
 	if (PlayScene::DebugMode) {

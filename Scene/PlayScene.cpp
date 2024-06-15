@@ -92,7 +92,7 @@ void PlayScene::Terminate() {
 void PlayScene::Update(float deltaTime) {
 	// If we use deltaTime directly, then we might have Bullet-through-paper problem.
 	// Reference: Bullet-Through-Paper
-	std::cout << ticks << "\n";
+	//std::cout << ticks << "\n";
 	if (SpeedMult == 0)
 		deathCountDown = -1;
 	else if (deathCountDown != -1)
