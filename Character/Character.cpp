@@ -46,7 +46,7 @@ void Character::OnExplode() {
 	}
 }
  Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player) :
-	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown), player(player) {
+	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown),reload(coolDown) , player(player) {
 	CollisionRadius = 10;
 	AttackRadius = radius;
 	reachEndTime = 0;
