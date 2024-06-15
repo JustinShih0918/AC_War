@@ -65,10 +65,10 @@ void CharacterSelectScene::Initialize() {
         AddNewControlObject(btn); 
     }
 
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW, halfH, 400, 100);
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 500, 400, 100);
     btn->SetOnClickCallback(std::bind(&CharacterSelectScene::GoOnClick, this));
     AddNewControlObject(btn); 
-    AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW + 500, halfH / 2 + 300, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
 
 }
 
