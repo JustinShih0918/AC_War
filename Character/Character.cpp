@@ -47,7 +47,8 @@ void Character::OnExplode() {
 }
  Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player) :
 	Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money), coolDown(coolDown), player(player) {
-	CollisionRadius = radius;
+	CollisionRadius = 10;
+	AttackRadius = radius;
 	reachEndTime = 0;
 }
 void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player) {
@@ -105,7 +106,7 @@ void Character::Update(float deltaTime) {
 		if (player == 1){
 			for (auto& it : getPlayScene()->CharacterGroup_Player2->GetObjects()) {
 				Engine::Point diff = it->Position - Position;
-				if (diff.Magnitude() <= CollisionRadius) {
+				if (diff.Magnitude() <= AttackRadius) {
 					Target = dynamic_cast<Character*>(it);
 					//Target->lockedTurrets.push_back(this);
 					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
@@ -116,7 +117,7 @@ void Character::Update(float deltaTime) {
 		else if (player == 2){
 			for (auto& it : getPlayScene()->CharacterGroup_Player1->GetObjects()) {
 				Engine::Point diff = it->Position - Position;
-				if (diff.Magnitude() <= CollisionRadius) {
+				if (diff.Magnitude() <= AttackRadius) {
 					Target = dynamic_cast<Character*>(it);
 					//Target->lockedTurrets.push_back(this);
 					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());

@@ -25,6 +25,7 @@ protected:
 	float coolDown;
 	float reload = 0;
 	float rotateRadian = 2 * ALLEGRO_PI;
+	float AttackRadius;
 	PlayScene* getPlayScene();
 	virtual void OnExplode();
 public:
