@@ -20,6 +20,7 @@ class Character : public Engine::Sprite {
 protected:
  	std::vector<Engine::Point> path;
 	float speed;
+	float ori_speed;
 	float hp;
 	int money;
 	float coolDown;
