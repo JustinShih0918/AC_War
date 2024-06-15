@@ -21,20 +21,32 @@ public:
 	float ticks;
 	int money1;
 	int money2;
+	int MapId;
+	static bool DebugMode;
 	vector<Engine::Image*> Mon1;
 	vector<Engine::Image*> Mon2;
+	Engine::Point player1;
+	Engine::Point player2;
+	pair<Engine::Image*,Engine::Image*> imgTarget1;
+	pair<Engine::Image*, Engine::Image*> imgTarget2;
+	Group* UIGroup;
 	Group* TileMapGroup;
 	std::vector<std::vector<TileType>> mapState;
-	int MapId;
+	std::vector<std::vector<int>> mapDistance;
 	static const int MapWidth, MapHeight;
 	static const int BlockSize;
     explicit MainPlayScene() = default;
 	void Initialize() override;
 	void Terminate() override;
 	void ReadMap();
-	void DrawEmptyMoney();
-	void UpdateMoney();
+    void DrawEmptyMoney();
+    void UpdateMoney();
+	void Draw() const override;
 	void Update(float deltatime) override;
+	void OnKeyDown(int keyCode) override;
+	void UpdateTarget(int player);
+	bool CheckPosition(int mode, int input);
+	std::vector<std::vector<int>> CalculateBFSDistance();
 };
 
 #endif // MainPlayScene_HPP
