@@ -96,6 +96,12 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Character/Character.cpp
         Character/TestCharacter.hpp
         Character/TestCharacter.cpp
+        Character/TestFlyCharacter.hpp
+        Character/TestFlyCharacter.cpp
+        Character/TestMeeleCharacter.hpp
+        Character/TestMeeleCharacter.cpp
+        Character/TestTowerCharacter.hpp
+        Character/TestTowerCharacter.cpp
 #        UI/Component/TextInput.cpp
 #        UI/Component/TextInput.hpp
 )

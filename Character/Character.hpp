@@ -18,7 +18,9 @@ class Turret;
 
 class Character : public Engine::Sprite {
 protected:
- 	std::vector<Engine::Point> path;
+ 	std::vector<Engine::Point> path;\
+	std::string name;
+	std::string type;
 	float speed;
 	float hp;
 	int money;

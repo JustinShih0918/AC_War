@@ -1,6 +1,6 @@
 #include <string>
 
-#include "TestCharacter.hpp"
+#include "TestMeeleCharacter.hpp"
 #include <allegro5/base.h>
 #include <cmath>
 #include <string>
@@ -11,14 +11,14 @@
 #include "Scene/PlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestCharacter::TestCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 1000, 30, 500, 5, 1, player) {
+TestMeeleCharacter::TestMeeleCharacter(int x, int y, int player) : Character("play/enemy-3.png", x, y, 1000, 30, 500, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
-	name = "remote";
-	type = "remote";
+	name = "melle";
+	type = "meele";
 }
 
 
-void TestCharacter::CreateBullet() {
+void TestMeeleCharacter::CreateBullet() {
 	Engine::Point diff = Engine::Point(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();

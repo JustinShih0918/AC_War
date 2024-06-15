@@ -31,6 +31,9 @@
 #include "Engine/GameEngine.hpp"
 #include "Character/Character.hpp"
 #include "Character/TestCharacter.hpp"
+#include "Character/TestFlyCharacter.hpp"
+#include "Character/TestMeeleCharacter.hpp"
+#include "Character/TestTowerCharacter.hpp"
 #include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
@@ -163,7 +166,9 @@ void PlayScene::Update(float deltaTime) {
 		// Check if we should create new enemy.
 		ticks += deltaTime;
 		if (enemyWaveData_Player1.empty() && enemyWaveData_Player2.empty()) {
-			if (EnemyGroup->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty()) {
+			if (EnemyGroup->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty() && 
+			    GroundGroup_Player2->GetObjects().empty() && FlyGroup_Player1->GetObjects().empty() && 
+				FlyGroup_Player2->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
 				delete GroundEffectGroup;
@@ -194,13 +199,13 @@ void PlayScene::Update(float deltaTime) {
 				GroundGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 2:
-				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				FlyGroup_Player1->AddNewObject(character = new TestFlyCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 3:
-				EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				GroundGroup_Player1->AddNewObject(character = new TestMeeleCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 4:
-				EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				TowerGroup_Player1->AddNewObject(character = new TestTowerCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
         	// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         	//         The format is "[EnemyId] [TimeDelay] [Repeat]".
@@ -232,13 +237,13 @@ void PlayScene::Update(float deltaTime) {
 				GroundGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 2:
-				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				FlyGroup_Player2->AddNewObject(character = new TestFlyCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 3:
-				EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				GroundGroup_Player2->AddNewObject(character = new TestMeeleCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 4:
-				EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+				TowerGroup_Player2->AddNewObject(character = new TestTowerCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
         		// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         		//         The format is "[EnemyId] [TimeDelay] [Repeat]".

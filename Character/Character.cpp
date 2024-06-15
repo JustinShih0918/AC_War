@@ -104,24 +104,105 @@ void Character::Update(float deltaTime) {
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
 		if (player == 1){
-			for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
-				Engine::Point diff = it->Position - Position;
-				if (diff.Magnitude() <= AttackRadius) {
-					Target = dynamic_cast<Character*>(it);
-					//Target->lockedTurrets.push_back(this);
-					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
-					break;
+			if(type == "meele") {
+				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
 				}
 			}
+			else if(type == "remote" || type == "tower" || type == "fly") {
+				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->FlyGroup_Player2->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+			}
+			
 		}
 		else if (player == 2){
-			for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
-				Engine::Point diff = it->Position - Position;
-				if (diff.Magnitude() <= AttackRadius) {
-					Target = dynamic_cast<Character*>(it);
-					//Target->lockedTurrets.push_back(this);
-					//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
-					break;
+			if(type == "meele") {
+				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+			}
+			else if(type == "remote" || type == "tower" || type == "fly") {
+				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
+				}
+				for (auto& it : getPlayScene()->FlyGroup_Player1->GetObjects()) {
+					Engine::Point diff = it->Position - Position;
+					if (diff.Magnitude() <= AttackRadius) {
+						Target = dynamic_cast<Character*>(it);
+						//Target->lockedTurrets.push_back(this);
+						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						break;
+					}
 				}
 			}
 		}
