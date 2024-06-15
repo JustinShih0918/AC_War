@@ -180,6 +180,8 @@ void Character::Update(float deltaTime) {
 			Velocity = normalized * remainSpeed / deltaTime;
 			remainSpeed = 0;
 		}
+		if(Target)
+			Velocity = normalized * 0;
 	}
 	//Rotation = atan2(Velocity.y, Velocity.x);
 	Sprite::Update(deltaTime);
