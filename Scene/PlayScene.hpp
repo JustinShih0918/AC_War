@@ -52,8 +52,12 @@ public:
 	Group* EnemyGroup;
 	Group* EffectGroup;
 	Group* UIGroup;
-	Group* CharacterGroup_Player1;
-	Group* CharacterGroup_Player2;
+	Group* GroundGroup_Player1;
+	Group* GroundGroup_Player2;
+	Group* TowerGroup_Player1;
+	Group* TowerGroup_Player2;
+	Group* FlyGroup_Player1;
+	Group* FlyGroup_Player2;
 	Engine::Label* UIMoney;
 	Engine::Label* UILives;
 	Engine::Image* imgTarget;

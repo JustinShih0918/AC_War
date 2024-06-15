@@ -64,8 +64,12 @@ void PlayScene::Initialize() {
 	AddNewObject(EnemyGroup = new Group());
 	AddNewObject(BulletGroup = new Group());
 	AddNewObject(EffectGroup = new Group());
-	AddNewObject(CharacterGroup_Player1 = new Group());
-	AddNewObject(CharacterGroup_Player2 = new Group());
+	AddNewObject(GroundGroup_Player1 = new Group());
+	AddNewObject(GroundGroup_Player2 = new Group());
+	AddNewObject(FlyGroup_Player1 = new Group());
+	AddNewObject(FlyGroup_Player2 = new Group());
+	AddNewObject(TowerGroup_Player1 = new Group());
+	AddNewObject(TowerGroup_Player2 = new Group());
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
@@ -103,10 +107,22 @@ void PlayScene::Update(float deltaTime) {
 		reachEndTimes.push_back(dynamic_cast<Enemy*>(it)->reachEndTime);
 	}
 	// character
-	for (auto& it : CharacterGroup_Player1->GetObjects()) {
+	for (auto& it : GroundGroup_Player1->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
-	for (auto& it : CharacterGroup_Player2->GetObjects()) {
+	for (auto& it : GroundGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : FlyGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : FlyGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : TowerGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : TowerGroup_Player2->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	// Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
@@ -147,7 +163,7 @@ void PlayScene::Update(float deltaTime) {
 		// Check if we should create new enemy.
 		ticks += deltaTime;
 		if (enemyWaveData_Player1.empty() && enemyWaveData_Player2.empty()) {
-			if (EnemyGroup->GetObjects().empty() && CharacterGroup_Player1->GetObjects().empty() && CharacterGroup_Player1->GetObjects().empty()) {
+			if (EnemyGroup->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
 				delete GroundEffectGroup;
@@ -175,7 +191,7 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				CharacterGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				GroundGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 2:
 				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
@@ -213,7 +229,7 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				CharacterGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				GroundGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 2:
 				EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));

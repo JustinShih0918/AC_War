@@ -27,7 +27,7 @@ void Bullet::Update(float deltaTime) {
 	// Can be improved by Spatial Hash, Quad Tree, ...
 	// However simply loop through all enemies is enough for this program.
 	if (parent->player == 1) {
-		for (auto& it : scene->CharacterGroup_Player2->GetObjects()) {
+		for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
 			Character* character = dynamic_cast<Character*>(it);
 			if (!character->Visible)
 				continue;
@@ -40,7 +40,7 @@ void Bullet::Update(float deltaTime) {
 		}
 	}
 	else if(parent->player == 2) {
-		for (auto& it : scene->CharacterGroup_Player1->GetObjects()) {
+		for (auto& it : scene->GroundGroup_Player1->GetObjects()) {
 			Character* character = dynamic_cast<Character*>(it);
 			if (!character->Visible)
 				continue;

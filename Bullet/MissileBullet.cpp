@@ -22,7 +22,7 @@ void MissileBullet::Update(float deltaTime) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;
 		if (parent->player == 1){
-			for (auto& it : getPlayScene()->CharacterGroup_Player2->GetObjects()) {
+			for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
 				Character* c = dynamic_cast<Character*>(it);
 				float distance = (c->Position - Position).Magnitude();
 				if (distance < minDistance) {
@@ -32,7 +32,7 @@ void MissileBullet::Update(float deltaTime) {
 			}
 		}
 		else if (parent->player == 2){
-			for (auto& it : getPlayScene()->CharacterGroup_Player1->GetObjects()) {
+			for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
 				Character* c = dynamic_cast<Character*>(it);
 				float distance = (c->Position - Position).Magnitude();
 				if (distance < minDistance) {

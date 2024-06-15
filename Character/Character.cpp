@@ -104,7 +104,7 @@ void Character::Update(float deltaTime) {
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
 		if (player == 1){
-			for (auto& it : getPlayScene()->CharacterGroup_Player2->GetObjects()) {
+			for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
 				Engine::Point diff = it->Position - Position;
 				if (diff.Magnitude() <= AttackRadius) {
 					Target = dynamic_cast<Character*>(it);
@@ -115,7 +115,7 @@ void Character::Update(float deltaTime) {
 			}
 		}
 		else if (player == 2){
-			for (auto& it : getPlayScene()->CharacterGroup_Player1->GetObjects()) {
+			for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
 				Engine::Point diff = it->Position - Position;
 				if (diff.Magnitude() <= AttackRadius) {
 					Target = dynamic_cast<Character*>(it);
