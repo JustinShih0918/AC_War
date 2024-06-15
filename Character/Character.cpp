@@ -289,13 +289,11 @@ void Character::Hit(float damage) {
 		AudioHelper::PlayAudio("explosion.wav");
 	}
 }
-
-
-
 void Character::Draw() const {
 	Sprite::Draw();
 	if (PlayScene::DebugMode) {
 		// Draw collision radius.
+		al_draw_filled_circle(Position.x, Position.y, AttackRadius, al_map_rgba(0, 255, 0, 50));
 		al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);
 	}
 }
