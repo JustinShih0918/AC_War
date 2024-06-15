@@ -73,14 +73,10 @@ void CharacterSelectScene::Initialize() {
 }
 
 void CharacterSelectScene::Terminate() {
-	AudioHelper::StopSample(bgmInstance);
-	bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 
 void CharacterSelectScene::GoOnClick(){
-    MainPlayScene* scene = dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetScene("MainPlay"));
-    scene->MapId = 3;
     Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
 }
 
