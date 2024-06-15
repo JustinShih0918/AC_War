@@ -9,6 +9,7 @@
 #include "Scene/PlayScene.hpp"
 #include "Engine/Point.hpp"
 #include "Engine/Sprite.hpp"
+#include <iostream>
 
 PlayScene* Bullet::getPlayScene() {
 	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
@@ -27,28 +28,126 @@ void Bullet::Update(float deltaTime) {
 	// Can be improved by Spatial Hash, Quad Tree, ...
 	// However simply loop through all enemies is enough for this program.
 	if (parent->player == 1) {
-		for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
-			Character* character = dynamic_cast<Character*>(it);
-			if (!character->Visible)
-				continue;
-			if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
-				OnExplode(character);
-				character->Hit(damage);
-				getPlayScene()->BulletGroup->RemoveObject(objectIterator);
-				return;
+		if (parent->type == "meele"){
+			for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->TowerGroup_Player2->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+		}
+		else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+			for (auto& it : scene->TowerGroup_Player2->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->FlyGroup_Player2->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible){
+						continue;
+					}
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					std::cout<<"hi\n";
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
 			}
 		}
 	}
 	else if(parent->player == 2) {
-		for (auto& it : scene->GroundGroup_Player1->GetObjects()) {
-			Character* character = dynamic_cast<Character*>(it);
-			if (!character->Visible)
-				continue;
-			if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
-				OnExplode(character);
-				character->Hit(damage);
-				getPlayScene()->BulletGroup->RemoveObject(objectIterator);
-				return;
+		if (parent->type == "meele"){
+			for (auto& it : scene->GroundGroup_Player1->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->TowerGroup_Player1->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+		}
+		else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+			for (auto& it : scene->TowerGroup_Player1->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->FlyGroup_Player1->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
+			}
+			for (auto& it : scene->GroundGroup_Player1->GetObjects()) {
+				Character* character = dynamic_cast<Character*>(it);
+				if (!character->Visible)
+					continue;
+				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
+					OnExplode(character);
+					character->Hit(damage);
+					getPlayScene()->BulletGroup->RemoveObject(objectIterator);
+					return;
+				}
 			}
 		}
 	}

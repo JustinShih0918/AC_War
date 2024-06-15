@@ -116,13 +116,13 @@ void PlayScene::Update(float deltaTime) {
 	for (auto& it : GroundGroup_Player2->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
-	for (auto& it : FlyGroup_Player2->GetObjects()) {
+	for (auto& it : FlyGroup_Player1->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	for (auto& it : FlyGroup_Player2->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
-	for (auto& it : TowerGroup_Player2->GetObjects()) {
+	for (auto& it : TowerGroup_Player1->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	for (auto& it : TowerGroup_Player2->GetObjects()) {

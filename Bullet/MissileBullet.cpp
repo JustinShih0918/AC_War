@@ -22,22 +22,94 @@ void MissileBullet::Update(float deltaTime) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;
 		if (parent->player == 1){
-			for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
-				Character* c = dynamic_cast<Character*>(it);
-				float distance = (c->Position - Position).Magnitude();
-				if (distance < minDistance) {
-					minDistance = distance;
-					character = c;
+			if (parent->type == "meele"){
+				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+			}
+			else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->FlyGroup_Player2->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
 				}
 			}
 		}
 		else if (parent->player == 2){
-			for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
-				Character* c = dynamic_cast<Character*>(it);
-				float distance = (c->Position - Position).Magnitude();
-				if (distance < minDistance) {
-					minDistance = distance;
-					character = c;
+			if (parent->type == "meele"){
+				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+			}
+			else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
+				}
+				for (auto& it : getPlayScene()->FlyGroup_Player1->GetObjects()) {
+					Character* c = dynamic_cast<Character*>(it);
+					float distance = (c->Position - Position).Magnitude();
+					if (distance < minDistance) {
+						minDistance = distance;
+						character = c;
+					}
 				}
 			}
 		}

@@ -18,9 +18,7 @@ class Turret;
 
 class Character : public Engine::Sprite {
 protected:
- 	std::vector<Engine::Point> path;\
-	std::string name;
-	std::string type;
+ 	std::vector<Engine::Point> path;
 	float speed;
 	float hp;
 	int money;
@@ -42,5 +40,7 @@ public:
 	void Draw() const override;
 	virtual void CreateBullet() = 0;
 	Character* Target = nullptr;
+	std::string name;
+	std::string type;
 };
 #endif // ENEMY_HPP

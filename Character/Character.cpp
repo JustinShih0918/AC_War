@@ -153,7 +153,6 @@ void Character::Update(float deltaTime) {
 					}
 				}
 			}
-			
 		}
 		else if (player == 2){
 			if(type == "meele") {
