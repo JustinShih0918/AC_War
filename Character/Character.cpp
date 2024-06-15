@@ -109,8 +109,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -118,8 +118,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -129,8 +129,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -138,8 +138,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -147,8 +147,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -160,8 +160,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -169,8 +169,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -180,8 +180,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -189,8 +189,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}
@@ -198,8 +198,8 @@ void Character::Update(float deltaTime) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
-						//Target->lockedTurrets.push_back(this);
-						//lockedTurretIterator = std::prev(Target->lockedTurrets.end());
+						Target->lockedCharacters.push_back(this);
+						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
 						break;
 					}
 				}

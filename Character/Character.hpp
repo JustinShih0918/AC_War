@@ -32,6 +32,7 @@ public:
 	int player;
 	float reachEndTime;
 	std::list<Character*> lockedCharacters;
+	std::list<Character*>::iterator lockedCharacterIterator; // for the one attaking this one.
 	std::list<Bullet*> lockedBullets;
 	Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player);
  	void Hit(float damage);
