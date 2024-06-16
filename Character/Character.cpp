@@ -100,6 +100,7 @@ void Character::Update(float deltaTime) {
 		}
 	}
 	if (!Target) {
+		Rotation = atan2(Velocity.y, Velocity.x); // facing front
 		// Lock first seen target.
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
@@ -224,7 +225,7 @@ void Character::Update(float deltaTime) {
 		else
 			rotation = ((abs(radian) - maxRotateRadian) * originRotation + maxRotateRadian * targetRotation) / radian;
 		// Add 90 degrees (PI/2 radian), since we assume the image is oriented upward.
-		Rotation = atan2(rotation.y, rotation.x) + ALLEGRO_PI / 2;
+		Rotation = atan2(rotation.y, rotation.x) + ALLEGRO_PI/2 - 0.08;
 		// Shoot reload.
 		reload -= deltaTime;
 		if (reload <= 0) {
