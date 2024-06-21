@@ -18,6 +18,7 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include <queue>
+
 using namespace std;
 bool MainPlayScene::DebugMode = false;
 const std::vector<Engine::Point> MainPlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
