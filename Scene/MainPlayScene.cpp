@@ -78,8 +78,6 @@ void MainPlayScene::Initialize() {
 		TowerGroup_Player2->AddNewObject(character);
 		character->UpdatePath(mapDistance_Player2, "Player2");
 	}
-
-	
 	DrawEmptyMoney();
 	UpdateMoney();
 	AddNewControlObject(UIGroup = new Group());
