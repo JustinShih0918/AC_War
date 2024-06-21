@@ -225,7 +225,8 @@ void Character::Update(float deltaTime) {
 		else
 			rotation = ((abs(radian) - maxRotateRadian) * originRotation + maxRotateRadian * targetRotation) / radian;
 		// Add 90 degrees (PI/2 radian), since we assume the image is oriented upward.
-		Rotation = atan2(rotation.y, rotation.x) + ALLEGRO_PI/2 - 0.08;
+		//Rotation = atan2(rotation.y, rotation.x) + ALLEGRO_PI/2;
+		Rotation = atan2(Target->Position.y - Position.y, Target->Position.x - Position.x);
 		// Shoot reload.
 		reload -= deltaTime;
 		if (reload <= 0) {
