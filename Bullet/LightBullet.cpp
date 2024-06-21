@@ -11,7 +11,7 @@
 
 class Turret;
 LightBullet::LightBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent) :
-	Bullet("play/bullet-7.png", 1000, 0.5, position, forwardDirection, rotation - ALLEGRO_PI / 2, parent) {
+	Bullet("play/bullet-7.png", 1000, 0.5, position, forwardDirection, rotation - ALLEGRO_PI / 2, parent, nullptr) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'LightBullet.hpp', 'LightBullet.cpp' to create a new bullet.
 }
 void LightBullet::OnExplode(Character* character) {

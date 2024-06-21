@@ -19,7 +19,7 @@ void MissileTurret::CreateBullet() {
 	Engine::Point normalized = diff.Normalize();
 	Engine::Point normal = Engine::Point(-normalized.y, normalized.x);
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 10 - normal * 6, diff, rotation, nullptr));
-	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 10 + normal * 6, diff, rotation, nullptr));
+	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 10 - normal * 6, diff, rotation, nullptr, nullptr));
+	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 10 + normal * 6, diff, rotation, nullptr, nullptr));
 	AudioHelper::PlayAudio("missile.wav");
 }

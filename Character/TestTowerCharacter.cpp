@@ -18,11 +18,11 @@ TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("pl
 }
 
 
-void TestTowerCharacter::CreateBullet() {
+void TestTowerCharacter::CreateBullet(Character* character) {
 	Engine::Point diff = Engine::Point(Target->Position.x - Position.x, Target->Position.y - Position.y);
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this));
+	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
 }

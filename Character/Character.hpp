@@ -39,7 +39,7 @@ public:
 	void UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player);
 	void Update(float deltaTime) override;
 	void Draw() const override;
-	virtual void CreateBullet() = 0;
+	virtual void CreateBullet(Character* character) = 0;
 	Character* Target = nullptr;
 	std::string name;
 	std::string type;

@@ -5,6 +5,6 @@
 class TestTowerCharacter : public Character {
 public:
 	TestTowerCharacter(int x, int y, int player);
-	void CreateBullet() override;
+	void CreateBullet(Character* character) override;
 };
 #endif // TESTCHARACTER_HPP

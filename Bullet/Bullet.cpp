@@ -16,8 +16,8 @@ PlayScene* Bullet::getPlayScene() {
 }
 void Bullet::OnExplode(Character* character) {
 }
-Bullet::Bullet(std::string img, float speed, float damage, Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent) :
-	Sprite(img, position.x, position.y), speed(speed), damage(damage), parent(parent) {
+Bullet::Bullet(std::string img, float speed, float damage, Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target) :
+	Sprite(img, position.x, position.y), speed(speed), damage(damage), parent(parent), Target(target) {
 	Velocity = forwardDirection.Normalize() * speed;
 	Rotation = rotation;
 	CollisionRadius = 4;

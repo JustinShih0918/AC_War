@@ -18,11 +18,11 @@ TestFlyCharacter::TestFlyCharacter(int x, int y, int player) : Character("play/e
 }
 
 
-void TestFlyCharacter::CreateBullet() {
+void TestFlyCharacter::CreateBullet(Character* character) {
 	Engine::Point diff = Engine::Point(cos(Rotation ), sin(Rotation ));
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this));
+	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
 }

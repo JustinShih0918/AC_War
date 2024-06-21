@@ -231,7 +231,7 @@ void Character::Update(float deltaTime) {
 		if (reload <= 0) {
 			// shoot.
 			reload = coolDown;
-			CreateBullet();
+			CreateBullet(Target);
 		}
 	}
 	float remainSpeed = speed * deltaTime;
