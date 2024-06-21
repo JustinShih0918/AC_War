@@ -9,7 +9,7 @@ class PlayScene;
 
 class TurretButton : public Engine::ImageButton {
 protected:
-    PlayScene* getPlayScene();
+    PlayScene* getMainPlayScene();
 public:
 	int money;
 	Engine::Sprite Base;

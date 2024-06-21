@@ -5,7 +5,7 @@
 #include "Scene/PlayScene.hpp"
 #include "TurretButton.hpp"
 
-PlayScene* TurretButton::getPlayScene() {
+PlayScene* TurretButton::getMainPlayScene() {
 	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
 TurretButton::TurretButton(std::string img, std::string imgIn, Engine::Sprite Base, Engine::Sprite Turret, float x, float y, int money) :
@@ -13,7 +13,7 @@ TurretButton::TurretButton(std::string img, std::string imgIn, Engine::Sprite Ba
 }
 void TurretButton::Update(float deltaTime) {
 	ImageButton::Update(deltaTime);
-	if (getPlayScene()->GetMoney() >= money) {
+	if (getMainPlayScene()->GetMoney() >= money) {
 		Enabled = true;
 		Base.Tint = Turret.Tint = al_map_rgba(255, 255, 255, 255);
 	} else {

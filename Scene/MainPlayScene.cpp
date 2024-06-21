@@ -14,18 +14,24 @@
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
 #include "MainPlayScene.hpp"
-//#include "Character/TestTowerCharacter.cpp"
+#include "Character/TestTowerCharacter.hpp"
+#include <iostream>
+#include <bits/stdc++.h>
 #include <queue>
 using namespace std;
 bool MainPlayScene::DebugMode = false;
 const std::vector<Engine::Point> MainPlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
 const int MainPlayScene::MapWidth = 15, MainPlayScene::MapHeight = 13;
 const int MainPlayScene::BlockSize = 64;
+Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(3,3), Engine::Point(1,1), Engine::Point(4,4)};
+Engine::Point MainPlayScene::TowerPoint_2[3] = {Engine::Point(10,10), Engine::Point(11,11), Engine::Point(12,12)};
 Engine::Point MainPlayScene::GetClientSize() {
 	return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
 }
 void MainPlayScene::Initialize() {
+	AddNewObject(new Engine::Image("mainPlay/Background.png", 0, 0, 0, 0, 0.0, 0.0));
 	SpeedMult = 1;
+	int initX = 320;
 	ticks = 0;
 	money1 = 0, money2 = 0;
 	mapState.clear();
@@ -37,30 +43,12 @@ void MainPlayScene::Initialize() {
 	imgTarget1.second = new Engine::Image("mainPlay/target_green.png", player1.x * BlockSize + 320, player1.y * BlockSize - 50);
 	imgTarget2.second = new Engine::Image("mainPlay/target_orange.png", player2.x * BlockSize, player2.y * BlockSize - 50);
 
-	// TowerPoint_1.push_back(Engine::Point(3,3));
-	// TowerPoint_1.push_back(Engine::Point(1,1));
-	// TowerPoint_1.push_back(Engine::Point(4,4));
 
-	// TowerPoint_2.push_back(Engine::Point(10,10));
-	// TowerPoint_2.push_back(Engine::Point(11,11));
-	// TowerPoint_2.push_back(Engine::Point(12,12));
-
-	AddNewObject(new Engine::Image("mainPlay/Background.png", 0, 0, 0, 0, 0.0, 0.0));
 	Engine::Label *lab;
     lab = new Engine::Label("Player1","OpenSans-Regular.ttf", 60, 38 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
     AddNewObject(lab);
     lab = new Engine::Label("Player2","OpenSans-Regular.ttf", 60, 1239 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
     AddNewObject(lab);
-	AddNewObject(TileMapGroup = new Group());
-	ReadMap();
-	DrawEmptyMoney();
-	UpdateMoney();
-	mapDistance = CalculateBFSDistance();
-	AddNewControlObject(UIGroup = new Group());
-	UIGroup->AddNewObject(imgTarget1.first);
-	UIGroup->AddNewObject(imgTarget1.second);
-	UIGroup->AddNewObject(imgTarget2.first);
-	UIGroup->AddNewObject(imgTarget2.second);
 
 	AddNewObject(TileMapGroup = new Group());
 	AddNewObject(GroundEffectGroup = new Group());
@@ -75,9 +63,30 @@ void MainPlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
-	// for(int i = 0;i<3;i++) TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1));
-	// for(int i = 0;i<3;i++) TowerGroup_Player2->AddNewObject(new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 1));
 
+	ReadMap();
+	mapDistance_Player1 = CalculateBFSDistance_Player1();
+	mapDistance_Player2 = CalculateBFSDistance_Player2();
+
+	for(int i = 0;i<1;i++) {
+		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
+		TowerGroup_Player1->AddNewObject(character);
+		character->UpdatePath(mapDistance_Player1, "player1");
+	}
+	for(int i = 0;i<1;i++) {
+		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
+		TowerGroup_Player2->AddNewObject(character);
+		character->UpdatePath(mapDistance_Player2, "Player2");
+	}
+
+	
+	DrawEmptyMoney();
+	UpdateMoney();
+	AddNewControlObject(UIGroup = new Group());
+	UIGroup->AddNewObject(imgTarget1.first);
+	UIGroup->AddNewObject(imgTarget1.second);
+	UIGroup->AddNewObject(imgTarget2.first);
+	UIGroup->AddNewObject(imgTarget2.second);
 }
 
 void MainPlayScene::Terminate() {
@@ -97,12 +106,11 @@ void MainPlayScene::Draw() const{
 	IScene::Draw();
 	if(DebugMode){
 		int initX = 320;
-		cout << "Debug call\n";
 		for (int i = 0; i < MapHeight; i++) {
 			for (int j = 0; j < MapWidth; j++) {
-				if (mapDistance[i][j] != -1) {
+				if (mapDistance_Player2[i][j] != -1) {
 					// Not elegant nor efficient, but it's quite enough for debugging.
-					Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize + initX, (i + 0.5) * BlockSize);
+					Engine::Label label(std::to_string(mapDistance_Player2[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize + initX, (i + 0.5) * BlockSize);
 					label.Anchor = Engine::Point(0.5, 0.5);
 					label.Draw();
 				}
@@ -191,44 +199,6 @@ void MainPlayScene::ReadMap(){
 	}
 }
 
-std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance() {
-	// Reverse BFS to find path.
-	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
-	std::queue<Engine::Point> que;
-	// Push end point.
-	// BFS from end point.
-	// if (mapState[MapHeight - 1][MapWidth - 1] != TILE_DIRT)
-	// 	return map;
-	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
-	map[MapHeight - 1][MapWidth - 1] = 0;
-
-	while (!que.empty()) {
-		Engine::Point p = que.front();
-		que.pop();
-		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
-		//               For each step you should assign the corresponding distance to the most right-bottom block.
-		//               mapState[y][x] is TILE_DIRT if it is empty.
-		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
-		for(auto it : directions){
-			int newX = p.x + it.x;
-			int newY = p.y + it.y;
-			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
-				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
-					map[newY][newX] = map[p.y][p.x] + 1;
-					que.push(Engine::Point(newX,newY));
-				}
-			}
-		}
-	}
-	// for(int i = 0;i<map.size();i++){
-	// 	for(int j = 0;j<map[i].size();j++){
-	// 		cout << map[i][j] << " ";
-	// 	}
-	// 	cout << "\n";
-	// }
-	return map;
-}
-
 void MainPlayScene::OnKeyDown(int keyCode){
 	IScene::OnKeyDown(keyCode);
 	if(keyCode == ALLEGRO_KEY_TAB){
@@ -291,4 +261,66 @@ void MainPlayScene::UpdateTarget(int player){
 		imgTarget2.second->Position.x = player2.x * BlockSize + 320;
 		imgTarget2.second->Position.y = player2.y * BlockSize - 50;
 	}
+}
+
+std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance_Player1() {
+	// Reverse BFS to find path.
+	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
+	std::queue<Engine::Point> que;
+	// Push end point.
+	// BFS from end point.
+	
+	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
+	map[MapHeight - 1][MapWidth - 1] = 0;
+
+	while (!que.empty()) {
+		Engine::Point p = que.front();
+		que.pop();
+		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
+		//               For each step you should assign the corresponding distance to the most right-bottom block.
+		//               mapState[y][x] is TILE_DIRT if it is empty.
+		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
+		for(auto it : directions){
+			int newX = p.x + it.x;
+			int newY = p.y + it.y;
+			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
+				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
+					map[newY][newX] = map[p.y][p.x] + 1;
+					que.push(Engine::Point(newX,newY));
+				}
+			}
+		}
+	}
+	return map;
+}
+
+std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance_Player2() {
+	// Reverse BFS to find path.
+	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
+	std::queue<Engine::Point> que;
+	// Push end point.
+	// BFS from end point.
+	
+	que.push(Engine::Point(0, 0));
+	map[0][0] = 0;
+
+	while (!que.empty()) {
+		Engine::Point p = que.front();
+		que.pop();
+		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
+		//               For each step you should assign the corresponding distance to the most right-bottom block.
+		//               mapState[y][x] is TILE_DIRT if it is empty.
+		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
+		for(auto it : directions){
+			int newX = p.x + it.x;
+			int newY = p.y + it.y;
+			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
+				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
+					map[newY][newX] = map[p.y][p.x] + 1;
+					que.push(Engine::Point(newX,newY));
+				}
+			}
+		}
+	}
+	return map;
 }

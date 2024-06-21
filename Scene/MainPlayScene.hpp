@@ -19,8 +19,8 @@ protected:
 	int SpeedMult;
 public:
 	static const std::vector<Engine::Point> directions;
-	// static vector<Engine::Point> TowerPoint_1;
-	// static vector<Engine::Point> TowerPoint_2;
+	static Engine::Point TowerPoint_1[3];
+	static Engine::Point TowerPoint_2[3];
 	float ticks;
 	int money1;
 	int money2;
@@ -47,7 +47,8 @@ public:
 	Group* FlyGroup_Player1;
 	Group* FlyGroup_Player2;
 	std::vector<std::vector<TileType>> mapState;
-	std::vector<std::vector<int>> mapDistance;
+	std::vector<std::vector<int>> mapDistance_Player1;
+	std::vector<std::vector<int>> mapDistance_Player2;
 	static const int MapWidth, MapHeight;
 	static const int BlockSize;
 	static Engine::Point GetClientSize();
@@ -62,7 +63,8 @@ public:
 	void OnKeyDown(int keyCode) override;
 	void UpdateTarget(int player);
 	bool CheckPosition(int mode, int input);
-	std::vector<std::vector<int>> CalculateBFSDistance();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player1();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player2();
 };
 
 #endif // MainPlayScene_HPP

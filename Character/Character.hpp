@@ -9,11 +9,11 @@
 #include <allegro5/base.h>
 #include <list>
 #include <string>
-
+#include "Scene/MainPlayScene.hpp"
 #include "Engine/Sprite.hpp"
 
 class Bullet;
-class PlayScene;
+class MainPlayScene;
 class Turret;
 
 class Character : public Engine::Sprite {
@@ -26,7 +26,7 @@ protected:
 	float reload = 0;
 	float rotateRadian = 2 * ALLEGRO_PI;
 	float AttackRadius;
-	PlayScene* getPlayScene();
+	MainPlayScene* getMainPlayScene();
 	virtual void OnExplode();
 public:
 	int player;

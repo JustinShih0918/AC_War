@@ -8,7 +8,7 @@
 #include "Engine/AudioHelper.hpp"
 #include "Bullet/MissileBullet.hpp"
 #include "Engine/Group.hpp"
-#include "Scene/PlayScene.hpp"
+#include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
 TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 1000, 0, 500, 5, 1, player) {
@@ -23,6 +23,6 @@ void TestTowerCharacter::CreateBullet(Character* character) {
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
+	getMainPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
 }

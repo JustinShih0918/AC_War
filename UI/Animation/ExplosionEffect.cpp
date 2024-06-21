@@ -5,11 +5,11 @@
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
 #include "Engine/IScene.hpp"
-#include "Scene/PlayScene.hpp"
+#include "Scene/MainPlayScene.hpp"
 #include "Engine/Resources.hpp"
 
-PlayScene* ExplosionEffect::getPlayScene() {
-	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
+MainPlayScene* ExplosionEffect::getMainPlayScene() {
+	return dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
 ExplosionEffect::ExplosionEffect(float x, float y) : Sprite("play/explosion-1.png", x, y), timeTicks(0) {
 	for (int i = 1; i <= 5; i++) {
@@ -19,7 +19,7 @@ ExplosionEffect::ExplosionEffect(float x, float y) : Sprite("play/explosion-1.pn
 void ExplosionEffect::Update(float deltaTime) {
 	timeTicks += deltaTime;
 	if (timeTicks >= timeSpan) {
-		getPlayScene()->EffectGroup->RemoveObject(objectIterator);
+		getMainPlayScene()->EffectGroup->RemoveObject(objectIterator);
 		return;
 	}
 	int phase = floor(timeTicks / timeSpan * bmps.size());

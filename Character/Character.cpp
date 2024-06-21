@@ -14,7 +14,6 @@
 #include "Engine/Group.hpp"
 #include "Engine/IScene.hpp"
 #include "Engine/LOG.hpp"
-#include "Scene/PlayScene.hpp"
 #include "Turret/Turret.hpp"
 #include <allegro5/color.h>
 #include <allegro5/allegro_primitives.h>
@@ -26,23 +25,22 @@
 #include "Engine/Group.hpp"
 #include "Engine/IObject.hpp"
 #include "Engine/IScene.hpp"
-#include "Scene/PlayScene.hpp"
 #include "Engine/Point.hpp"
 #include "Turret/Turret.hpp"
+#include "Scene/MainPlayScene.hpp"
 
-PlayScene* Character::getPlayScene() {
-	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
-	
+MainPlayScene* Character::getMainPlayScene() {
+	return dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
 void Character::OnExplode() {
-	getPlayScene()->EffectGroup->AddNewObject(new ExplosionEffect(Position.x, Position.y));
+	getMainPlayScene()->EffectGroup->AddNewObject(new ExplosionEffect(Position.x, Position.y));
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_int_distribution<std::mt19937::result_type> distId(1, 3);
 	std::uniform_int_distribution<std::mt19937::result_type> dist(1, 20);
 	for (int i = 0; i < 10; i++) {
 		// Random add 10 dirty effects.
-		getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
+		getMainPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
 	}
 }
  Character::Character(std::string img, float x, float y, float radius, float speed, float hp, int money, float coolDown, int player) :
@@ -52,13 +50,14 @@ void Character::OnExplode() {
 	reachEndTime = 0;
 }
 void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std::string player) {
-	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
-	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
+	int x = static_cast<int>(floor((Position.x - 320 - MainPlayScene::BlockSize/2) / MainPlayScene::BlockSize));
+	int y = static_cast<int>(floor((Position.y - MainPlayScene::BlockSize/2)/ MainPlayScene::BlockSize));
 	if (x < 0) x = 0;
-	if (x >= PlayScene::MapWidth) x = PlayScene::MapWidth - 1;
+	if (x >= MainPlayScene::MapWidth) x = MainPlayScene::MapWidth - 1;
 	if (y < 0) y = 0;
-	if (y >= PlayScene::MapHeight) y = PlayScene::MapHeight - 1;
+	if (y >= MainPlayScene::MapHeight) y = MainPlayScene::MapHeight - 1;
 	Engine::Point pos(x, y);
+
 	int num = mapDistance[y][x];
 	if (num == -1) {
 		num = 0;
@@ -67,10 +66,10 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 	path = std::vector<Engine::Point>(num + 1);
 	while (num != 0) {
 		std::vector<Engine::Point> nextHops;
-		for (auto& dir : PlayScene::directions) {
+		for (auto& dir : MainPlayScene::directions) {
 			int x = pos.x + dir.x;
 			int y = pos.y + dir.y;
-			if (x < 0 || x >= PlayScene::MapWidth || y < 0 || y >= PlayScene::MapHeight || mapDistance[y][x] != num - 1)
+			if (x < 0 || x >= MainPlayScene::MapWidth || y < 0 || y >= MainPlayScene::MapHeight || mapDistance[y][x] != num - 1)
 				continue;
 			nextHops.emplace_back(x, y);
 		}
@@ -83,13 +82,14 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 		num--;
 	}
 	if(player == "Player1")
-		path[0] = PlayScene::EndGridPoint;
+		path[0] = MainPlayScene::TowerPoint_1[0];
 	else if(player == "Player2")
-		path[0] = PlayScene::SpawnGridPoint;
+		path[0] = MainPlayScene::TowerPoint_2[0];
 	else
-		path[0] = PlayScene::EndGridPoint;
+		path[0] = Engine::Point(0,0);
 }
 void Character::Update(float deltaTime) {
+	Sprite::Update(deltaTime);
 	// Pre-calculate the velocity.
 	if (Target) {
 		Engine::Point diff = Target->Position - Position;
@@ -106,7 +106,7 @@ void Character::Update(float deltaTime) {
 		// However simply loop through all enemies is enough for this program.
 		if (player == 1){
 			if(type == "meele") {
-				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -115,7 +115,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -126,7 +126,7 @@ void Character::Update(float deltaTime) {
 				}
 			}
 			else if(type == "remote" || type == "tower" || type == "fly") {
-				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -135,7 +135,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -144,7 +144,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->FlyGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->FlyGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -157,7 +157,7 @@ void Character::Update(float deltaTime) {
 		}
 		else if (player == 2){
 			if(type == "meele") {
-				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -166,7 +166,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -177,7 +177,7 @@ void Character::Update(float deltaTime) {
 				}
 			}
 			else if(type == "remote" || type == "tower" || type == "fly") {
-				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -186,7 +186,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -195,7 +195,7 @@ void Character::Update(float deltaTime) {
 						break;
 					}
 				}
-				for (auto& it : getPlayScene()->FlyGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->FlyGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
 						Target = dynamic_cast<Character*>(it);
@@ -237,24 +237,14 @@ void Character::Update(float deltaTime) {
 	}
 	float remainSpeed = speed * deltaTime;
 	while (remainSpeed != 0 || type == "tower") {
-		
-		if (path.empty()) {
-			// Reach end point.
-			if (type != "tower"){
-				Hit(hp);
-				getPlayScene()->Hit();
-				reachEndTime = 0;
-			}
-			return;
-		}
-		Engine::Point target = path.back() * PlayScene::BlockSize + Engine::Point(PlayScene::BlockSize / 2, PlayScene::BlockSize / 2);
+		Engine::Point target = path.back() * MainPlayScene::BlockSize + Engine::Point(MainPlayScene::BlockSize / 2 + 320, MainPlayScene::BlockSize / 2);
 		Engine::Point vec = target - Position;
 		// Add up the distances:
 		// 1. to path.back()
 		// 2. path.back() to border
 		// 3. All intermediate block size
 		// 4. to end point
-		reachEndTime = (vec.Magnitude() + (path.size() - 1) * PlayScene::BlockSize - remainSpeed) / speed;
+		reachEndTime = (vec.Magnitude() + (path.size() - 1) * MainPlayScene::BlockSize - remainSpeed) / speed;
 		Engine::Point normalized = vec.Normalize();
 		if (remainSpeed - vec.Magnitude() > 0) {
 			Position = target;
@@ -267,36 +257,30 @@ void Character::Update(float deltaTime) {
 		}
 		if(Target)
 			Velocity = normalized * 0;
+		if(type == "tower") break;
 	}
 	//Rotation = atan2(Velocity.y, Velocity.x);
-	Sprite::Update(deltaTime);
 }
 
 void Character::Hit(float damage) {
 	hp -= damage;
-	if(damage == 0.5){
-		if(speed - 10 >= 20) speed -= 10;
-	}
-	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
-	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
+	cout << player << ":" <<hp << "\n";
 	if (hp <= 0) {
+		cout << "should die\n";
 		OnExplode();
+		cout << "on explode finish\n";
 		// Remove all turret's reference to target.
 		for (auto& it: lockedCharacters)
 			it->Target = nullptr;
 		for (auto& it: lockedBullets)
 			it->Target = nullptr;
-		if(money == 100){
-			getPlayScene()->RangeExplode(Position.x,Position.y);
-		}
-		getPlayScene()->EarnMoney(money);
-		getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
+		getMainPlayScene()->EnemyGroup->RemoveObject(objectIterator);
 		AudioHelper::PlayAudio("explosion.wav");
 	}
 }
 void Character::Draw() const {
 	Sprite::Draw();
-	if (PlayScene::DebugMode) {
+	if (MainPlayScene::DebugMode) {
 		// Draw collision radius.
 		al_draw_filled_circle(Position.x, Position.y, AttackRadius, al_map_rgba(0, 255, 0, 50));
 		al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);

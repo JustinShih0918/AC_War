@@ -5,7 +5,7 @@
 #include "Engine/Sprite.hpp"
 
 class Enemy;
-class PlayScene;
+class MainPlayScene;
 class Turret;
 class Character;
 namespace Engine {
@@ -17,7 +17,7 @@ protected:
 	float speed;
 	float damage;
 	Character* parent;
-	PlayScene* getPlayScene();
+	MainPlayScene* getMainPlayScene();
 	virtual void OnExplode(Character* character);
 public:
 	Character* Target = nullptr;

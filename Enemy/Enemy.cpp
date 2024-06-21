@@ -17,19 +17,19 @@
 #include "Scene/PlayScene.hpp"
 #include "Turret/Turret.hpp"
 
-PlayScene* Enemy::getPlayScene() {
+PlayScene* Enemy::getMainPlayScene() {
 	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 	
 }
 void Enemy::OnExplode() {
-	getPlayScene()->EffectGroup->AddNewObject(new ExplosionEffect(Position.x, Position.y));
+	getMainPlayScene()->EffectGroup->AddNewObject(new ExplosionEffect(Position.x, Position.y));
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_int_distribution<std::mt19937::result_type> distId(1, 3);
 	std::uniform_int_distribution<std::mt19937::result_type> dist(1, 20);
 	for (int i = 0; i < 10; i++) {
 		// Random add 10 dirty effects.
-		getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
+		getMainPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
 	}
 }
 Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money) :
@@ -52,10 +52,10 @@ void Enemy::Hit(float damage) {
 		for (auto& it: lockedBullets)
 			it->Target = nullptr;
 		if(money == 100){
-			getPlayScene()->RangeExplode(Position.x,Position.y);
+			getMainPlayScene()->RangeExplode(Position.x,Position.y);
 		}
-		getPlayScene()->EarnMoney(money);
-		getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
+		getMainPlayScene()->EarnMoney(money);
+		getMainPlayScene()->EnemyGroup->RemoveObject(objectIterator);
 		AudioHelper::PlayAudio("explosion.wav");
 	}
 }
@@ -99,7 +99,7 @@ void Enemy::Update(float deltaTime) {
 		if (path.empty()) {
 			// Reach end point.
 			Hit(hp);
-			getPlayScene()->Hit();
+			getMainPlayScene()->Hit();
 			reachEndTime = 0;
 			return;
 		}
