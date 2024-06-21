@@ -2,7 +2,6 @@
 // Created by Hsuan on 2024/4/10.
 //
 
-#include "StartScene.h"
 #include <allegro5/allegro_audio.h>
 #include <functional>
 #include <memory>
