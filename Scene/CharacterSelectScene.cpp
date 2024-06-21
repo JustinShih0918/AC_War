@@ -15,8 +15,9 @@
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
 #include "Scene/MainPlayScene.hpp"
+#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-
 const float detX = 192;
 const float detY = 184.5;
 const float initX_1 = 112;
@@ -31,6 +32,13 @@ const float posY_2[5] = {initY_2, initY_2, initY_2 + detY, initY_2 + detY, initY
 
 void CharacterSelectScene::Initialize() {
     player = 1;
+    player1_select = 0;
+    player2_select = 0;
+    for(int i = 0;i<3;i++){
+        for(int j = 0;j<4;j++){
+            characterList[i][j] = i+1;
+        }
+    }
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
@@ -71,6 +79,16 @@ void CharacterSelectScene::Initialize() {
     AddNewControlObject(btn); 
     AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
 
+    int initX = 420;
+    int initY = 89;
+    int detX = 185;
+    int detY = 185;
+    for(int i = 0;i<3;i++){
+        for(int j = 0;j<4;j++){
+            Engine::Label *label = new Engine::Label(to_string(characterList[i][j]), "pirulen.ttf", 32, initX + detX * j + 80, initY + detY * i + 80);
+            AddNewObject(label);
+        }
+    }
     UpdateCircle();
 }
 
@@ -80,6 +98,22 @@ void CharacterSelectScene::Terminate() {
 
 void CharacterSelectScene::GoOnClick(){
     Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
+}
+
+void CharacterSelectScene::UpdateSelected(int mode){
+    if(mode == 1) {
+        if(player == 1) selected_1[player1_select] = characterList[(int)circlePos.x][(int)circlePos.y];
+        else if(player == 2) selected_2[player2_select] = characterList[(int)circlePos.x][(int)circlePos.y];
+    }
+    else if(mode == 2){
+        if(player == 1) selected_1[player1_select] = 0;
+        else if(player == 2) selected_2[player2_select] = 0;
+    }
+    cout << "player 1:";
+    for(int i = 0;i<5;i++) cout << " " << selected_1[i]; 
+    cout << "\nplayer 2:";
+    for(int i = 0;i<5;i++) cout << " " << selected_2[i];
+    cout << "\n";
 }
 
 void CharacterSelectScene::UpdateCircle(){
@@ -166,6 +200,10 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
         else if(keyCode == ALLEGRO_KEY_LEFT) circlePos.y--;
         UpdateCircle();
     }
+    else if(keyCode == ALLEGRO_KEY_ENTER || keyCode == ALLEGRO_KEY_TAB && (player1_select || player2_select)){
+        if(keyCode == ALLEGRO_KEY_ENTER) UpdateSelected(1);
+        else if(keyCode == ALLEGRO_KEY_TAB) UpdateSelected(2);
+    }
 }
 
 void CharacterSelectScene::RemoveChar(){
@@ -236,9 +274,11 @@ void CharacterSelectScene::DrawSelected_2(int stage){
 
 void CharacterSelectScene::SelectedOnClick(int stage, int from){
     if(player == 1 && from == 1){
+        player1_select = stage;
         DrawSelected_1(stage);
     }
     else if(player == 2 && from == 2){
+        player2_select = stage;
         DrawSelected_2(stage);
     }
 }
