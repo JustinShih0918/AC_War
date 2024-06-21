@@ -24,8 +24,8 @@ bool MainPlayScene::DebugMode = false;
 const std::vector<Engine::Point> MainPlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
 const int MainPlayScene::MapWidth = 15, MainPlayScene::MapHeight = 13;
 const int MainPlayScene::BlockSize = 64;
-Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(3,3), Engine::Point(1,1), Engine::Point(4,4)};
-Engine::Point MainPlayScene::TowerPoint_2[3] = {Engine::Point(10,10), Engine::Point(11,11), Engine::Point(12,12)};
+Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(7,1), Engine::Point(3,2), Engine::Point(11,2)};
+Engine::Point MainPlayScene::TowerPoint_2[3] = {Engine::Point(7,11), Engine::Point(3,10), Engine::Point(10,11)};
 Engine::Point MainPlayScene::GetClientSize() {
 	return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
 }
@@ -68,15 +68,15 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player1 = CalculateBFSDistance_Player1();
 	mapDistance_Player2 = CalculateBFSDistance_Player2();
 
-	for(int i = 0;i<1;i++) {
+	for(int i = 0;i<2;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
 		TowerGroup_Player1->AddNewObject(character);
 		character->UpdatePath(mapDistance_Player1, "player1");
 	}
-	for(int i = 0;i<1;i++) {
+	for(int i = 2;i<3;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
 		TowerGroup_Player2->AddNewObject(character);
-		character->UpdatePath(mapDistance_Player2, "Player2");
+		character->UpdatePath(mapDistance_Player2, "player2");
 	}
 	DrawEmptyMoney();
 	UpdateMoney();
