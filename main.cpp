@@ -7,8 +7,8 @@
 #include "Scene/PlayScene.hpp"
 #include "Scene/StageSelectScene.hpp"
 #include "Scene/WinScene.hpp"
-#include "Scene/StartScene.cpp"
-#include "Scene/SettingsScene.cpp"
+#include "Scene/StartScene.h"
+#include "Scene/SettingsScene.hpp"
 #include "Scene/CharacterSelectScene.cpp"
 #include "Scene/ScoreBoard.cpp" // Q: include hpp can't work
 #include "Scene/MainPlayScene.hpp"

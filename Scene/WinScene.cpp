@@ -73,6 +73,7 @@ char WinScene::parseKeyCode(int keyCode,int mode){
 		if(keyCode <= 26 && keyCode >= 1) return keyCode + 64; // upper
 	}
 	else return 0;
+	return 0;
 }
 
 void WinScene::DrawName(){
