@@ -10,7 +10,7 @@
 #include "Engine/Group.hpp"
 #include "Engine/Point.hpp"
 
-TestCharacter::TestCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 600, 30, 500, 5, 1, player) {
+TestCharacter::TestCharacter(int x, int y, int player) : Character("play/enemy-4.png", x, y, 600, 30, 500, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "remote";
 	type = "remote";

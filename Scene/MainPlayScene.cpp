@@ -15,6 +15,9 @@
 #include "CharacterSelectScene.hpp"
 #include "MainPlayScene.hpp"
 #include "Character/TestTowerCharacter.hpp"
+#include "Character/TestMeeleCharacter.hpp"
+#include "Character/TestFlyCharacter.hpp"
+#include "Character/TestCharacter.hpp"
 #include <iostream>
 #include <bits/stdc++.h>
 #include <queue>
@@ -24,7 +27,7 @@ bool MainPlayScene::DebugMode = false;
 const std::vector<Engine::Point> MainPlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
 const int MainPlayScene::MapWidth = 15, MainPlayScene::MapHeight = 13;
 const int MainPlayScene::BlockSize = 64;
-Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(7,1), Engine::Point(3,2), Engine::Point(11,2)};
+Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(7,1), Engine::Point(3,2), Engine::Point(10,2)};
 Engine::Point MainPlayScene::TowerPoint_2[3] = {Engine::Point(7,11), Engine::Point(3,10), Engine::Point(10,11)};
 Engine::Point MainPlayScene::GetClientSize() {
 	return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
@@ -53,8 +56,6 @@ void MainPlayScene::Initialize() {
 	AddNewObject(TileMapGroup = new Group());
 	AddNewObject(GroundEffectGroup = new Group());
 	AddNewObject(DebugIndicatorGroup = new Group());
-	AddNewObject(TowerGroup = new Group());
-	AddNewObject(EnemyGroup = new Group());
 	AddNewObject(BulletGroup = new Group());
 	AddNewObject(EffectGroup = new Group());
 	AddNewObject(GroundGroup_Player1 = new Group());
@@ -63,6 +64,8 @@ void MainPlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
+	AddNewObject(RemoteGroup_Player1 = new Group());
+	AddNewObject(RemoteGroup_Player2 = new Group());
 
 	ReadMap();
 	mapDistance_Player1 = CalculateBFSDistance_Player1();
@@ -70,13 +73,13 @@ void MainPlayScene::Initialize() {
 
 	for(int i = 0;i<2;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
-		TowerGroup_Player1->AddNewObject(character);
 		character->UpdatePath(mapDistance_Player1, "player1");
+		TowerGroup_Player1->AddNewObject(character);
 	}
 	for(int i = 2;i<3;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
-		TowerGroup_Player2->AddNewObject(character);
 		character->UpdatePath(mapDistance_Player2, "player2");
+		TowerGroup_Player2->AddNewObject(character);
 	}
 	DrawEmptyMoney();
 	UpdateMoney();
@@ -217,6 +220,46 @@ void MainPlayScene::OnKeyDown(int keyCode){
 		else if(keyCode == ALLEGRO_KEY_RIGHT) player2.x++;
 		UpdateTarget(2);
 	}
+	else if(keyCode == ALLEGRO_KEY_1 || keyCode == ALLEGRO_KEY_2 || keyCode == ALLEGRO_KEY_3) DoSelect(1, keyCode - 27);
+	else if(keyCode == ALLEGRO_KEY_8 || keyCode == ALLEGRO_KEY_9 || keyCode == ALLEGRO_KEY_7) DoSelect(2, keyCode - 33);
+}
+
+void MainPlayScene::DoSelect(int player, int pos){
+	if(player == 1){
+		if(pos == 1){
+			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			acter->UpdatePath(mapDistance_Player1, "player1");
+			GroundGroup_Player1->AddNewObject(acter);
+		}
+		else if(pos == 2){
+			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			acter->UpdatePath(mapDistance_Player1, "player1");
+			FlyGroup_Player1->AddNewObject(acter);
+		}
+		else if(pos == 3){
+			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			acter->UpdatePath(mapDistance_Player1, "player1");
+			RemoteGroup_Player1->AddNewObject(acter);
+		}
+	}
+	else if(player == 2){
+		if(pos == 1){
+			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			GroundGroup_Player2->AddNewObject(acter);
+			acter->UpdatePath(mapDistance_Player2, "player2");
+		}
+		else if(pos == 2){
+			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			acter->UpdatePath(mapDistance_Player2, "player2");
+			FlyGroup_Player2->AddNewObject(acter);
+		}
+		else if(pos == 3){
+			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			acter->UpdatePath(mapDistance_Player2, "player2");
+			RemoteGroup_Player2->AddNewObject(acter);
+		}
+	}
+	else cout << "error doing selecting\n";
 }
 
 bool MainPlayScene::CheckPosition(int mode, int input){
@@ -229,6 +272,8 @@ bool MainPlayScene::CheckPosition(int mode, int input){
 
 	return true;
 }
+
+void UpdateSelect(){}
 
 void MainPlayScene::UpdateTarget(int player){
 	if(player == 1){

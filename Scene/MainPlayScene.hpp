@@ -47,6 +47,8 @@ public:
 	Group* TowerGroup_Player2;
 	Group* FlyGroup_Player1;
 	Group* FlyGroup_Player2;
+	Group* RemoteGroup_Player1;
+	Group* RemoteGroup_Player2;
 	std::vector<std::vector<TileType>> mapState;
 	std::vector<std::vector<int>> mapDistance_Player1;
 	std::vector<std::vector<int>> mapDistance_Player2;
@@ -64,6 +66,7 @@ public:
 	void OnKeyDown(int keyCode) override;
 	void UpdateTarget(int player);
 	bool CheckPosition(int mode, int input);
+	void DoSelect(int player, int pos);
 	std::vector<std::vector<int>> CalculateBFSDistance_Player1();
 	std::vector<std::vector<int>> CalculateBFSDistance_Player2();
 };
