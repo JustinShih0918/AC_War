@@ -38,6 +38,7 @@ public:
 	static const float DangerTime;
 	static const Engine::Point SpawnGridPoint;
 	static const Engine::Point EndGridPoint;
+	static const Engine::Point TowerPlayer1Point;
 	static const std::vector<int> code;
 	int score;
 	int MapId;
@@ -52,14 +53,22 @@ public:
 	Group* EnemyGroup;
 	Group* EffectGroup;
 	Group* UIGroup;
+	Group* GroundGroup_Player1;
+	Group* GroundGroup_Player2;
+	Group* TowerGroup_Player1;
+	Group* TowerGroup_Player2;
+	Group* FlyGroup_Player1;
+	Group* FlyGroup_Player2;
 	Engine::Label* UIMoney;
 	Engine::Label* UILives;
 	Engine::Image* imgTarget;
 	Engine::Sprite* dangerIndicator;
 	Turret* preview;
 	std::vector<std::vector<TileType>> mapState;
-	std::vector<std::vector<int>> mapDistance;
-	std::list<std::pair<int, float>> enemyWaveData;
+	std::vector<std::vector<int>> mapDistance_Player1;
+	std::vector<std::vector<int>> mapDistance_Player2;
+	std::list<std::pair<int, float>> enemyWaveData_Player1;
+	std::list<std::pair<int, float>> enemyWaveData_Player2;
 	std::list<int> keyStrokes;
 	static Engine::Point GetClientSize();
 	explicit PlayScene() = default;
@@ -80,7 +89,8 @@ public:
 	void UIBtnClicked(int id);
 	bool CheckSpaceValid(int x, int y);
 	void RangeExplode(float x, float y);
-	std::vector<std::vector<int>> CalculateBFSDistance();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player1();
+	std::vector<std::vector<int>> CalculateBFSDistance_Player2();
 	// void ModifyReadMapTiles();
 };
 #endif // PLAYSCENE_HPP

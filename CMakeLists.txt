@@ -88,6 +88,20 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Scene/WinScene.hpp
 
         # TODO: [HACKATHON-1-SCENE] (2/4) Add the new scene source files here
+        Scene/StartScene.cpp
+        Scene/StartScene.h
+        Scene/SettingsScene.cpp
+        Scene/SettingsScene.hpp
+        Character/Character.hpp
+        Character/Character.cpp
+        Character/TestCharacter.hpp
+        Character/TestCharacter.cpp
+        Character/TestFlyCharacter.hpp
+        Character/TestFlyCharacter.cpp
+        Character/TestMeeleCharacter.hpp
+        Character/TestMeeleCharacter.cpp
+        Character/TestTowerCharacter.hpp
+        Character/TestTowerCharacter.cpp
         # Enemy/DoubleTankEnemy.cpp 
         # Enemy/DoubleTankEnemy.hpp
         # Turret/LightTurret.cpp 

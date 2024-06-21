@@ -29,6 +29,11 @@
 #include "Turret/Shovel.cpp"
 #include "Engine/LOG.hpp"
 #include "Engine/GameEngine.hpp"
+#include "Character/Character.hpp"
+#include "Character/TestCharacter.hpp"
+#include "Character/TestFlyCharacter.hpp"
+#include "Character/TestMeeleCharacter.hpp"
+#include "Character/TestTowerCharacter.hpp"
 #include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
@@ -37,6 +42,7 @@ const int PlayScene::BlockSize = 64;
 const float PlayScene::DangerTime = 7.61;
 const Engine::Point PlayScene::SpawnGridPoint = Engine::Point(-1, 0);
 const Engine::Point PlayScene::EndGridPoint = Engine::Point(MapWidth, MapHeight - 1);
+const Engine::Point PlayScene::TowerPlayer1Point = Engine::Point(MapWidth / 2, MapHeight / 2);
 const std::vector<int> PlayScene::code = { ALLEGRO_KEY_UP, ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_DOWN,
 									ALLEGRO_KEY_LEFT, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_RIGHT,
 									ALLEGRO_KEY_B, ALLEGRO_KEY_A, ALLEGRO_KEYMOD_SHIFT, ALLEGRO_KEY_ENTER };
@@ -62,11 +68,19 @@ void PlayScene::Initialize() {
 	AddNewObject(EnemyGroup = new Group());
 	AddNewObject(BulletGroup = new Group());
 	AddNewObject(EffectGroup = new Group());
+	AddNewObject(GroundGroup_Player1 = new Group());
+	AddNewObject(GroundGroup_Player2 = new Group());
+	AddNewObject(FlyGroup_Player1 = new Group());
+	AddNewObject(FlyGroup_Player2 = new Group());
+	AddNewObject(TowerGroup_Player1 = new Group());
+	AddNewObject(TowerGroup_Player2 = new Group());
+	TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1));
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
 	ReadEnemyWave();
-	mapDistance = CalculateBFSDistance();
+	mapDistance_Player1 = CalculateBFSDistance_Player1();
+	mapDistance_Player2 = CalculateBFSDistance_Player2();
 	ConstructUI();
 	imgTarget = new Engine::Image("play/target.png", 0, 0);
 	imgTarget->Visible = false;
@@ -87,6 +101,7 @@ void PlayScene::Terminate() {
 void PlayScene::Update(float deltaTime) {
 	// If we use deltaTime directly, then we might have Bullet-through-paper problem.
 	// Reference: Bullet-Through-Paper
+	//std::cout << ticks << "\n";
 	if (SpeedMult == 0)
 		deathCountDown = -1;
 	else if (deathCountDown != -1)
@@ -95,6 +110,25 @@ void PlayScene::Update(float deltaTime) {
 	std::vector<float> reachEndTimes;
 	for (auto& it : EnemyGroup->GetObjects()) {
 		reachEndTimes.push_back(dynamic_cast<Enemy*>(it)->reachEndTime);
+	}
+	// character
+	for (auto& it : GroundGroup_Player1->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : GroundGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : FlyGroup_Player1->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : FlyGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : TowerGroup_Player1->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
+	}
+	for (auto& it : TowerGroup_Player2->GetObjects()) {
+		reachEndTimes.push_back(dynamic_cast<Character*>(it)->reachEndTime);
 	}
 	// Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
 	std::sort(reachEndTimes.begin(), reachEndTimes.end());
@@ -133,8 +167,10 @@ void PlayScene::Update(float deltaTime) {
 		IScene::Update(deltaTime);
 		// Check if we should create new enemy.
 		ticks += deltaTime;
-		if (enemyWaveData.empty()) {
-			if (EnemyGroup->GetObjects().empty()) {
+		if (enemyWaveData_Player1.empty() && enemyWaveData_Player2.empty()) {
+			if (EnemyGroup->GetObjects().empty() && GroundGroup_Player1->GetObjects().empty() && 
+			    GroundGroup_Player2->GetObjects().empty() && FlyGroup_Player1->GetObjects().empty() && 
+				FlyGroup_Player2->GetObjects().empty()) {
 				// Free resources.
 				/*delete TileMapGroup;
 				delete GroundEffectGroup;
@@ -150,35 +186,86 @@ void PlayScene::Update(float deltaTime) {
 			}
 			continue;
 		}
-		auto current = enemyWaveData.front();
-		if (ticks < current.second)
-			continue;
-		ticks -= current.second;
-		enemyWaveData.pop_front();
-		const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
-		Enemy* enemy;
-		switch (current.first) {
-		case 1:
-			EnemyGroup->AddNewObject(enemy = new SoldierEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 2:
-			EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 3:
-			EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-		case 4:
-			EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
-			break;
-        // TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
-        //         The format is "[EnemyId] [TimeDelay] [Repeat]".
-        // TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
-		default:
-			continue;
+		//player1
+		if (!enemyWaveData_Player1.empty()){
+			auto current = enemyWaveData_Player1.front();
+			if (ticks < current.second)
+				continue;
+			ticks -= current.second;
+			enemyWaveData_Player1.pop_front();
+			const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
+			Enemy* enemy = nullptr;
+			Character* character = nullptr;
+			switch (current.first) {
+			case 1:
+				GroundGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				break;
+			case 2:
+				FlyGroup_Player1->AddNewObject(character = new TestFlyCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				break;
+			case 3:
+				GroundGroup_Player1->AddNewObject(character = new TestMeeleCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				break;
+			case 4:
+				TowerGroup_Player1->AddNewObject(character = new TestTowerCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				break;
+        	// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
+        	//         The format is "[EnemyId] [TimeDelay] [Repeat]".
+        	// TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
+			default:
+				continue;
+			}
+			if(enemy != nullptr){
+				enemy->UpdatePath(mapDistance_Player1);
+				// Compensate the time lost.
+				enemy->Update(ticks);
+			}
+			// character
+			if(character != nullptr){
+				character->UpdatePath(mapDistance_Player1, "Player1");
+				// Compensate the time lost.
+				character->Update(ticks);
+			}
 		}
-		enemy->UpdatePath(mapDistance);
-		// Compensate the time lost.
-		enemy->Update(ticks);
+		//player2
+		if (!enemyWaveData_Player2.empty()){
+			auto current = enemyWaveData_Player2.front();
+			enemyWaveData_Player2.pop_front();
+			const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
+			Enemy* enemy = nullptr;
+			Character* character = nullptr;
+			switch (current.first) {
+			case 1:
+				GroundGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				break;
+			case 2:
+				FlyGroup_Player2->AddNewObject(character = new TestFlyCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				break;
+			case 3:
+				GroundGroup_Player2->AddNewObject(character = new TestMeeleCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				break;
+			case 4:
+				TowerGroup_Player2->AddNewObject(character = new TestTowerCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				break;
+        		// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
+        		//         The format is "[EnemyId] [TimeDelay] [Repeat]".
+        		// TODO: [CUSTOM-ENEMY]: Enable the creation of the enemy.
+			default:
+				continue;
+			}
+		
+			if(enemy != nullptr){
+				enemy->UpdatePath(mapDistance_Player2);
+				// Compensate the time lost.
+				enemy->Update(ticks);
+			}
+			// character
+			if(character != nullptr){
+				character->UpdatePath(mapDistance_Player2, "Player2");
+				// Compensate the time lost.
+				character->Update(ticks);
+			}
+		}
 	}
 	if (preview) {
 		preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
@@ -192,9 +279,9 @@ void PlayScene::Draw() const {
 		// Draw reverse BFS distance on all reachable blocks.
 		for (int i = 0; i < MapHeight; i++) {
 			for (int j = 0; j < MapWidth; j++) {
-				if (mapDistance[i][j] != -1) {
+				if (mapDistance_Player2[i][j] != -1) {
 					// Not elegant nor efficient, but it's quite enough for debugging.
-					Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
+					Engine::Label label(std::to_string(mapDistance_Player2[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
 					label.Anchor = Engine::Point(0.5, 0.5);
 					label.Draw();
 				}
@@ -377,14 +464,21 @@ void PlayScene::ReadEnemyWave() {
     // TODO: [HACKATHON-3-BUG] (3/5): There is a bug in these files, which let the game only spawn the first enemy, try to fix it.
     std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
 	// Read enemy file.
-	float type, wait, repeat;
-	enemyWaveData.clear();
+	float type, wait, repeat, player;
+	enemyWaveData_Player1.clear();
+	enemyWaveData_Player2.clear();
 	std::ifstream fin(filename);
-	while (fin >> type && fin >> wait && fin >> repeat) {
+	while (fin >> type && fin >> wait && fin >> repeat && fin >> player) {
 		for (int i = 0; i < repeat; i++)
-			enemyWaveData.emplace_back(type, wait);
+			if(player == 1)
+				enemyWaveData_Player1.emplace_back(type, wait);
+			else if(player == 2)
+				enemyWaveData_Player2.emplace_back(type, wait);
+			else
+				continue;
 	}
 	fin.close();
+	std::cout << "Read enemy finish\n";
 }
 void PlayScene::ConstructUI() {
 	// Background
@@ -469,7 +563,7 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
 		return false;
 	auto map00 = mapState[y][x];
 	mapState[y][x] = TILE_OCCUPIED;
-	std::vector<std::vector<int>> map = CalculateBFSDistance();
+	std::vector<std::vector<int>> map = CalculateBFSDistance_Player1();
 	mapState[y][x] = map00;
 	if (map[0][0] == -1)
 		return false;
@@ -486,12 +580,12 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
 	}
 	// All enemy have path to exit.
 	mapState[y][x] = TILE_OCCUPIED;
-	mapDistance = map;
+	mapDistance_Player1 = map;
 	for (auto& it : EnemyGroup->GetObjects())
-		dynamic_cast<Enemy*>(it)->UpdatePath(mapDistance);
+		dynamic_cast<Enemy*>(it)->UpdatePath(mapDistance_Player1);
 	return true;
 }
-std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
+std::vector<std::vector<int>> PlayScene::CalculateBFSDistance_Player1() {
 	// Reverse BFS to find path.
 	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
 	std::queue<Engine::Point> que;
@@ -501,6 +595,39 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		return map;
 	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
 	map[MapHeight - 1][MapWidth - 1] = 0;
+
+	while (!que.empty()) {
+		Engine::Point p = que.front();
+		que.pop();
+		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
+		//               For each step you should assign the corresponding distance to the most right-bottom block.
+		//               mapState[y][x] is TILE_DIRT if it is empty.
+		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
+		for(auto it : directions){
+			int newX = p.x + it.x;
+			int newY = p.y + it.y;
+			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
+				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
+					map[newY][newX] = map[p.y][p.x] + 1;
+					que.push(Engine::Point(newX,newY));
+				}
+			}
+		}
+		
+	}
+	return map;
+}
+
+std::vector<std::vector<int>> PlayScene::CalculateBFSDistance_Player2() {
+	// Reverse BFS to find path.
+	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
+	std::queue<Engine::Point> que;
+	// Push end point.
+	// BFS from end point.
+	if (mapState[MapHeight - 1][MapWidth - 1] != TILE_DIRT)
+		return map;
+	que.push(Engine::Point(0, 0));
+	map[0][0] = 0;
 
 	while (!que.empty()) {
 		Engine::Point p = que.front();
