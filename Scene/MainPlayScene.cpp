@@ -14,22 +14,36 @@
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
 #include "MainPlayScene.hpp"
+//#include "Character/TestTowerCharacter.cpp"
 #include <queue>
 using namespace std;
 bool MainPlayScene::DebugMode = false;
+const std::vector<Engine::Point> MainPlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
 const int MainPlayScene::MapWidth = 15, MainPlayScene::MapHeight = 13;
 const int MainPlayScene::BlockSize = 64;
+Engine::Point MainPlayScene::GetClientSize() {
+	return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
+}
 void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	ticks = 0;
 	money1 = 0, money2 = 0;
 	mapState.clear();
+	SpeedMult = 1;
 	player1 = Engine::Point(7,4);
 	player2 = Engine::Point(7,10);
 	imgTarget1.first = new Engine::Image("mainPlay/target.png", player1.x * BlockSize + 320, player1.y * BlockSize);
 	imgTarget2.first = new Engine::Image("mainPlay/target.png", player2.x * BlockSize, player2.y * BlockSize);
 	imgTarget1.second = new Engine::Image("mainPlay/target_green.png", player1.x * BlockSize + 320, player1.y * BlockSize - 50);
 	imgTarget2.second = new Engine::Image("mainPlay/target_orange.png", player2.x * BlockSize, player2.y * BlockSize - 50);
+
+	// TowerPoint_1.push_back(Engine::Point(3,3));
+	// TowerPoint_1.push_back(Engine::Point(1,1));
+	// TowerPoint_1.push_back(Engine::Point(4,4));
+
+	// TowerPoint_2.push_back(Engine::Point(10,10));
+	// TowerPoint_2.push_back(Engine::Point(11,11));
+	// TowerPoint_2.push_back(Engine::Point(12,12));
 
 	AddNewObject(new Engine::Image("mainPlay/Background.png", 0, 0, 0, 0, 0.0, 0.0));
 	Engine::Label *lab;
@@ -48,7 +62,22 @@ void MainPlayScene::Initialize() {
 	UIGroup->AddNewObject(imgTarget2.first);
 	UIGroup->AddNewObject(imgTarget2.second);
 
-	
+	AddNewObject(TileMapGroup = new Group());
+	AddNewObject(GroundEffectGroup = new Group());
+	AddNewObject(DebugIndicatorGroup = new Group());
+	AddNewObject(TowerGroup = new Group());
+	AddNewObject(EnemyGroup = new Group());
+	AddNewObject(BulletGroup = new Group());
+	AddNewObject(EffectGroup = new Group());
+	AddNewObject(GroundGroup_Player1 = new Group());
+	AddNewObject(GroundGroup_Player2 = new Group());
+	AddNewObject(FlyGroup_Player1 = new Group());
+	AddNewObject(FlyGroup_Player2 = new Group());
+	AddNewObject(TowerGroup_Player1 = new Group());
+	AddNewObject(TowerGroup_Player2 = new Group());
+	// for(int i = 0;i<3;i++) TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1));
+	// for(int i = 0;i<3;i++) TowerGroup_Player2->AddNewObject(new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 1));
+
 }
 
 void MainPlayScene::Terminate() {

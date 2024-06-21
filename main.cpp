@@ -9,8 +9,8 @@
 #include "Scene/WinScene.hpp"
 #include "Scene/StartScene.h"
 #include "Scene/SettingsScene.hpp"
-#include "Scene/CharacterSelectScene.cpp"
-#include "Scene/ScoreBoard.cpp" // Q: include hpp can't work
+#include "Scene/CharacterSelectScene.hpp"
+#include "Scene/ScoreBoard.hpp"
 #include "Scene/MainPlayScene.hpp"
 #include <iostream>
 using namespace std;

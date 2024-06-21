@@ -18,6 +18,9 @@ private:
 protected:
 	int SpeedMult;
 public:
+	static const std::vector<Engine::Point> directions;
+	// static vector<Engine::Point> TowerPoint_1;
+	// static vector<Engine::Point> TowerPoint_2;
 	float ticks;
 	int money1;
 	int money2;
@@ -31,10 +34,23 @@ public:
 	pair<Engine::Image*, Engine::Image*> imgTarget2;
 	Group* UIGroup;
 	Group* TileMapGroup;
+	Group* GroundEffectGroup;
+	Group* DebugIndicatorGroup;
+	Group* BulletGroup;
+	Group* TowerGroup;
+	Group* EnemyGroup;
+	Group* EffectGroup;
+	Group* GroundGroup_Player1;
+	Group* GroundGroup_Player2;
+	Group* TowerGroup_Player1;
+	Group* TowerGroup_Player2;
+	Group* FlyGroup_Player1;
+	Group* FlyGroup_Player2;
 	std::vector<std::vector<TileType>> mapState;
 	std::vector<std::vector<int>> mapDistance;
 	static const int MapWidth, MapHeight;
 	static const int BlockSize;
+	static Engine::Point GetClientSize();
     explicit MainPlayScene() = default;
 	void Initialize() override;
 	void Terminate() override;

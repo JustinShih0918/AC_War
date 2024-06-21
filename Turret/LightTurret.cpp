@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Engine/AudioHelper.hpp"
-#include "Bullet/LightBullet.cpp"
+#include "Bullet/LightBullet.hpp"
 #include "Engine/Group.hpp"
 #include "LightTurret.hpp"
 #include "Scene/PlayScene.hpp"

@@ -14,7 +14,7 @@
 #include "Engine/Resources.hpp"
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
-#include "MainPlayScene.cpp"
+#include "Scene/MainPlayScene.hpp"
 using namespace std;
 
 const float detX = 192;
