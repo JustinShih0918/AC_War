@@ -94,9 +94,9 @@ void Character::Update(float deltaTime) {
 	if (Target) {
 		Engine::Point diff = Target->Position - Position;
 		if (diff.Magnitude() > CollisionRadius) {
-			//Target->lockedTurrets.erase(lockedTurretIterator);
+			Target->lockedCharacters.erase(lockedCharacterIterator);
 			Target = nullptr;
-			//lockedTurretIterator = std::list<Turret*>::iterator();
+			lockedCharacterIterator = std::list<Character*>::iterator();
 		}
 	}
 	if (!Target) {
@@ -235,12 +235,15 @@ void Character::Update(float deltaTime) {
 		}
 	}
 	float remainSpeed = speed * deltaTime;
-	while (remainSpeed != 0) {
+	while (remainSpeed != 0 || type == "tower") {
+		
 		if (path.empty()) {
 			// Reach end point.
-			Hit(hp);
-			getPlayScene()->Hit();
-			reachEndTime = 0;
+			if (type != "tower"){
+				Hit(hp);
+				getPlayScene()->Hit();
+				reachEndTime = 0;
+			}
 			return;
 		}
 		Engine::Point target = path.back() * PlayScene::BlockSize + Engine::Point(PlayScene::BlockSize / 2, PlayScene::BlockSize / 2);

@@ -42,6 +42,7 @@ const int PlayScene::BlockSize = 64;
 const float PlayScene::DangerTime = 7.61;
 const Engine::Point PlayScene::SpawnGridPoint = Engine::Point(-1, 0);
 const Engine::Point PlayScene::EndGridPoint = Engine::Point(MapWidth, MapHeight - 1);
+const Engine::Point PlayScene::TowerPlayer1Point = Engine::Point(MapWidth / 2, MapHeight / 2);
 const std::vector<int> PlayScene::code = { ALLEGRO_KEY_UP, ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_DOWN,
 									ALLEGRO_KEY_LEFT, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_RIGHT,
 									ALLEGRO_KEY_B, ALLEGRO_KEY_A, ALLEGRO_KEYMOD_SHIFT, ALLEGRO_KEY_ENTER };
@@ -73,6 +74,7 @@ void PlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
+	TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1));
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();

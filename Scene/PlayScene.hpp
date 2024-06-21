@@ -38,6 +38,7 @@ public:
 	static const float DangerTime;
 	static const Engine::Point SpawnGridPoint;
 	static const Engine::Point EndGridPoint;
+	static const Engine::Point TowerPlayer1Point;
 	static const std::vector<int> code;
 	int score;
 	int MapId;
