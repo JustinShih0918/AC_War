@@ -102,6 +102,24 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Character/TestMeeleCharacter.cpp
         Character/TestTowerCharacter.hpp
         Character/TestTowerCharacter.cpp
+        # Enemy/DoubleTankEnemy.cpp 
+        # Enemy/DoubleTankEnemy.hpp
+        # Turret/LightTurret.cpp 
+        # Turret/LightTurret.hpp
+        # Turret/Shovel.cpp 
+        # Turret/Shovel.hpp 
+        # Bullet/LightBullet.cpp 
+        # Bullet/LightBullet.hpp 
+        # Scene/StartScene.cpp
+        # Scene/StartScene.h
+        # Scene/SettingsScene.cpp
+        # Scene/SettingsScene.hpp
+        # Scene/CharacterSelectScene.cpp
+        # Scene/CharacterSelectScene.hpp
+        # Scene/MainPlayScene.cpp 
+        # Scene/MainPlayScene.hpp
+        # Scene/ScoreBoard.cpp 
+        # Scene/ScoreBoard.hpp
 #        UI/Component/TextInput.cpp
 #        UI/Component/TextInput.hpp
 )

@@ -1,4 +1,6 @@
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/color.h>
 #include <functional>
 #include <memory>
 #include <string>
@@ -12,7 +14,21 @@
 #include "Engine/Resources.hpp"
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
+#include "MainPlayScene.cpp"
 using namespace std;
+
+const float detX = 192;
+const float detY = 184.5;
+const float initX_1 = 112;
+const float initY_1 = 304.5;
+const float posX_1[5] = {initX_1, initX_1 + detX, initX_1, initX_1 + detX, initX_1};
+const float posY_1[5] = {initY_1, initY_1, initY_1 + detY, initY_1 + detY, initY_1 + detY*2};
+
+const float initX_2 = 1312;
+const float initY_2 = 304.5;
+const float posX_2[5] = {initX_2, initX_2 + detX, initX_2, initX_2 + detX, initX_2 + detX};
+const float posY_2[5] = {initY_2, initY_2, initY_2 + detY, initY_2 + detY, initY_2 + detY*2};
+
 void CharacterSelectScene::Initialize() {
     player = 1;
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
@@ -26,6 +42,7 @@ void CharacterSelectScene::Initialize() {
     y1 = 123;
     x2 = 1228;
     y2 = 123;
+    circlePos = Engine::Point(0,0);
     AddNewObject(new Engine::Image("character-select/background.png", 0, 0, 0, 0, 0.0, 0.0));
     DrawTitle();
 
@@ -35,23 +52,51 @@ void CharacterSelectScene::Initialize() {
     lab = new Engine::Label("Player2","OpenSans-Regular.ttf", 90, 1239 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
     AddNewObject(lab);
     DrawTitle();
+
+    Engine::ImageButton* btn;
+    for(int i = 0;i<5;i++){
+        btn = new Engine::ImageButton("character-select/Selected.png", "character-select/SelectRec.png", posX_1[i] - detX/2 - 1, posY_1[i] - detY/2 + 10, 187, 167);
+        btn->SetOnClickCallback(std::bind(&CharacterSelectScene::SelectedOnClick, this, i, 1));
+        AddNewControlObject(btn); 
+    }
+
+    for(int i = 0;i<5;i++){
+        btn = new Engine::ImageButton("character-select/Selected.png", "character-select/SelectRec.png", posX_2[i] - detX/2 - 1, posY_2[i] - detY/2 + 10, 187, 167);
+        btn->SetOnClickCallback(std::bind(&CharacterSelectScene::SelectedOnClick, this, i, 2));
+        AddNewControlObject(btn); 
+    }
+
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 500, 400, 100);
+    btn->SetOnClickCallback(std::bind(&CharacterSelectScene::GoOnClick, this));
+    AddNewControlObject(btn); 
+    AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
+
+    UpdateCircle();
 }
 
 void CharacterSelectScene::Terminate() {
-	AudioHelper::StopSample(bgmInstance);
-	bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
-void CharacterSelectScene::BackOnClick(int stage) {
-    Engine::GameEngine::GetInstance().ChangeScene("start");
+
+void CharacterSelectScene::GoOnClick(){
+    Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
 }
-void CharacterSelectScene::PlayOnClick(int stage) {
-    PlayScene* scene = dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"));
-    scene->MapId = stage;
-    Engine::GameEngine::GetInstance().ChangeScene("play");
-}
-void CharacterSelectScene::ScoreboardOnClick() {
-    Engine::GameEngine::GetInstance().ChangeScene("scoreboard-scene");
+
+void CharacterSelectScene::UpdateCircle(){
+    int initX = 420;
+    int initY = 89;
+    int detX = 185;
+    int detY = 185;
+    if(circle) RemoveObject(circle->GetObjectIterator());
+
+    if(circlePos.x < 0 ) circlePos.x++;
+    else if(circlePos.x > 2) circlePos.x--;
+
+    if(circlePos.y < 0) circlePos.y++;
+    else if(circlePos.y > 3) circlePos.y--;
+
+    circle = new Engine::Image("character-select/circle.png",initX + detX * (int)circlePos.y, initY + detY * (int)circlePos.x, 0, 0);
+    AddNewObject(circle);
 }
 
 void CharacterSelectScene::DrawTitle(){
@@ -107,10 +152,19 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
     else if(keyCode == ALLEGRO_KEY_1){
         player = 1;
         DrawTitle();
+        SelectedOnClick(0, 1);
     }
     else if(keyCode == ALLEGRO_KEY_2){
         player = 2;
         DrawTitle();
+        SelectedOnClick(0, 2);
+    }
+	else if(keyCode == ALLEGRO_KEY_UP || keyCode == ALLEGRO_KEY_DOWN || keyCode == ALLEGRO_KEY_LEFT || keyCode == ALLEGRO_KEY_RIGHT){
+        if(keyCode == ALLEGRO_KEY_UP) circlePos.x--;
+        else if(keyCode == ALLEGRO_KEY_DOWN) circlePos.x++;
+        else if(keyCode == ALLEGRO_KEY_RIGHT) circlePos.y++;
+        else if(keyCode == ALLEGRO_KEY_LEFT) circlePos.y--;
+        UpdateCircle();
     }
 }
 
@@ -156,4 +210,35 @@ char CharacterSelectScene::parseKeyCode(int keyCode,int mode){
 		if(keyCode <= 26 && keyCode >= 1) return keyCode + 64; // upper
 	}
 	else return 0;
+
+    return 0;
+}
+
+void CharacterSelectScene::DrawSelected_1(int stage){
+    int x = posX_1[stage];
+    int y = posY_1[stage];
+
+    if(rec) RemoveObject(rec->GetObjectIterator());
+
+    rec = new Engine::Image("character-select/SelectRec.png", x, y, 217, 195, 0.5, 0.5);
+    AddNewObject(rec);
+}
+
+void CharacterSelectScene::DrawSelected_2(int stage){
+    int x = posX_2[stage];
+    int y = posY_2[stage];
+
+    if(rec) RemoveObject(rec->GetObjectIterator());
+    
+    rec = new Engine::Image("character-select/SelectRec.png", x, y, 217, 195, 0.5, 0.5);
+    AddNewObject(rec);
+}
+
+void CharacterSelectScene::SelectedOnClick(int stage, int from){
+    if(player == 1 && from == 1){
+        DrawSelected_1(stage);
+    }
+    else if(player == 2 && from == 2){
+        DrawSelected_2(stage);
+    }
 }
