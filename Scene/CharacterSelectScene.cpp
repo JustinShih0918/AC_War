@@ -42,6 +42,7 @@ void CharacterSelectScene::Initialize() {
     y1 = 123;
     x2 = 1228;
     y2 = 123;
+    circlePos = Engine::Point(0,0);
     AddNewObject(new Engine::Image("character-select/background.png", 0, 0, 0, 0, 0.0, 0.0));
     DrawTitle();
 
@@ -70,6 +71,7 @@ void CharacterSelectScene::Initialize() {
     AddNewControlObject(btn); 
     AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
 
+    UpdateCircle();
 }
 
 void CharacterSelectScene::Terminate() {
@@ -78,6 +80,23 @@ void CharacterSelectScene::Terminate() {
 
 void CharacterSelectScene::GoOnClick(){
     Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
+}
+
+void CharacterSelectScene::UpdateCircle(){
+    int initX = 420;
+    int initY = 89;
+    int detX = 185;
+    int detY = 185;
+    if(circle) RemoveObject(circle->GetObjectIterator());
+
+    if(circlePos.x < 0 ) circlePos.x++;
+    else if(circlePos.x > 2) circlePos.x--;
+
+    if(circlePos.y < 0) circlePos.y++;
+    else if(circlePos.y > 3) circlePos.y--;
+
+    circle = new Engine::Image("character-select/circle.png",initX + detX * (int)circlePos.y, initY + detY * (int)circlePos.x, 0, 0);
+    AddNewObject(circle);
 }
 
 void CharacterSelectScene::DrawTitle(){
@@ -139,6 +158,13 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
         player = 2;
         DrawTitle();
         SelectedOnClick(0, 2);
+    }
+	else if(keyCode == ALLEGRO_KEY_UP || keyCode == ALLEGRO_KEY_DOWN || keyCode == ALLEGRO_KEY_LEFT || keyCode == ALLEGRO_KEY_RIGHT){
+        if(keyCode == ALLEGRO_KEY_UP) circlePos.x--;
+        else if(keyCode == ALLEGRO_KEY_DOWN) circlePos.x++;
+        else if(keyCode == ALLEGRO_KEY_RIGHT) circlePos.y++;
+        else if(keyCode == ALLEGRO_KEY_LEFT) circlePos.y--;
+        UpdateCircle();
     }
 }
 
