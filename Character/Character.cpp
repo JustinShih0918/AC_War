@@ -108,7 +108,7 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 void Character::Update(float deltaTime) {
 	Sprite::Update(deltaTime);
 	// Pre-calculate the velocity.
-	cout << "Position : " << (int)(Position.x-320)/MainPlayScene::BlockSize << " " << (int)(Position.y)/MainPlayScene::BlockSize << '\n';
+	/*
 	if(player == 1) {
 		if(Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
 			UpdatePath(getMainPlayScene()->mapDistance_Player1_Right,"Player1");
@@ -125,6 +125,7 @@ void Character::Update(float deltaTime) {
 		else
 			cout << "path update error\n";
 	}
+	*/
 	if (Target) {
 		Engine::Point diff = Target->Position - Position;
 		if (diff.Magnitude() > CollisionRadius) {
@@ -324,11 +325,25 @@ void Character::Hit(float damage) {
 				else
 					cout << "Tower destroy error\n";
 				getMainPlayScene()->TowerGroup_Player1->RemoveObject(objectIterator);
-
+				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()){
+					if(it->Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player2_Right,"Player2");
+					else if(it->Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player2_Left,"Player2");
+					else
+						cout << "path update error\n";
+				}
+				for (auto& it : getMainPlayScene()->FlyGroup_Player2->GetObjects()){
+					if(it->Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player2_Right,"Player2");
+					else if(it->Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player2_Left,"Player2");
+					else
+						cout << "path update error\n";
+				}
 			}
 			else 
 				cout << "die type error\n\n";
-			
 		}
 		else if(player == 2) {
 			if(type == MEELE || type == REMOTE)
@@ -347,6 +362,22 @@ void Character::Hit(float damage) {
 				else
 					cout << "Tower destroy error\n";
 				getMainPlayScene()->TowerGroup_Player2->RemoveObject(objectIterator);
+				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()){
+					if(it->Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player1_Right,"Player1");
+					else if(it->Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player1_Left,"Player1");
+					else
+						cout << "path update error\n";
+				}
+				for (auto& it : getMainPlayScene()->FlyGroup_Player1->GetObjects()){
+					if(it->Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player1_Right,"Player1");
+					else if(it->Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+						dynamic_cast<Character*>(it)->UpdatePath(getMainPlayScene()->mapDistance_Player1_Left,"Player1");
+					else
+						cout << "path update error\n";
+				}
 			}
 			else 
 				cout << "die type error\n\n";
