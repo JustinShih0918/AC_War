@@ -30,7 +30,7 @@ const int MainPlayScene::BlockSize = 64;
 Engine::Point MainPlayScene::TowerPoint_1[3] = {Engine::Point(7,1), Engine::Point(3,2), Engine::Point(10,2)};
 Engine::Point MainPlayScene::TowerPoint_2[3] = {Engine::Point(7,11), Engine::Point(3,10), Engine::Point(10,11)};
 Engine::Point MainPlayScene::GetClientSize() {
-	return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
+	return Engine::Point(MapWidth * BlockSize + 320, MapHeight * BlockSize);
 }
 void MainPlayScene::Initialize() {
 	AddNewObject(new Engine::Image("mainPlay/Background.png", 0, 0, 0, 0, 0.0, 0.0));
