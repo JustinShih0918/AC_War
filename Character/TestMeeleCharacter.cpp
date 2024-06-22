@@ -14,7 +14,7 @@
 TestMeeleCharacter::TestMeeleCharacter(int x, int y, int player) : Character("play/enemy-3.png", x, y, 70, 50, 2000, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "melle";
-	type = "meele";
+	type = MEELE;
 }
 
 

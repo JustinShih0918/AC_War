@@ -105,7 +105,7 @@ void Character::Update(float deltaTime) {
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
 		if (player == 1){
-			if(type == "meele") {
+			if(type == MEELE) {
 				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
@@ -125,7 +125,7 @@ void Character::Update(float deltaTime) {
 					}
 				}
 			}
-			else if(type == "remote" || type == "tower" || type == "fly") {
+			else if(type == REMOTE || type == TOWER || type == FLY) {
 				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
@@ -156,7 +156,7 @@ void Character::Update(float deltaTime) {
 			}
 		}
 		else if (player == 2){
-			if(type == "meele") {
+			if(type == MEELE) {
 				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
@@ -176,7 +176,7 @@ void Character::Update(float deltaTime) {
 					}
 				}
 			}
-			else if(type == "remote" || type == "tower" || type == "fly") {
+			else if(type == REMOTE || type == TOWER || type == FLY) {
 				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Engine::Point diff = it->Position - Position;
 					if (diff.Magnitude() <= AttackRadius) {
@@ -236,7 +236,7 @@ void Character::Update(float deltaTime) {
 		}
 	}
 	float remainSpeed = speed * deltaTime;
-	while (remainSpeed != 0 || type == "tower") {
+	while (remainSpeed != 0 || type == TOWER) {
 		Engine::Point target = path.back() * MainPlayScene::BlockSize + Engine::Point(MainPlayScene::BlockSize / 2 + 320, MainPlayScene::BlockSize / 2);
 		Engine::Point vec = target - Position;
 		// Add up the distances:
@@ -257,7 +257,7 @@ void Character::Update(float deltaTime) {
 		}
 		if(Target)
 			Velocity = normalized * 0;
-		if(type == "tower") break;
+		if(type == TOWER) break;
 	}
 	//Rotation = atan2(Velocity.y, Velocity.x);
 }
@@ -274,7 +274,30 @@ void Character::Hit(float damage) {
 			it->Target = nullptr;
 		for (auto& it: lockedBullets)
 			it->Target = nullptr;
-		getMainPlayScene()->EnemyGroup->RemoveObject(objectIterator);
+		if(player == 1) {
+			if(type == MEELE || type == REMOTE)
+				getMainPlayScene()->GroundGroup_Player1->RemoveObject(objectIterator);
+			else if(type == FLY)
+				getMainPlayScene()->FlyGroup_Player1->RemoveObject(objectIterator);
+			else if(type == TOWER)
+				getMainPlayScene()->TowerGroup_Player1->RemoveObject(objectIterator);
+			else 
+				cout << "die type error\n\n";
+			
+		}
+		else if(player == 2) {
+			if(type == MEELE || type == REMOTE)
+				getMainPlayScene()->GroundGroup_Player2->RemoveObject(objectIterator);
+			else if(type == FLY)
+				getMainPlayScene()->FlyGroup_Player2->RemoveObject(objectIterator);
+			else if(type == TOWER)
+				getMainPlayScene()->TowerGroup_Player2->RemoveObject(objectIterator);
+			else 
+				cout << "die type error\n\n";
+			
+		}
+		else 
+			cout << "die player error\n\n";
 		AudioHelper::PlayAudio("explosion.wav");
 	}
 }

@@ -16,6 +16,10 @@ class Bullet;
 class MainPlayScene;
 class Turret;
 
+enum CharacterType {
+	MEELE,REMOTE,FLY,TOWER,
+};
+
 class Character : public Engine::Sprite {
 protected:
  	std::vector<Engine::Point> path;
@@ -42,6 +46,6 @@ public:
 	virtual void CreateBullet(Character* character) = 0;
 	Character* Target = nullptr;
 	std::string name;
-	std::string type;
+	CharacterType type;
 };
 #endif // ENEMY_HPP

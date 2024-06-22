@@ -28,7 +28,7 @@ void Bullet::Update(float deltaTime) {
 	// Can be improved by Spatial Hash, Quad Tree, ...
 	// However simply loop through all enemies is enough for this program.
 	if (parent->player == 1) {
-		if (parent->type == "meele"){
+		if (parent->type == MEELE){
 			for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
 				Character* character = dynamic_cast<Character*>(it);
 				if (!character->Visible)
@@ -52,7 +52,7 @@ void Bullet::Update(float deltaTime) {
 				}
 			}
 		}
-		else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+		else if (parent->type == REMOTE || parent->type == TOWER || parent->type == FLY){
 			for (auto& it : scene->TowerGroup_Player2->GetObjects()) {
 				Character* character = dynamic_cast<Character*>(it);
 				if (!character->Visible)
@@ -92,7 +92,7 @@ void Bullet::Update(float deltaTime) {
 		}
 	}
 	else if(parent->player == 2) {
-		if (parent->type == "meele"){
+		if (parent->type == MEELE){
 			for (auto& it : scene->GroundGroup_Player1->GetObjects()) {
 				Character* character = dynamic_cast<Character*>(it);
 				if (!character->Visible)
@@ -116,7 +116,7 @@ void Bullet::Update(float deltaTime) {
 				}
 			}
 		}
-		else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
+		else if (parent->type == REMOTE || parent->type == TOWER || parent->type == FLY){
 			for (auto& it : scene->TowerGroup_Player1->GetObjects()) {
 				Character* character = dynamic_cast<Character*>(it);
 				if (!character->Visible)

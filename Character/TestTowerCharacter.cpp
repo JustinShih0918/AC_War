@@ -14,7 +14,7 @@
 TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 1000, 0, 500, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "tower";
-	type = "tower";
+	type = TOWER;
 }
 
 
