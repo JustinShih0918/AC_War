@@ -6,6 +6,7 @@
 #include "Engine/IScene.hpp"
 #include <vector>
 #include <iostream>
+#include <deque>
 
 using namespace std;
 class MainPlayScene final : public Engine::IScene {
@@ -28,10 +29,14 @@ public:
 	int MapId;
 	int Win;
 	static bool DebugMode;
+	deque<int> selected_1;
+	deque<int> selected_2;
 	vector<Engine::Image*> Mon1;
 	vector<Engine::Image*> Mon2;
 	Engine::Point player1;
 	Engine::Point player2;
+	string playerName_1;
+	string playerName_2;
 	pair<Engine::Image*,Engine::Image*> imgTarget1;
 	pair<Engine::Image*, Engine::Image*> imgTarget2;
 	Group* UIGroup;
@@ -70,6 +75,7 @@ public:
 	void UpdateTarget(int player);
 	bool CheckPosition(int mode, int input);
 	void DoSelect(int player, int pos);
+	void GetTransmitData();
 	std::vector<std::vector<int>> CalculateBFSDistance(Engine::Point distination);
 };
 

@@ -45,15 +45,16 @@ void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	player1 = Engine::Point(7,4);
 	player2 = Engine::Point(7,10);
+	GetTransmitData();
 	imgTarget1.first = new Engine::Image("mainPlay/target.png", player1.x * BlockSize + 320, player1.y * BlockSize);
 	imgTarget2.first = new Engine::Image("mainPlay/target.png", player2.x * BlockSize, player2.y * BlockSize);
 	imgTarget1.second = new Engine::Image("mainPlay/target_green.png", player1.x * BlockSize + 320, player1.y * BlockSize - 50);
 	imgTarget2.second = new Engine::Image("mainPlay/target_orange.png", player2.x * BlockSize, player2.y * BlockSize - 50);
 
 	Engine::Label *lab;
-    lab = new Engine::Label("Player1","OpenSans-Regular.ttf", 60, 38 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
+    lab = new Engine::Label(playerName_1,"OpenSans-Regular.ttf", 60, 38 + 120, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
     AddNewObject(lab);
-    lab = new Engine::Label("Player2","OpenSans-Regular.ttf", 60, 1239 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
+    lab = new Engine::Label(playerName_2,"OpenSans-Regular.ttf", 60, 1239 + 180, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
     AddNewObject(lab);
 
 	AddNewObject(TileMapGroup = new Group());
@@ -417,4 +418,13 @@ std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance(Engine::Point 
 		}
 	}
 	return map;
+}
+
+void MainPlayScene::GetTransmitData(){
+	CharacterSelectScene* scene = dynamic_cast<CharacterSelectScene*>(Engine::GameEngine::GetInstance().GetScene("character-select"));
+	for(int i = 0;i<5;i++) selected_1.push_back(scene->selected_1[i]);
+	for(int i = 0;i<5;i++) selected_2.push_back(scene->selected_2[i]);
+
+	for(int i = 0;i<scene->playerName_1.size();i++) playerName_1.push_back(scene->playerName_1[i]);
+	for(int i = 0;i<scene->playerName_2.size();i++) playerName_2.push_back(scene->playerName_2[i]);
 }
