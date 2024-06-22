@@ -92,6 +92,8 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         UI/Animation/TestAnimation.hpp 
         UI/Animation/HeadAnimation.cpp 
         UI/Animation/HeadAnimation.hpp
+        UI/Animation/StartAnimation.hpp 
+        UI/Animation/StartAnimation.cpp 
         Scene/HeadScene.hpp
         Scene/HeadScene.cpp 
         Scene/StartScene.cpp
