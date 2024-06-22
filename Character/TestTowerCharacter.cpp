@@ -11,7 +11,7 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 300, 0, 1200, 5, 1, player) {
+TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 250, 0, 1200, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "tower";
 	type = TOWER;

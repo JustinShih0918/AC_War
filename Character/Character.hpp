@@ -47,5 +47,6 @@ public:
 	Character* Target = nullptr;
 	std::string name;
 	CharacterType type;
+	int getMoney();
 };
 #endif // ENEMY_HPP

@@ -394,3 +394,7 @@ void Character::Draw() const {
 		al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);
 	}
 }
+
+int Character::getMoney(){
+	return this->money;
+}
