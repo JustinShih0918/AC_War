@@ -18,21 +18,16 @@ HeadAnimation::HeadAnimation() : Sprite("animation/head/0.png",800,416), timeTic
     for(int i = 0;i<500;i++){
         bmps.push_back(Engine::Resources::GetInstance().GetBitmap("animation/head/" + std::to_string(i) + ".png"));
     }
-    finish = false;
 }
 
 void HeadAnimation::Update(float deltaTime) {
     timeTicks += deltaTime;
     if(timeTicks >= timeSpan){
-        cout << "do delete\n";
-        finish = true;
         getHeadScene()->AnimationGroup->RemoveObject(objectIterator);
         getHeadScene()->ChangeScene();
-        cout << "finish delete\n";
         return;
     }
     int phase = floor(timeTicks / timeSpan * bmps.size());
-    cout << phase << "\n";
     bmp = bmps[phase];
     Sprite::Update(deltaTime);
 }

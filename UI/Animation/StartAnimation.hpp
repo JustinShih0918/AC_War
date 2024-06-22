@@ -1,20 +1,20 @@
-#ifndef HeadAnimation_HPP
-#define HeadAnimation_HPP
+#ifndef StartAnimation_HPP
+#define StartAnimation_HPP
 #include <allegro5/bitmap.h>
 #include <memory>
 #include <vector>
 
 #include "Engine/Sprite.hpp"
-class HeadScene;
+class StartScene;
 
-class HeadAnimation : public Engine::Sprite {
+class StartAnimation : public Engine::Sprite {
 protected:
-	HeadScene* getHeadScene();
+	StartScene* getStartScene();
 	float timeTicks;
 	std::vector<std::shared_ptr<ALLEGRO_BITMAP>> bmps;
-	float timeSpan = 16.69;
+	float timeSpan = 2;
 public:
-	HeadAnimation();
+	StartAnimation();
 	void Update(float deltaTime) override;
 };
 #endif

@@ -16,14 +16,13 @@
 #include "Engine/Point.hpp"
 #include "Engine/Resources.hpp"
 #include "UI/Component/Slider.hpp"
-#include "UI/Animation/TestAnimation.hpp"
-#include "UI/Animation/HeadAnimation.hpp"
+#include "UI/Animation/StartAnimation.hpp"
 #include "Scene/StartScene.h"
 #include <iostream>
 using namespace std;
 void StartScene::Initialize() {
     AddNewObject(AnimationGroup = new Group);
-    
+    AnimationGroup->AddNewObject(new StartAnimation());
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
@@ -42,6 +41,10 @@ void StartScene::Initialize() {
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Settings", "pirulen.ttf", 48, halfW, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 }
+
+void StartScene::loadGreen(){
+}
+
 void StartScene::Terminate() {
     IScene::Terminate();
 }
