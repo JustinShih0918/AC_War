@@ -48,8 +48,12 @@ public:
 	Group* FlyGroup_Player1;
 	Group* FlyGroup_Player2;
 	std::vector<std::vector<TileType>> mapState;
-	std::vector<std::vector<int>> mapDistance_Player1;
-	std::vector<std::vector<int>> mapDistance_Player2;
+	std::vector<std::vector<int>> mapDistance_Player1_Middle;
+	std::vector<std::vector<int>> mapDistance_Player1_Left;
+	std::vector<std::vector<int>> mapDistance_Player1_Right;
+	std::vector<std::vector<int>> mapDistance_Player2_Middle;
+	std::vector<std::vector<int>> mapDistance_Player2_Left;
+	std::vector<std::vector<int>> mapDistance_Player2_Right;
 	static const int MapWidth, MapHeight;
 	static const int BlockSize;
 	static Engine::Point GetClientSize();
@@ -65,8 +69,7 @@ public:
 	void UpdateTarget(int player);
 	bool CheckPosition(int mode, int input);
 	void DoSelect(int player, int pos);
-	std::vector<std::vector<int>> CalculateBFSDistance_Player1();
-	std::vector<std::vector<int>> CalculateBFSDistance_Player2();
+	std::vector<std::vector<int>> CalculateBFSDistance(Engine::Point distination);
 };
 
 #endif // MainPlayScene_HPP

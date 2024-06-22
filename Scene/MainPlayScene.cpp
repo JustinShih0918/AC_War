@@ -66,17 +66,23 @@ void MainPlayScene::Initialize() {
 	AddNewObject(TowerGroup_Player2 = new Group());
 
 	ReadMap();
-	mapDistance_Player1 = CalculateBFSDistance_Player1();
-	mapDistance_Player2 = CalculateBFSDistance_Player2();
+	mapDistance_Player1_Middle = CalculateBFSDistance(TowerPoint_2[0]);
+	mapDistance_Player1_Left = CalculateBFSDistance(TowerPoint_2[1]);
+	mapDistance_Player1_Right = CalculateBFSDistance(TowerPoint_2[2]);
+	mapDistance_Player2_Middle = CalculateBFSDistance(TowerPoint_1[0]);
+	mapDistance_Player2_Left = CalculateBFSDistance(TowerPoint_1[1]);
+	mapDistance_Player2_Right = CalculateBFSDistance(TowerPoint_1[2]);
+	// mapDistance_Player"X" means X need to call the function.
+
 
 	for(int i = 0;i<3;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
-		character->UpdatePath(mapDistance_Player1, "player1");
+		character->UpdatePath(mapDistance_Player1_Middle, "Player1");
 		TowerGroup_Player1->AddNewObject(character);
 	}
 	for(int i = 0;i<3;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
-		character->UpdatePath(mapDistance_Player2, "player2");
+		character->UpdatePath(mapDistance_Player2_Middle, "Player2");
 		TowerGroup_Player2->AddNewObject(character);
 	}
 	DrawEmptyMoney();
@@ -107,9 +113,9 @@ void MainPlayScene::Draw() const{
 		int initX = 320;
 		for (int i = 0; i < MapHeight; i++) {
 			for (int j = 0; j < MapWidth; j++) {
-				if (mapDistance_Player2[i][j] != -1) {
+				if (mapDistance_Player2_Middle[i][j] != -1) {
 					// Not elegant nor efficient, but it's quite enough for debugging.
-					Engine::Label label(std::to_string(mapDistance_Player2[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize + initX, (i + 0.5) * BlockSize);
+					Engine::Label label(std::to_string(mapDistance_Player2_Middle[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize + initX, (i + 0.5) * BlockSize);
 					label.Anchor = Engine::Point(0.5, 0.5);
 					label.Draw();
 				}
@@ -226,34 +232,64 @@ void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(pos == 1){
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			acter->UpdatePath(mapDistance_Player1, "player1");
+			if(player1.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+			else
+				cout << "path determine error\n";
 			GroundGroup_Player1->AddNewObject(acter);
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			acter->UpdatePath(mapDistance_Player1, "player1");
+			if(player1.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+			else
+				cout << "path determine error\n";
 			FlyGroup_Player1->AddNewObject(acter);
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			acter->UpdatePath(mapDistance_Player1, "player1");
+			if(player1.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+			else
+				cout << "path determine error\n";
 			GroundGroup_Player1->AddNewObject(acter);
 		}
 	}
 	else if(player == 2){
 		if(pos == 1){
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			if(player2.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+			else
+				cout << "Path Determine Error\n";
 			GroundGroup_Player2->AddNewObject(acter);
-			acter->UpdatePath(mapDistance_Player2, "player2");
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			acter->UpdatePath(mapDistance_Player2, "player2");
+			if(player2.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+			else
+				cout << "Path Determine Error\n";
 			FlyGroup_Player2->AddNewObject(acter);
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			acter->UpdatePath(mapDistance_Player2, "player2");
+			if(player2.x > MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+			else
+				cout << "Path Determine Error\n";
 			GroundGroup_Player2->AddNewObject(acter);
 		}
 	}
@@ -304,46 +340,15 @@ void MainPlayScene::UpdateTarget(int player){
 	}
 }
 
-std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance_Player1() {
+std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance(Engine::Point distination) {
 	// Reverse BFS to find path.
 	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
 	std::queue<Engine::Point> que;
 	// Push end point.
 	// BFS from end point.
 	
-	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
-	map[MapHeight - 1][MapWidth - 1] = 0;
-
-	while (!que.empty()) {
-		Engine::Point p = que.front();
-		que.pop();
-		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
-		//               For each step you should assign the corresponding distance to the most right-bottom block.
-		//               mapState[y][x] is TILE_DIRT if it is empty.
-		std::vector<Engine::Point> directions = {Engine::Point(1,0), Engine::Point(-1,0), Engine::Point(0,1), Engine::Point(0,-1)};
-		for(auto it : directions){
-			int newX = p.x + it.x;
-			int newY = p.y + it.y;
-			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
-				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
-					map[newY][newX] = map[p.y][p.x] + 1;
-					que.push(Engine::Point(newX,newY));
-				}
-			}
-		}
-	}
-	return map;
-}
-
-std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance_Player2() {
-	// Reverse BFS to find path.
-	std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
-	std::queue<Engine::Point> que;
-	// Push end point.
-	// BFS from end point.
-	
-	que.push(Engine::Point(0, 0));
-	map[0][0] = 0;
+	que.push(distination);
+	map[distination.y][distination.x] = 0;
 
 	while (!que.empty()) {
 		Engine::Point p = que.front();

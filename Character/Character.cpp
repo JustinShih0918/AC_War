@@ -81,16 +81,50 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 		path[num] = pos;
 		num--;
 	}
-	if(player == "Player1")
-		path[0] = MainPlayScene::TowerPoint_1[0];
+	if(player == "Player1") {
+		if(mapDistance == getMainPlayScene()->mapDistance_Player1_Middle)
+			path[0] = MainPlayScene::TowerPoint_2[0];
+		else if(mapDistance == getMainPlayScene()->mapDistance_Player1_Left)
+			path[0] = MainPlayScene::TowerPoint_2[1];
+		else if(mapDistance == getMainPlayScene()->mapDistance_Player1_Right)
+			path[0] = MainPlayScene::TowerPoint_2[2];
+		else
+			cout << "path[0] set error\n";
+	}
 	else if(player == "Player2")
-		path[0] = MainPlayScene::TowerPoint_2[0];
-	else
+		if(mapDistance == getMainPlayScene()->mapDistance_Player2_Middle)
+			path[0] = MainPlayScene::TowerPoint_1[0];
+		else if(mapDistance == getMainPlayScene()->mapDistance_Player2_Left)
+			path[0] = MainPlayScene::TowerPoint_1[1];
+		else if(mapDistance == getMainPlayScene()->mapDistance_Player2_Right)
+			path[0] = MainPlayScene::TowerPoint_1[2];
+		else
+			cout << "path[0] set error\n";
+	else {
 		path[0] = Engine::Point(0,0);
+		cout << "Player undefine\n";
+	}
 }
 void Character::Update(float deltaTime) {
 	Sprite::Update(deltaTime);
 	// Pre-calculate the velocity.
+	cout << "Position : " << (int)(Position.x-320)/MainPlayScene::BlockSize << " " << (int)(Position.y)/MainPlayScene::BlockSize << '\n';
+	if(player == 1) {
+		if(Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+			UpdatePath(getMainPlayScene()->mapDistance_Player1_Right,"Player1");
+		else if(Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+			UpdatePath(getMainPlayScene()->mapDistance_Player1_Left,"Player1");
+		else
+			cout << "path update error\n";
+	}
+	else if(player == 2) {
+		if(Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+			UpdatePath(getMainPlayScene()->mapDistance_Player2_Right,"Player2");
+		else if(Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
+			UpdatePath(getMainPlayScene()->mapDistance_Player2_Left,"Player2");
+		else
+			cout << "path update error\n";
+	}
 	if (Target) {
 		Engine::Point diff = Target->Position - Position;
 		if (diff.Magnitude() > CollisionRadius) {
@@ -264,7 +298,6 @@ void Character::Update(float deltaTime) {
 
 void Character::Hit(float damage) {
 	hp -= damage;
-	cout << player << ":" <<hp << "\n";
 	if (hp <= 0) {
 		cout << "should die\n";
 		OnExplode();
@@ -279,8 +312,20 @@ void Character::Hit(float damage) {
 				getMainPlayScene()->GroundGroup_Player1->RemoveObject(objectIterator);
 			else if(type == FLY)
 				getMainPlayScene()->FlyGroup_Player1->RemoveObject(objectIterator);
-			else if(type == TOWER)
+			else if(type == TOWER) {
+				Engine::Point BlockPoint = Engine::Point((int)(Position.x-320)/MainPlayScene::BlockSize,(int)(Position.y)/MainPlayScene::BlockSize);
+				if(BlockPoint == getMainPlayScene()->TowerPoint_1[1])
+					getMainPlayScene()->mapDistance_Player2_Left = getMainPlayScene()->mapDistance_Player2_Middle;
+				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[2])
+					getMainPlayScene()->mapDistance_Player2_Right = getMainPlayScene()->mapDistance_Player2_Middle;
+				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[0]){
+					//Engine::GameEngine::GetInstance().ChangeScene("win");
+				}
+				else
+					cout << "Tower destroy error\n";
 				getMainPlayScene()->TowerGroup_Player1->RemoveObject(objectIterator);
+
+			}
 			else 
 				cout << "die type error\n\n";
 			
@@ -290,8 +335,19 @@ void Character::Hit(float damage) {
 				getMainPlayScene()->GroundGroup_Player2->RemoveObject(objectIterator);
 			else if(type == FLY)
 				getMainPlayScene()->FlyGroup_Player2->RemoveObject(objectIterator);
-			else if(type == TOWER)
+			else if(type == TOWER) {
+				Engine::Point BlockPoint = Engine::Point((int)(Position.x-320)/MainPlayScene::BlockSize,(int)(Position.y)/MainPlayScene::BlockSize);
+				if(BlockPoint == getMainPlayScene()->TowerPoint_2[1])
+					getMainPlayScene()->mapDistance_Player1_Left = getMainPlayScene()->mapDistance_Player1_Middle;
+				else if(BlockPoint == getMainPlayScene()->TowerPoint_2[2])
+					getMainPlayScene()->mapDistance_Player1_Right = getMainPlayScene()->mapDistance_Player1_Middle;
+				else if(BlockPoint == getMainPlayScene()->TowerPoint_2[0]){
+					//Engine::GameEngine::GetInstance().ChangeScene("win");
+				}
+				else
+					cout << "Tower destroy error\n";
 				getMainPlayScene()->TowerGroup_Player2->RemoveObject(objectIterator);
+			}
 			else 
 				cout << "die type error\n\n";
 			
