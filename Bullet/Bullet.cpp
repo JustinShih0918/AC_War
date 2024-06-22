@@ -81,7 +81,6 @@ void Bullet::Update(float deltaTime) {
 				if (!character->Visible)
 					continue;
 				if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, character->Position, character->CollisionRadius)) {
-					std::cout<<"hi\n";
 					OnExplode(character);
 					character->Hit(damage);
 					getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

@@ -37,6 +37,7 @@ void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
+	Win = 0;
 	money1 = 0, money2 = 0;
 	mapState.clear();
 	SpeedMult = 1;
@@ -101,6 +102,9 @@ void MainPlayScene::Terminate() {
 void MainPlayScene::Update(float deltatime){
 	IScene::Update(deltatime);
 	ticks += deltatime;
+	if(Win){
+		Engine::GameEngine::GetInstance().ChangeScene("win");
+	}
 	if(ticks >= 1.1){
 		UpdateMoney();
 		ticks = 0;

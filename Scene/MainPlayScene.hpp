@@ -26,6 +26,7 @@ public:
 	int money1;
 	int money2;
 	int MapId;
+	int Win;
 	static bool DebugMode;
 	vector<Engine::Image*> Mon1;
 	vector<Engine::Image*> Mon2;
