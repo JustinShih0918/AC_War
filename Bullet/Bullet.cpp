@@ -61,7 +61,6 @@ void Bullet::Update(float deltaTime) {
 					OnExplode(character);
 					character->Hit(damage);
 					getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
-					cout << "for player 1 emit, remove success\n";
 					return;
 				}
 			}

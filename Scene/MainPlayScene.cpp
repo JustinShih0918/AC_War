@@ -231,10 +231,13 @@ void MainPlayScene::OnKeyDown(int keyCode){
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(pos == 1){
+			cout << "Player1 x coordinate:" << player1.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > MapWidth * BlockSize / 2 + 320)
+			if(player1.x > 7){
+				cout << "Trace player2 right\n";
 				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
-			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+			}
+			else if(player1.x <= 7)
 				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 			else
 				cout << "path determine error\n";
@@ -242,9 +245,9 @@ void MainPlayScene::DoSelect(int player, int pos){
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > MapWidth * BlockSize / 2 + 320)
+			if(player1.x > 7)
 				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
-			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+			else if(player1.x <= 7)
 				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 			else
 				cout << "path determine error\n";
@@ -252,9 +255,9 @@ void MainPlayScene::DoSelect(int player, int pos){
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > MapWidth * BlockSize / 2 + 320)
+			if(player1.x > 7)
 				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
-			else if(player1.x <= MapWidth * BlockSize / 2 + 320)
+			else if(player1.x <= 7)
 				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 			else
 				cout << "path determine error\n";
@@ -263,10 +266,11 @@ void MainPlayScene::DoSelect(int player, int pos){
 	}
 	else if(player == 2){
 		if(pos == 1){
+			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > MapWidth * BlockSize / 2 + 320)
+			if(player2.x > 7)
 				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+			else if(player2.x <= 7)
 				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
 			else
 				cout << "Path Determine Error\n";
@@ -274,9 +278,9 @@ void MainPlayScene::DoSelect(int player, int pos){
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > MapWidth * BlockSize / 2 + 320)
+			if(player2.x > 7)
 				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+			else if(player2.x <= 7)
 				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
 			else
 				cout << "Path Determine Error\n";
@@ -284,9 +288,9 @@ void MainPlayScene::DoSelect(int player, int pos){
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > MapWidth * BlockSize / 2 + 320)
+			if(player2.x > 7)
 				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= MapWidth * BlockSize / 2 + 320)
+			else if(player2.x <= 7)
 				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
 			else
 				cout << "Path Determine Error\n";
