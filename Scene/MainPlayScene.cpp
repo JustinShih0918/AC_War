@@ -102,12 +102,14 @@ void MainPlayScene::Terminate() {
 
 void MainPlayScene::Update(float deltatime){
 	IScene::Update(deltatime);
+	UpdateMoney();
 	ticks += deltatime;
 	if(Win){
 		Engine::GameEngine::GetInstance().ChangeScene("win");
 	}
 	if(ticks >= 1.1){
-		UpdateMoney();
+		if (money1 < 10) money1++;
+		if (money2 < 10) money2++;
 		ticks = 0;
 	}
 }
@@ -158,8 +160,6 @@ void MainPlayScene::UpdateMoney(){
 
 	Mon1.clear();
 	Mon2.clear();
-	if(money1 < 10) money1++;
-	if(money2 < 10) money2++;
 	Engine::Image* img;
 	for(int i = 0;i < money1;i++){
 		img = new Engine::Image("mainPlay/money.png", initX_1, initY - detY * i, 0, 0, 0.0, 0.0);
@@ -236,68 +236,86 @@ void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(pos == 1){
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > 7){
-				cout << "Trace player2 right\n";
-				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+			if (money1 >= acter->getMoney()){
+				if(player1.x > 7){
+					cout << "Trace player2 right\n";
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+				}
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				GroundGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
 			}
-			else if(player1.x <= 7)
-				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
-			else
-				cout << "path determine error\n";
-			GroundGroup_Player1->AddNewObject(acter);
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > 7)
-				acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
-			else if(player1.x <= 7)
-				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
-			else
-				cout << "path determine error\n";
-			FlyGroup_Player1->AddNewObject(acter);
+			if (money1 >= acter->getMoney()){
+				if(player1.x > 7)
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				FlyGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
+			}
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if(player1.x > 7)
-				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
-			else if(player1.x <= 7)
-				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
-			else
-				cout << "path determine error\n";
-			GroundGroup_Player1->AddNewObject(acter);
+			if (money1 >= acter->getMoney()){
+				if(player1.x > 7)
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				GroundGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
+			}
 		}
 	}
 	else if(player == 2){
 		if(pos == 1){
 			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > 7)
-				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= 7)
-				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
-			else
-				cout << "Path Determine Error\n";
-			GroundGroup_Player2->AddNewObject(acter);
+			if (money2 >= acter->getMoney()){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				GroundGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+			}
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > 7)
-				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= 7)
-				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
-			else
-				cout << "Path Determine Error\n";
-			FlyGroup_Player2->AddNewObject(acter);
+			if (money2 >= acter->getMoney()){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				FlyGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+			}
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if(player2.x > 7)
-				acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-			else if(player2.x <= 7)
-				acter->UpdatePath(mapDistance_Player2_Left, "Player2");
-			else
-				cout << "Path Determine Error\n";
-			GroundGroup_Player2->AddNewObject(acter);
+			if (money2 >= acter->getMoney()){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				GroundGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+			}
 		}
 	}
 	else cout << "error doing selecting\n";
