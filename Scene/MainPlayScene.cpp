@@ -229,13 +229,13 @@ void MainPlayScene::OnKeyDown(int keyCode){
 		else if(keyCode == ALLEGRO_KEY_RIGHT) player2.x++;
 		UpdateTarget(2);
 	}
-	else if(keyCode == ALLEGRO_KEY_1 || keyCode == ALLEGRO_KEY_2 || keyCode == ALLEGRO_KEY_3) DoSelect(1, keyCode - 27);
-	else if(keyCode == ALLEGRO_KEY_8 || keyCode == ALLEGRO_KEY_9 || keyCode == ALLEGRO_KEY_7) DoSelect(2, keyCode - 33);
+	else if(keyCode == ALLEGRO_KEY_1 || keyCode == ALLEGRO_KEY_2 || keyCode == ALLEGRO_KEY_3) DoSelect(1, keyCode - 28);
+	else if(keyCode == ALLEGRO_KEY_8 || keyCode == ALLEGRO_KEY_9 || keyCode == ALLEGRO_KEY_7) DoSelect(2, keyCode - 34);
 }
 
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
-		if(pos == 1){
+		if(selected_1[pos] == 1){
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7){
@@ -248,13 +248,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
+				UpdateSelected(1,0);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100, 24));
 				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100, 24));
 			}
 		}
-		else if(pos == 2){
+		else if(selected_1[pos] == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
@@ -265,13 +266,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
+				UpdateSelected(1,1);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
 				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
 			}
 		}
-		else if(pos == 3){
+		else if(selected_1[pos] == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
@@ -282,6 +284,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
+				UpdateSelected(1,2);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -290,7 +293,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 		}
 	}
 	else if(player == 2){
-		if(pos == 1){
+		if(selected_2[pos] == 1){
 			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
@@ -302,13 +305,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
+				UpdateSelected(2,0);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
 				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
 			}
 		}
-		else if(pos == 2){
+		else if(selected_2[pos] == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
@@ -319,13 +323,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				FlyGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
+				UpdateSelected(2,1);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
 				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
 			}
 		}
-		else if(pos == 3){
+		else if(selected_2[pos] == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
@@ -336,6 +341,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
+				UpdateSelected(2,2);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -356,8 +362,6 @@ bool MainPlayScene::CheckPosition(int mode, int input){
 
 	return true;
 }
-
-void UpdateSelect(){}
 
 void MainPlayScene::UpdateTarget(int player){
 	if(player == 1){
@@ -427,4 +431,23 @@ void MainPlayScene::GetTransmitData(){
 
 	for(int i = 0;i<scene->playerName_1.size();i++) playerName_1.push_back(scene->playerName_1[i]);
 	for(int i = 0;i<scene->playerName_2.size();i++) playerName_2.push_back(scene->playerName_2[i]);
+}
+
+void MainPlayScene::UpdateSelected(int player, int pos){
+	if(player == 1){
+		selected_1.push_back(selected_1[pos]);
+		deque<int>::iterator it = selected_1.begin() + pos;
+		selected_1.erase(it);
+		cout << "selected_1:";
+		for(int i = 0;i<selected_1.size();i++) cout << " " << selected_1[i];
+		cout << "\n";
+	}
+	else if(player == 2){
+		selected_2.push_back(selected_2[pos]);
+		deque<int>::iterator it = selected_2.begin() + pos;
+		selected_2.erase(it);
+		cout << "selected_2:";
+		for(int i = 0;i<selected_2.size();i++) cout << " " << selected_2[i];
+		cout << "\n";
+	}
 }

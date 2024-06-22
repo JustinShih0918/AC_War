@@ -76,6 +76,7 @@ public:
 	bool CheckPosition(int mode, int input);
 	void DoSelect(int player, int pos);
 	void GetTransmitData();
+	void UpdateSelected(int player, int pos);
 	std::vector<std::vector<int>> CalculateBFSDistance(Engine::Point distination);
 };
 
