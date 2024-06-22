@@ -32,6 +32,7 @@ const float posY_2[5] = {initY_2, initY_2, initY_2 + detY, initY_2 + detY, initY
 
 void CharacterSelectScene::Initialize() {
     Title = nullptr;
+    circle = nullptr;
     player = 1;
     player1_select = 0;
     player2_select = 0;
