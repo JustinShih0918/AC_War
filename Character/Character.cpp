@@ -63,24 +63,27 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 		num = 0;
 		Engine::LOG(Engine::ERROR) << "Enemy path finding error";
 	}
-	path = std::vector<Engine::Point>(num + 1);
-	while (num != 0) {
-		std::vector<Engine::Point> nextHops;
-		for (auto& dir : MainPlayScene::directions) {
-			int x = pos.x + dir.x;
-			int y = pos.y + dir.y;
-			if (x < 0 || x >= MainPlayScene::MapWidth || y < 0 || y >= MainPlayScene::MapHeight || mapDistance[y][x] != num - 1)
-				continue;
-			nextHops.emplace_back(x, y);
+	if (type != FLY){
+		path = std::vector<Engine::Point>(num + 1);
+		while (num != 0) {
+			std::vector<Engine::Point> nextHops;
+			for (auto& dir : MainPlayScene::directions) {
+				int x = pos.x + dir.x;
+				int y = pos.y + dir.y;
+				if (x < 0 || x >= MainPlayScene::MapWidth || y < 0 || y >= MainPlayScene::MapHeight || mapDistance[y][x] != num - 1)
+					continue;
+				nextHops.emplace_back(x, y);
+			}
+			// Choose arbitrary one.
+			std::random_device dev;
+			std::mt19937 rng(dev());
+			std::uniform_int_distribution<std::mt19937::result_type> dist(0, nextHops.size() - 1);
+			pos = nextHops[dist(rng)];
+			path[num] = pos;
+			num--;
 		}
-		// Choose arbitrary one.
-		std::random_device dev;
-		std::mt19937 rng(dev());
-		std::uniform_int_distribution<std::mt19937::result_type> dist(0, nextHops.size() - 1);
-		pos = nextHops[dist(rng)];
-		path[num] = pos;
-		num--;
 	}
+	else if(type == FLY) path = std::vector<Engine::Point>(1);
 	if(player == "Player1") {
 		if(mapDistance == getMainPlayScene()->mapDistance_Player1_Middle)
 			path[0] = MainPlayScene::TowerPoint_2[0];
