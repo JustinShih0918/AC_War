@@ -10,6 +10,7 @@
 #include "Engine/IScene.hpp"
 class StartScene final : public Engine::IScene {
 public:
+    Engine::Group *AnimationGroup;
     explicit StartScene() = default;
     void Initialize() override;
     void Terminate() override;
