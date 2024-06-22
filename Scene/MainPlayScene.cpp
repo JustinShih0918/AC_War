@@ -235,7 +235,6 @@ void MainPlayScene::OnKeyDown(int keyCode){
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(pos == 1){
-			cout << "Player1 x coordinate:" << player1.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if(player1.x > 7){
 				cout << "Trace player2 right\n";
@@ -252,7 +251,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			if(player1.x > 7)
 				acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
 			else if(player1.x <= 7)
-				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 			else
 				cout << "path determine error\n";
 			FlyGroup_Player1->AddNewObject(acter);
