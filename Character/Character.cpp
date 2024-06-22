@@ -108,24 +108,6 @@ void Character::UpdatePath(const std::vector<std::vector<int>>& mapDistance, std
 void Character::Update(float deltaTime) {
 	Sprite::Update(deltaTime);
 	// Pre-calculate the velocity.
-	/*
-	if(player == 1) {
-		if(Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
-			UpdatePath(getMainPlayScene()->mapDistance_Player1_Right,"Player1");
-		else if(Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
-			UpdatePath(getMainPlayScene()->mapDistance_Player1_Left,"Player1");
-		else
-			cout << "path update error\n";
-	}
-	else if(player == 2) {
-		if(Position.x > MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
-			UpdatePath(getMainPlayScene()->mapDistance_Player2_Right,"Player2");
-		else if(Position.x <= MainPlayScene::MapWidth * MainPlayScene::BlockSize / 2 + 320)
-			UpdatePath(getMainPlayScene()->mapDistance_Player2_Left,"Player2");
-		else
-			cout << "path update error\n";
-	}
-	*/
 	if (Target) {
 		Engine::Point diff = Target->Position - Position;
 		if (diff.Magnitude() > CollisionRadius) {
@@ -135,7 +117,21 @@ void Character::Update(float deltaTime) {
 		}
 	}
 	if (!Target) {
-		Rotation = atan2(Velocity.y, Velocity.x); // facing front
+		if (type != TOWER)
+			Rotation = atan2(Velocity.y, Velocity.x); // facing front
+		else if (type == TOWER){
+			if (player == 1){
+				Rotation = atan2(1, 0);
+			}
+			else if (player == 2){
+				Rotation = atan2(-1, 0);
+			}
+			else cout << "Not player 1 or 2\n";
+		} 
+		else {
+			cout << "type undefined\n";
+		}
+		
 		// Lock first seen target.
 		// Can be improved by Spatial Hash, Quad Tree, ...
 		// However simply loop through all enemies is enough for this program.
@@ -261,7 +257,8 @@ void Character::Update(float deltaTime) {
 			rotation = ((abs(radian) - maxRotateRadian) * originRotation + maxRotateRadian * targetRotation) / radian;
 		// Add 90 degrees (PI/2 radian), since we assume the image is oriented upward.
 		//Rotation = atan2(rotation.y, rotation.x) + ALLEGRO_PI/2;
-		Rotation = atan2(Target->Position.y - Position.y, Target->Position.x - Position.x);
+		if (type != TOWER)
+			Rotation = atan2(Target->Position.y - Position.y, Target->Position.x - Position.x);
 		// Shoot reload.
 		reload -= deltaTime;
 		if (reload <= 0) {
