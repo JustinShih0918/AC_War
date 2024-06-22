@@ -16,7 +16,7 @@
 #include "CharacterSelectScene.hpp"
 #include "Scene/MainPlayScene.hpp"
 #include <iostream>
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 const float detX = 192;
 const float detY = 184.5;

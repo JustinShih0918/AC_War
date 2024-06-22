@@ -19,7 +19,7 @@
 #include "Character/TestFlyCharacter.hpp"
 #include "Character/TestCharacter.hpp"
 #include <iostream>
-#include <bits/stdc++.h>
+#include <iostream>
 #include <queue>
 
 using namespace std;
@@ -64,8 +64,6 @@ void MainPlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
-	AddNewObject(RemoteGroup_Player1 = new Group());
-	AddNewObject(RemoteGroup_Player2 = new Group());
 
 	ReadMap();
 	mapDistance_Player1 = CalculateBFSDistance_Player1();
@@ -239,7 +237,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			acter->UpdatePath(mapDistance_Player1, "player1");
-			RemoteGroup_Player1->AddNewObject(acter);
+			GroundGroup_Player1->AddNewObject(acter);
 		}
 	}
 	else if(player == 2){
@@ -256,7 +254,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			acter->UpdatePath(mapDistance_Player2, "player2");
-			RemoteGroup_Player2->AddNewObject(acter);
+			GroundGroup_Player2->AddNewObject(acter);
 		}
 	}
 	else cout << "error doing selecting\n";
