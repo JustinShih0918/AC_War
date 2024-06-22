@@ -15,6 +15,7 @@ public:
     void Initialize() override;
     void Terminate() override;
     void ChangeScene();
+    void SkipOnClick(int stage);
     //void Update(float deltaTime) override;
 };
 #endif
