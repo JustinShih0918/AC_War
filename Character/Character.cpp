@@ -318,7 +318,7 @@ void Character::Hit(float damage) {
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[2])
 					getMainPlayScene()->mapDistance_Player2_Right = getMainPlayScene()->mapDistance_Player2_Middle;
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[0]){
-					//Engine::GameEngine::GetInstance().ChangeScene("win");
+					getMainPlayScene()->Win = 1;
 				}
 				else
 					cout << "Tower destroy error\n";
@@ -355,7 +355,7 @@ void Character::Hit(float damage) {
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_2[2])
 					getMainPlayScene()->mapDistance_Player1_Right = getMainPlayScene()->mapDistance_Player1_Middle;
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_2[0]){
-					//Engine::GameEngine::GetInstance().ChangeScene("win");
+					getMainPlayScene()->Win = 1;
 				}
 				else
 					cout << "Tower destroy error\n";

@@ -31,6 +31,7 @@ const float posX_2[5] = {initX_2, initX_2 + detX, initX_2, initX_2 + detX, initX
 const float posY_2[5] = {initY_2, initY_2, initY_2 + detY, initY_2 + detY, initY_2 + detY*2};
 
 void CharacterSelectScene::Initialize() {
+    Title = nullptr;
     player = 1;
     player1_select = 0;
     player2_select = 0;
@@ -73,12 +74,10 @@ void CharacterSelectScene::Initialize() {
         btn->SetOnClickCallback(std::bind(&CharacterSelectScene::SelectedOnClick, this, i, 2));
         AddNewControlObject(btn); 
     }
-
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 500, 400, 100);
     btn->SetOnClickCallback(std::bind(&CharacterSelectScene::GoOnClick, this));
     AddNewControlObject(btn); 
     AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
-
     int initX = 420;
     int initY = 89;
     int detX = 185;
