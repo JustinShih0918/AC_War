@@ -18,7 +18,7 @@
 #include "Character/TestMeeleCharacter.hpp"
 #include "Character/TestFlyCharacter.hpp"
 #include "Character/TestCharacter.hpp"
-#include <iostream>
+#include "UI/Animation/Warning.hpp"
 #include <iostream>
 #include <queue>
 
@@ -236,7 +236,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(pos == 1){
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if (money1 >= acter->getMoney()){
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7){
 					cout << "Trace player2 right\n";
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
@@ -248,10 +248,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100, 24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100, 24));
+			}
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if (money1 >= acter->getMoney()){
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
 				else if(player1.x <= 7)
@@ -261,10 +265,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+			}
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
-			if (money1 >= acter->getMoney()){
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
 				else if(player1.x <= 7)
@@ -274,13 +282,17 @@ void MainPlayScene::DoSelect(int player, int pos){
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+			}
 		}
 	}
 	else if(player == 2){
 		if(pos == 1){
 			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
 			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if (money2 >= acter->getMoney()){
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
 				else if(player2.x <= 7)
@@ -290,10 +302,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
 			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
+			}
 		}
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if (money2 >= acter->getMoney()){
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
 				else if(player2.x <= 7)
@@ -303,10 +319,14 @@ void MainPlayScene::DoSelect(int player, int pos){
 				FlyGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
 			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
+			}
 		}
 		else if(pos == 3){
 			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
-			if (money2 >= acter->getMoney()){
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
 				else if(player2.x <= 7)
@@ -315,6 +335,10 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
+			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
 			}
 		}
 	}

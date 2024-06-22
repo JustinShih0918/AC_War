@@ -121,13 +121,13 @@ void CharacterSelectScene::UpdateSelected(int mode){
 
 bool CharacterSelectScene::Check(){
     if(playerName_1.empty() || playerName_2.empty()) {
-        UIGroup->AddNewObject(new Warning(2, 800, 50));
+        UIGroup->AddNewObject(new Warning(2, 800, 50, 32));
         return false;
     }
 
     for(int i = 0;i<5;i++){
         if(selected_1[i] == 0 || selected_2[i] == 0){
-            UIGroup->AddNewObject(new Warning(1, 800, 50));
+            UIGroup->AddNewObject(new Warning(1, 800, 50, 32));
             return false;
         }
     }

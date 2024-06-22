@@ -22,7 +22,7 @@ public:
     int posY;
 	Engine::Label* label;
 	bool hasAdd;
-	Warning(int m, int x, int y);
+	Warning(int m, int x, int y, int size);
 	void Update(float deltaTime) override;
 };
 #endif

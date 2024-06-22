@@ -19,7 +19,7 @@ CharacterSelectScene* Warning::getCharacterSelectScene(){
     return dynamic_cast<CharacterSelectScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
 
-Warning::Warning(int m, int x, int y) : Engine::Label("", "OpenSans-Regular.ttf",36,x,y,255,0,0,255, 0.5, 0.5), timeTicks(0), mode(m), posX(x), posY(y) {
+Warning::Warning(int m, int x, int y, int size) : Engine::Label("", "OpenSans-Regular.ttf",size,x,y,255,0,0,255, 0.5, 0.5), timeTicks(0), mode(m), posX(x), posY(y) {
     switch (mode)
     {
     case 1:
