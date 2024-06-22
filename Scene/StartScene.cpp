@@ -16,9 +16,14 @@
 #include "Engine/Point.hpp"
 #include "Engine/Resources.hpp"
 #include "UI/Component/Slider.hpp"
+#include "UI/Animation/TestAnimation.hpp"
+#include "UI/Animation/HeadAnimation.hpp"
 #include "Scene/StartScene.h"
-
+#include <iostream>
+using namespace std;
 void StartScene::Initialize() {
+    AddNewObject(AnimationGroup = new Group);
+    
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
