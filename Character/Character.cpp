@@ -300,9 +300,7 @@ void Character::Update(float deltaTime) {
 void Character::Hit(float damage) {
 	hp -= damage;
 	if (hp <= 0) {
-		cout << "should die\n";
 		OnExplode();
-		cout << "on explode finish\n";
 		// Remove all turret's reference to target.
 		for (auto& it: lockedCharacters)
 			it->Target = nullptr;
