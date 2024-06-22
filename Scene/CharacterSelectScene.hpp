@@ -4,6 +4,7 @@
 #include <allegro5/allegro_audio.h>
 #include <memory>
 #include "Engine/IScene.hpp"
+#include "UI/Component/Label.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -31,6 +32,7 @@ public:
 	Engine::Image* rec;
 	Engine::Point circlePos;
 	Engine::Image* circle;
+	Engine::Group* UIGroup;
     explicit CharacterSelectScene() = default;
 	void Initialize() override;
 	void Terminate() override;
@@ -45,6 +47,7 @@ public:
 	void DrawSelected_2(int stage);
 	void UpdateCircle();
 	void UpdateSelected(int mode); // 1 for add, 2 for delete
+	bool Check();
 };
 
 #endif // CharacterSelectScene_HPP

@@ -15,6 +15,7 @@
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
 #include "Scene/MainPlayScene.hpp"
+#include "UI/Animation/Warning.hpp"
 #include <iostream>
 #include <iostream>
 using namespace std;
@@ -55,6 +56,8 @@ void CharacterSelectScene::Initialize() {
     circlePos = Engine::Point(0,0);
     AddNewObject(new Engine::Image("character-select/background.png", 0, 0, 0, 0, 0.0, 0.0));
     DrawTitle();
+
+    AddNewObject(UIGroup = new Group());
 
     Engine::Label *lab;
     lab = new Engine::Label("Player1","OpenSans-Regular.ttf", 90, 38 + 150, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
@@ -97,7 +100,7 @@ void CharacterSelectScene::Terminate() {
 }
 
 void CharacterSelectScene::GoOnClick(){
-    Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
+    if(Check()) Engine::GameEngine::GetInstance().ChangeScene("MainPlay");
 }
 
 void CharacterSelectScene::UpdateSelected(int mode){
@@ -114,6 +117,22 @@ void CharacterSelectScene::UpdateSelected(int mode){
     cout << "\nplayer 2:";
     for(int i = 0;i<5;i++) cout << " " << selected_2[i];
     cout << "\n";
+}
+
+bool CharacterSelectScene::Check(){
+    if(playerName_1.empty() || playerName_2.empty()) {
+        UIGroup->AddNewObject(new Warning(2, 800, 50));
+        return false;
+    }
+
+    for(int i = 0;i<5;i++){
+        if(selected_1[i] == 0 || selected_2[i] == 0){
+            UIGroup->AddNewObject(new Warning(1, 800, 50));
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void CharacterSelectScene::UpdateCircle(){
