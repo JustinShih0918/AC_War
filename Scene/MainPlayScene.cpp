@@ -37,6 +37,8 @@ void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
+	Mon1.clear();
+	Mon2.clear();
 	Win = 0;
 	money1 = 0, money2 = 0;
 	mapState.clear();
@@ -65,7 +67,6 @@ void MainPlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
-
 	ReadMap();
 	mapDistance_Player1_Middle = CalculateBFSDistance(TowerPoint_2[0]);
 	mapDistance_Player1_Left = CalculateBFSDistance(TowerPoint_2[1]);
@@ -74,7 +75,6 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player2_Left = CalculateBFSDistance(TowerPoint_1[1]);
 	mapDistance_Player2_Right = CalculateBFSDistance(TowerPoint_1[2]);
 	// mapDistance_Player"X" means X need to call the function.
-
 
 	for(int i = 0;i<3;i++) {
 		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
@@ -89,6 +89,7 @@ void MainPlayScene::Initialize() {
 	DrawEmptyMoney();
 	UpdateMoney();
 	AddNewControlObject(UIGroup = new Group());
+	
 	UIGroup->AddNewObject(imgTarget1.first);
 	UIGroup->AddNewObject(imgTarget1.second);
 	UIGroup->AddNewObject(imgTarget2.first);
@@ -157,7 +158,6 @@ void MainPlayScene::UpdateMoney(){
 
 	Mon1.clear();
 	Mon2.clear();
-
 	if(money1 < 10) money1++;
 	if(money2 < 10) money2++;
 	Engine::Image* img;
@@ -250,9 +250,9 @@ void MainPlayScene::DoSelect(int player, int pos){
 		else if(pos == 2){
 			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if(player1.x > 7)
-				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
+				acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
 			else if(player1.x <= 7)
-				acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				acter->UpdatePath(mapDistance_Player1_Right, "Player1");
 			else
 				cout << "path determine error\n";
 			FlyGroup_Player1->AddNewObject(acter);
@@ -354,7 +354,6 @@ std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance(Engine::Point 
 	std::queue<Engine::Point> que;
 	// Push end point.
 	// BFS from end point.
-	
 	que.push(distination);
 	map[distination.y][distination.x] = 0;
 
