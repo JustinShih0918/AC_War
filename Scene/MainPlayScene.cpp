@@ -342,7 +342,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 				else
 					cout << "path determine error\n";
-				GroundGroup_Player1->AddNewObject(acter);
+				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 				UpdateSelected(1,pos);
 			}
@@ -360,7 +360,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 				else
 					cout << "path determine error\n";
-				FlyGroup_Player1->AddNewObject(acter);
+				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 				UpdateSelected(1,pos);
 			}
@@ -378,7 +378,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
 				else
 					cout << "path determine error\n";
-				FlyGroup_Player1->AddNewObject(acter);
+				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
 				UpdateSelected(1,pos);
 			}
@@ -456,7 +456,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
 				else
 					cout << "Path Determine Error\n";
-				GroundGroup_Player2->AddNewObject(acter);
+				FlyGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
 				UpdateSelected(2,pos);
 			}
@@ -510,7 +510,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
 				else
 					cout << "Path Determine Error\n";
-				GroundGroup_Player2->AddNewObject(acter);
+				FlyGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
 				UpdateSelected(2,pos);
 			}
