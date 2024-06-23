@@ -162,6 +162,17 @@ void CharacterSelectScene::DrawTitle(){
 void CharacterSelectScene::OnKeyDown(int keyCode){
     IScene::OnKeyDown(keyCode);
 	char del;
+    if(keyCode == ALLEGRO_KEY_3) {
+        playerName_1.push_back('a');
+        playerName_2.push_back('b');
+
+        for(int i = 0;i<5;i++){
+            int a = i+1;
+            if(a > 3) a = 3;
+            selected_1[i] = a;
+            selected_2[i] = a;
+        }
+    }
 	if(keyCode == ALLEGRO_KEY_BACKSPACE){
         if(player == 1){
             if(playerName_1.empty()) return;
