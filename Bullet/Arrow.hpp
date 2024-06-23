@@ -16,7 +16,7 @@ protected:
 	const float rotateRadian = 2 * ALLEGRO_PI;
 	std::list<Bullet*>::iterator lockedBulletIterator;
 public:
-	explicit Arrow(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target);
+	explicit Arrow(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target, std::string img);
 	void Update(float deltaTime) override;
 	void OnExplode(Character* character) override;
 };

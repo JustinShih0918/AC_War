@@ -74,7 +74,7 @@ void PlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
-	TowerGroup_Player1->AddNewObject(new MainTower(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1));
+	TowerGroup_Player1->AddNewObject(new MainTower(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1,"mainPlay/Tower/greenTower.png"));
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
@@ -207,7 +207,7 @@ void PlayScene::Update(float deltaTime) {
 				GroundGroup_Player1->AddNewObject(character = new CS_Student(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 4:
-				TowerGroup_Player1->AddNewObject(character = new MainTower(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				TowerGroup_Player1->AddNewObject(character = new MainTower(SpawnCoordinate.x, SpawnCoordinate.y, 1,"mainPlay/Tower/greenTower.png"));
 				break;
         	// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         	//         The format is "[EnemyId] [TimeDelay] [Repeat]".
@@ -245,7 +245,7 @@ void PlayScene::Update(float deltaTime) {
 				GroundGroup_Player2->AddNewObject(character = new CS_Student(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 4:
-				TowerGroup_Player2->AddNewObject(character = new MainTower(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				TowerGroup_Player2->AddNewObject(character = new MainTower(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2,"mainPlay/Tower/greenTower.png"));
 				break;
         		// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         		//         The format is "[EnemyId] [TimeDelay] [Repeat]".
