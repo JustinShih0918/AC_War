@@ -49,6 +49,7 @@ void CharacterSelectScene::Initialize() {
     characterList[2][1] = 1;
     characterList[2][2] = 1;
     characterList[2][3] = 1;
+    character_img[0] = "character-select/Selected.png";
     character_img[1] = "character-select/character-circle/archer_circle.png";
     character_img[2] = "character-select/character-circle/cs_circle.png";
     character_img[3] = "character-select/character-circle/bomber_circle.png";
@@ -100,12 +101,6 @@ void CharacterSelectScene::Initialize() {
     int detX = 185;
     int detY = 185;
     DrawCircle();
-    for(int i = 0;i<3;i++){
-        for(int j = 0;j<4;j++){
-            Engine::Label *label = new Engine::Label(to_string(characterList[i][j]), "pirulen.ttf", 32, initX + detX * j + 80, initY + detY * i + 80);
-            AddNewObject(label);
-        }
-    }
     UpdateCircle();
 }
 
@@ -158,7 +153,7 @@ void CharacterSelectScene::DrawCircle(){
 
     for(int i = 0;i<3;i++){
         for(int j = 0;j<4;j++){
-            circle = new Engine::Image(character_img[characterList[i][j]], initX + detX*j + 96, initY + detY*i + 80,125,125,0.5,0.5);
+            circle = new Engine::Image(character_img[characterList[i][j]], initX + detX*j + 97, initY + detY*i + 80,126,126,0.5,0.5);
             AddNewObject(circle);
         }
     }
@@ -200,6 +195,7 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
             selected_1[i] = a;
             selected_2[i] = a;
         }
+        UpdateSelectImg();
     }
 	if(keyCode == ALLEGRO_KEY_BACKSPACE){
         if(player == 1){
@@ -261,6 +257,7 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
     else if(keyCode == ALLEGRO_KEY_ENTER || keyCode == ALLEGRO_KEY_TAB && (player1_select || player2_select)){
         if(keyCode == ALLEGRO_KEY_ENTER) UpdateSelected(1);
         else if(keyCode == ALLEGRO_KEY_TAB) UpdateSelected(2);
+        UpdateSelectImg();
     }
 }
 
@@ -338,5 +335,20 @@ void CharacterSelectScene::SelectedOnClick(int stage, int from){
     else if(player == 2 && from == 2){
         player2_select = stage;
         DrawSelected_2(stage);
+    }
+}
+
+void CharacterSelectScene::UpdateSelectImg(){
+    for(int i = 0;i<5;i++) if(selectedImg_1[i]) RemoveObject(selectedImg_1[i]->GetObjectIterator());
+    for(int i = 0;i<5;i++) if(selectedImg_2[i]) RemoveObject(selectedImg_2[i]->GetObjectIterator());
+
+    for(int i = 0;i<5;i++){
+        selectedImg_1[i] = new Engine::Image(character_img[selected_1[i]], posX_1[i] - detX/2 - 1, posY_1[i] - detY/2 + 10, 187, 167);
+        AddNewObject(selectedImg_1[i]);
+    }
+
+    for(int i = 0;i<5;i++){
+        selectedImg_2[i] = new Engine::Image(character_img[selected_2[i]], posX_2[i] - detX/2 - 1, posY_2[i] - detY/2 + 10, 187, 167);
+        AddNewObject(selectedImg_2[i]);
     }
 }
