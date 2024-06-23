@@ -1,6 +1,6 @@
 #include <string>
 
-#include "TestFlyCharacter.hpp"
+#include "ArrowTower.hpp"
 #include <allegro5/base.h>
 #include <cmath>
 #include <string>
@@ -11,15 +11,15 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestFlyCharacter::TestFlyCharacter(int x, int y, int player) : Character("play/enemy-2.png", x, y, 300, 30, 500, 5, 1, player) {
+ArrowTower::ArrowTower(int x, int y, int player) : Character("play/enemy-1.png", x, y, 250, 0, 1200, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
-	name = "fly";
-	type = FLY;
+	name = "tower";
+	type = TOWER;
 }
 
 
-void TestFlyCharacter::CreateBullet(Character* character) {
-	Engine::Point diff = Engine::Point(cos(Rotation ), sin(Rotation ));
+void ArrowTower::CreateBullet(Character* character) {
+	Engine::Point diff = Engine::Point(Target->Position.x - Position.x, Target->Position.y - Position.y);
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.

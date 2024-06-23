@@ -14,10 +14,11 @@
 #include "UI/Component/Slider.hpp"
 #include "CharacterSelectScene.hpp"
 #include "MainPlayScene.hpp"
-#include "Character/TestTowerCharacter.hpp"
-#include "Character/TestMeeleCharacter.hpp"
-#include "Character/TestFlyCharacter.hpp"
-#include "Character/TestCharacter.hpp"
+#include "Character/MainTower.hpp"
+#include "Character/CS_Student.hpp"
+#include "Character/Bomber.hpp"
+#include "Character/StarArcher.hpp"
+#include "Character/ArrowTower.hpp"
 #include "UI/Animation/Warning.hpp"
 #include <iostream>
 #include <queue>
@@ -77,13 +78,19 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player2_Right = CalculateBFSDistance(TowerPoint_1[2]);
 	// mapDistance_Player"X" means X need to call the function.
 
-	for(int i = 0;i<3;i++) {
-		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
+	ArrowTower* character = new ArrowTower(TowerPoint_1[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[0].y * BlockSize + BlockSize / 2, 1);
+	character->UpdatePath(mapDistance_Player1_Middle, "Player1");
+	TowerGroup_Player1->AddNewObject(character);
+	for(int i = 1;i<3;i++) {
+		MainTower* character = new MainTower(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
 		character->UpdatePath(mapDistance_Player1_Middle, "Player1");
 		TowerGroup_Player1->AddNewObject(character);
 	}
-	for(int i = 0;i<3;i++) {
-		TestTowerCharacter* character = new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
+	character = new ArrowTower(TowerPoint_2[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[0].y * BlockSize + BlockSize / 2, 2);
+	character->UpdatePath(mapDistance_Player2_Middle, "Player2");
+	TowerGroup_Player2->AddNewObject(character);
+	for(int i = 1;i<3;i++) {
+		MainTower* character = new MainTower(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
 		character->UpdatePath(mapDistance_Player2_Middle, "Player2");
 		TowerGroup_Player2->AddNewObject(character);
 	}
@@ -236,7 +243,7 @@ void MainPlayScene::OnKeyDown(int keyCode){
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(selected_1[pos] == 1){
-			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			CS_Student *acter = new CS_Student(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7){
 					cout << "Trace player2 right\n";
@@ -256,7 +263,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 2){
-			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			Bomber *acter = new Bomber(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
@@ -274,7 +281,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 3){
-			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			StarArcher *acter = new StarArcher(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
@@ -295,7 +302,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 	else if(player == 2){
 		if(selected_2[pos] == 1){
 			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
-			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			CS_Student *acter = new CS_Student(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -313,7 +320,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 2){
-			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			Bomber *acter = new Bomber(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -331,7 +338,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 3){
-			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			StarArcher *acter = new StarArcher(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");

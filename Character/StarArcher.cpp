@@ -1,6 +1,6 @@
 #include <string>
 
-#include "TestMeeleCharacter.hpp"
+#include "StarArcher.hpp"
 #include <allegro5/base.h>
 #include <cmath>
 #include <string>
@@ -8,17 +8,16 @@
 #include "Engine/AudioHelper.hpp"
 #include "Bullet/MissileBullet.hpp"
 #include "Engine/Group.hpp"
-#include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestMeeleCharacter::TestMeeleCharacter(int x, int y, int player) : Character("play/enemy-3.png", x, y, 70, 50, 2000, 2, 1, player) {
+StarArcher::StarArcher(int x, int y, int player) : Character("play/enemy-4.png", x, y, 400, 30, 500, 3, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
-	name = "melle";
-	type = MEELE;
+	name = "remote";
+	type = REMOTE;
 }
 
 
-void TestMeeleCharacter::CreateBullet(Character* character) {
+void StarArcher::CreateBullet(Character* character) {
 	Engine::Point diff = Engine::Point(cos(Rotation), sin(Rotation));
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();

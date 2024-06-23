@@ -100,14 +100,16 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Scene/CharacterSelectScene.cpp 
         Character/Character.hpp
         Character/Character.cpp
-        Character/TestCharacter.hpp
-        Character/TestCharacter.cpp
-        Character/TestFlyCharacter.hpp
-        Character/TestFlyCharacter.cpp
-        Character/TestMeeleCharacter.hpp
-        Character/TestMeeleCharacter.cpp
-        Character/TestTowerCharacter.hpp
-        Character/TestTowerCharacter.cpp
+        Character/StarArcher.hpp
+        Character/StarArcher.cpp
+        Character/Bomber.hpp
+        Character/Bomber.cpp
+        Character/CS_Student.hpp
+        Character/CS_Student.cpp
+        Character/MainTower.hpp
+        Character/MainTower.cpp
+        Character/ArrowTower.hpp
+        Character/ArrowTower.cpp
         Enemy/DoubleTankEnemy.cpp 
         Enemy/DoubleTankEnemy.hpp
         Turret/LightTurret.cpp 

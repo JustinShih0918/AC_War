@@ -30,10 +30,10 @@
 #include "Engine/LOG.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Character/Character.hpp"
-#include "Character/TestCharacter.hpp"
-#include "Character/TestFlyCharacter.hpp"
-#include "Character/TestMeeleCharacter.hpp"
-#include "Character/TestTowerCharacter.hpp"
+#include "Character/StarArcher.hpp"
+#include "Character/Bomber.hpp"
+#include "Character/CS_Student.hpp"
+#include "Character/MainTower.hpp"
 #include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
@@ -74,7 +74,7 @@ void PlayScene::Initialize() {
 	AddNewObject(FlyGroup_Player2 = new Group());
 	AddNewObject(TowerGroup_Player1 = new Group());
 	AddNewObject(TowerGroup_Player2 = new Group());
-	TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1));
+	TowerGroup_Player1->AddNewObject(new MainTower(TowerPlayer1Point.x * BlockSize + BlockSize / 2, TowerPlayer1Point.y * BlockSize + BlockSize / 2, 1));
 	// Should support buttons.
 	AddNewControlObject(UIGroup = new Group());
 	ReadMap();
@@ -198,16 +198,16 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				GroundGroup_Player1->AddNewObject(character = new TestCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				GroundGroup_Player1->AddNewObject(character = new StarArcher(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 2:
-				FlyGroup_Player1->AddNewObject(character = new TestFlyCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				FlyGroup_Player1->AddNewObject(character = new Bomber(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 3:
-				GroundGroup_Player1->AddNewObject(character = new TestMeeleCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				GroundGroup_Player1->AddNewObject(character = new CS_Student(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
 			case 4:
-				TowerGroup_Player1->AddNewObject(character = new TestTowerCharacter(SpawnCoordinate.x, SpawnCoordinate.y, 1));
+				TowerGroup_Player1->AddNewObject(character = new MainTower(SpawnCoordinate.x, SpawnCoordinate.y, 1));
 				break;
         	// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         	//         The format is "[EnemyId] [TimeDelay] [Repeat]".
@@ -236,16 +236,16 @@ void PlayScene::Update(float deltaTime) {
 			Character* character = nullptr;
 			switch (current.first) {
 			case 1:
-				GroundGroup_Player2->AddNewObject(character = new TestCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				GroundGroup_Player2->AddNewObject(character = new StarArcher(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 2:
-				FlyGroup_Player2->AddNewObject(character = new TestFlyCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				FlyGroup_Player2->AddNewObject(character = new Bomber(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 3:
-				GroundGroup_Player2->AddNewObject(character = new TestMeeleCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				GroundGroup_Player2->AddNewObject(character = new CS_Student(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
 			case 4:
-				TowerGroup_Player2->AddNewObject(character = new TestTowerCharacter(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
+				TowerGroup_Player2->AddNewObject(character = new MainTower(EndGridPoint.x * BlockSize + BlockSize / 2, EndGridPoint.y * BlockSize + BlockSize / 2, 2));
 				break;
         		// TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         		//         The format is "[EnemyId] [TimeDelay] [Repeat]".

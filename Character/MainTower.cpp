@@ -1,6 +1,6 @@
 #include <string>
 
-#include "TestTowerCharacter.hpp"
+#include "MainTower.hpp"
 #include <allegro5/base.h>
 #include <cmath>
 #include <string>
@@ -11,14 +11,14 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-TestTowerCharacter::TestTowerCharacter(int x, int y, int player) : Character("play/enemy-1.png", x, y, 250, 0, 1200, 5, 1, player) {
+MainTower::MainTower(int x, int y, int player) : Character("play/enemy-1.png", x, y, 250, 0, 1200, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "tower";
 	type = TOWER;
 }
 
 
-void TestTowerCharacter::CreateBullet(Character* character) {
+void MainTower::CreateBullet(Character* character) {
 	Engine::Point diff = Engine::Point(Target->Position.x - Position.x, Target->Position.y - Position.y);
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
