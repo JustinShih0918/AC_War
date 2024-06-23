@@ -6,5 +6,6 @@ class CS_Student : public Character {
 public:
 	CS_Student(int x, int y, int player);
 	void CreateBullet(Character* character) override;
+	const static int repeat = 4;
 };
 #endif // StarArcher_HPP

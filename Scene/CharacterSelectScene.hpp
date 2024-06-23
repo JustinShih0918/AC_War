@@ -28,6 +28,8 @@ public:
 	int y2;
 	int selected_1[5];
 	int selected_2[5];
+	Engine::Image* intro;
+	bool display;
 	Engine::Image* selectedImg_1[5];
 	Engine::Image* selectedImg_2[5];
 	string character_img[7];
@@ -53,6 +55,7 @@ public:
 	bool Check();
 	void DrawCircle();
 	void UpdateSelectImg();
+	void DrawIntroduction(int index);
 };
 
 #endif // CharacterSelectScene_HPP

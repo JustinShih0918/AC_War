@@ -146,5 +146,5 @@ void StoneTitan_Bullet::OnExplode(Character* character) {
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_int_distribution<std::mt19937::result_type> dist(2, 5);
-	getMainPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-3.png", 1, character->Position.x, character->Position.y));
+	getMainPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("Mainplay/crack.png", 1, character->Position.x, character->Position.y));
 }
