@@ -9,6 +9,8 @@
 #include <memory>
 #include "Engine/IScene.hpp"
 class StartScene final : public Engine::IScene {
+protected:
+    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
 public:
     Engine::Group *AnimationGroup;
     explicit StartScene() = default;
@@ -16,6 +18,5 @@ public:
     void Terminate() override;
     void PlayOnClick(int stage);
     void SettingsOnClick(int stage);
-    void loadGreen();
 };
 #endif //INC_2024_I2P2_TOWERDEFENSE_WITH_ANSWER_STARTSCENE_H

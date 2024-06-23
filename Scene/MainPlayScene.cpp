@@ -77,10 +77,12 @@ void MainPlayScene::Initialize() {
 	AddNewObject(TowerGroup_Player2 = new Group());
 	// for(int i = 0;i<3;i++) TowerGroup_Player1->AddNewObject(new TestTowerCharacter(TowerPoint_1[i].x * BlockSize + BlockSize / 2, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1));
 	// for(int i = 0;i<3;i++) TowerGroup_Player2->AddNewObject(new TestTowerCharacter(TowerPoint_2[i].x * BlockSize + BlockSize / 2, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 1));
-
+	bgmInstance = AudioHelper::PlaySample("mission_impossible_theme.ogg", true, AudioHelper::BGMVolume);
 }
 
 void MainPlayScene::Terminate() {
+	AudioHelper::StopSample(bgmInstance);
+    bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 

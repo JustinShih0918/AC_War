@@ -26,7 +26,7 @@ void HeadScene::Initialize() {
     btn->SetOnClickCallback(std::bind(&HeadScene::SkipOnClick,this,1));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Skip", "pirulen.ttf", 24, 1250 + 300, 220 - 200, 0, 0, 0, 255, 0.5, 0.5));
-
+    bgmInstance = AudioHelper::PlaySample("mission_impossible_theme.ogg", true, AudioHelper::BGMVolume);
 }
 
 void HeadScene::SkipOnClick(int stage) {
@@ -42,5 +42,7 @@ void HeadScene::ChangeScene(){
 }
 
 void HeadScene::Terminate() {
+    AudioHelper::StopSample(bgmInstance);
+    bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
     IScene::Terminate();
 }

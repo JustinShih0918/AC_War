@@ -7,6 +7,8 @@
 #include "Engine/IScene.hpp"
 #include "UI/Animation/HeadAnimation.hpp"
 class HeadScene final : public Engine::IScene {
+protected:
+    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
 public:
     float tick = 0;
     HeadAnimation *animation;
