@@ -48,6 +48,10 @@ void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
+	for(int i = 0;i < 3;i++) {
+		selectImg_1[i] = nullptr;
+		selectImg_2[i] = nullptr;
+	}
 	Mon1.clear();
 	Mon2.clear();
 	Win = 0;
@@ -87,7 +91,6 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player2_Left = CalculateBFSDistance(TowerPoint_1[1]);
 	mapDistance_Player2_Right = CalculateBFSDistance(TowerPoint_1[2]);
 	// mapDistance_Player"X" means X need to call the function.
-
 	MainTower* character = new MainTower(TowerPoint_1[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[0].y * BlockSize + BlockSize / 2, 1, "mainPlay/Tower/greenTower.png");
 	character->UpdatePath(mapDistance_Player1_Middle, "Player1");
 	TowerGroup_Player1->AddNewObject(character);
@@ -566,7 +569,6 @@ void MainPlayScene::GetTransmitData(){
 
 	for(int i = 0;i<scene->playerName_1.size();i++) playerName_1.push_back(scene->playerName_1[i]);
 	for(int i = 0;i<scene->playerName_2.size();i++) playerName_2.push_back(scene->playerName_2[i]);
-
 	UpdateSelected(0,0);
 }
 
