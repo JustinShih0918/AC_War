@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <deque>
+#include "UI/Component/Label.hpp"
 
 using namespace std;
 class MainPlayScene final : public Engine::IScene {
@@ -29,9 +30,12 @@ public:
 	int MapId;
 	int Win;
 	static bool DebugMode;
+	int cost[7];
 	string character_img[7];
 	Engine::Image* selectImg_1[3];
 	Engine::Image* selectImg_2[3];
+	Engine::Label* Cost_1[3];
+	Engine::Label* Cost_2[3];
 	deque<int> selected_1;
 	deque<int> selected_2;
 	vector<Engine::Image*> Mon1;

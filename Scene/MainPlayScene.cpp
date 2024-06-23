@@ -23,6 +23,7 @@
 #include "Character/Shadow_Sniper.hpp"
 #include "Character/Sky_Dragon.hpp"
 #include "UI/Animation/Warning.hpp"
+#include "UI/Component/Label.hpp"
 #include <iostream>
 #include <queue>
 
@@ -45,12 +46,23 @@ void MainPlayScene::Initialize() {
     character_img[4] = "character-select/character-circle/titan_circle.png";
     character_img[5] = "character-select/character-circle/shadow_circle.png";
     character_img[6] = "character-select/character-circle/dragon_circle.png";
+	cost[0] = 0;
+	cost[1] = 3;
+	cost[2] = 1;
+	cost[3] = 4;
+	cost[4] = 7;
+	cost[5] = 4;
+	cost[6] = 9;
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
 	for(int i = 0;i < 3;i++) {
 		selectImg_1[i] = nullptr;
 		selectImg_2[i] = nullptr;
+	}
+	for(int i = 0;i<3;i++){
+		Cost_1[i] = nullptr;
+		Cost_2[i] = nullptr;
 	}
 	selected_1.clear();
 	selected_2.clear();
@@ -77,9 +89,9 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player2_Right.clear();
 	GetTransmitData();
 	imgTarget1.first = new Engine::Image("mainPlay/target.png", player1.x * BlockSize + 320, player1.y * BlockSize);
-	imgTarget2.first = new Engine::Image("mainPlay/target.png", player2.x * BlockSize, player2.y * BlockSize);
+	imgTarget2.first = new Engine::Image("mainPlay/target.png", player2.x * BlockSize + 320, player2.y * BlockSize);
 	imgTarget1.second = new Engine::Image("mainPlay/target_green.png", player1.x * BlockSize + 320, player1.y * BlockSize - 50);
-	imgTarget2.second = new Engine::Image("mainPlay/target_orange.png", player2.x * BlockSize, player2.y * BlockSize - 50);
+	imgTarget2.second = new Engine::Image("mainPlay/target_orange.png", player2.x * BlockSize + 320, player2.y * BlockSize - 50);
 
 	Engine::Label *lab;
     lab = new Engine::Label(playerName_1,"OpenSans-Regular.ttf", 60, 38 + 120, 27 + 30, 255, 255, 255, 255, 0.5, 0.5);
@@ -153,6 +165,8 @@ void MainPlayScene::Update(float deltatime){
 	if(ticks >= 0.1){
 		if (money1 < 10) money1++;
 		if (money2 < 10) money2++;
+		if(money1 < 0) money1 = 0;
+		if(money2 < 0) money2 = 0;
 		ticks = 0;
 	}
 }
@@ -193,26 +207,38 @@ void MainPlayScene::UpdateMoney(){
 	int initX_2 = 1308;
 	int initY = 750;
 	int detY = 65;
+	cout << Mon1.size() << "\n";
 	for(int i = 0;i<Mon1.size();i++){
+		cout << "ready to delete money1:" << i << "\n";
 		RemoveObject(Mon1[i]->GetObjectIterator());
+		cout << "finish delete money1:" << i << "\n";
 	}
-
+	cout << Mon2.size() << "\n";
 	for(int i = 0;i<Mon2.size();i++){
+		cout << "ready to delete money2:" << i << "\n";
 		RemoveObject(Mon2[i]->GetObjectIterator());
+		cout << "finish delete money2:" << i << "\n";
 	}
 
 	Mon1.clear();
 	Mon2.clear();
+	cout << "clear money success\n";
 	Engine::Image* img;
+	if(money1 > 10) money1 = 10;
 	for(int i = 0;i < money1;i++){
+		cout << "ready to add money1:" << i << "\n";
 		img = new Engine::Image("mainPlay/money.png", initX_1, initY - detY * i, 0, 0, 0.0, 0.0);
 		Mon1.push_back(img);
 		AddNewObject(img);
+		cout << "finish add money1:" << i << "\n";
 	}
+	if(money2 > 10) money2 = 10;
 	for(int i = 0;i < money2;i++){
+		cout << "ready to add money2:" << i << "\n";
 		img = new Engine::Image("mainPlay/money.png", initX_2, initY - detY * i, 0, 0, 0.0, 0.0);
 		Mon2.push_back(img);
 		AddNewObject(img);
+		cout << "finish add money2:" << i << "\n";
 	}
 }
 
@@ -618,14 +644,21 @@ void MainPlayScene::UpdateSelectedImg(){
 	for(int i = 0;i<3;i++) if(selectImg_1[i]) RemoveObject(selectImg_1[i]->GetObjectIterator());
 	for(int i = 0;i<3;i++) if(selectImg_2[i]) RemoveObject(selectImg_2[i]->GetObjectIterator());
 
+	for(int i = 0;i<3;i++) if(Cost_1[i]) RemoveObject(Cost_1[i]->GetObjectIterator());
+	for(int i = 0;i<3;i++) if(Cost_2[i]) RemoveObject(Cost_2[i]->GetObjectIterator());
+
 	for(int i = 0;i<3;i++) {
 		selectImg_1[i] = new Engine::Image(character_img[selected_1[i]], 50, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_1[i]);
+		Cost_1[i] = new Engine::Label(to_string(cost[selected_1[i]]), "pirulen.ttf", 36, 180, 200 + detY * i, 255,234,190);
+		AddNewObject(Cost_1[i]);
 	}
 	
 	for(int i = 0;i<3;i++) {
 		selectImg_2[i] = new Engine::Image(character_img[selected_2[i]], 1400, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_2[i]);
+		Cost_2[i] = new Engine::Label(to_string(cost[selected_2[i]]), "pirulen.ttf", 36, 1400, 200 + detY * i,255,234,190);
+		AddNewObject(Cost_2[i]);
 	}
 	
 }
