@@ -270,8 +270,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100, 24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100, 24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100, 24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100, 24));
 			}
 		}
 		else if(selected_1[pos] == 2){
@@ -291,8 +291,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100,24));
 			}
 		}
 		else if(selected_1[pos] == 3){
@@ -309,8 +309,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100,24));
 			}
 		}
 		else if(selected_1[pos] == 4){
@@ -327,8 +327,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100,24));
 			}
 		}
 		else if(selected_1[pos] == 5){
@@ -345,8 +345,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100,24));
 			}
 		}
 		else if(selected_1[pos] == 6){
@@ -363,8 +363,8 @@ void MainPlayScene::DoSelect(int player, int pos){
 				UpdateSelected(1,pos);
 			}
 			else{
-				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
-				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,160,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,160,100,24));
 			}
 		}
 		else cout << "Character index undefined\n";
