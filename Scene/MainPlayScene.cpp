@@ -165,7 +165,7 @@ void MainPlayScene::Update(float deltatime){
 		Engine::GameEngine::GetInstance().ChangeScene("win");
 		cout << "change success\n";
 	}
-	if(ticks >= 0.1){
+	if(ticks >= 0.9){
 		if (money1 < 10) money1++;
 		if (money2 < 10) money2++;
 		ticks = 0;

@@ -39,7 +39,6 @@ public:
 	Engine::Image* rec;
 	Engine::Point circlePos;
 	Engine::Image* circle;
-	Engine::Group* UIGroup;
     explicit CharacterSelectScene() = default;
 	void Initialize() override;
 	void Terminate() override;
@@ -54,7 +53,6 @@ public:
 	void DrawSelected_2(int stage);
 	void UpdateCircle();
 	void UpdateSelected(int mode); // 1 for add, 2 for delete
-	bool Check();
 	void DrawCircle();
 	void UpdateSelectImg();
 	void DrawIntroduction(int index);
