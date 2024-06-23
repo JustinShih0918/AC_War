@@ -14,7 +14,7 @@
 
 
 StarArcher_Bullet::StarArcher_Bullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target) :
-	Bullet("play/bullet-3.png", 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
+	Bullet("Mainplay/Star_Archer_Bullet.png", 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
 		if(!Target)
 			std::cout << "Target Miss!\n";
 		Target->lockedBullets.push_back(this);
@@ -138,7 +138,7 @@ void StarArcher_Bullet::Update(float deltaTime) {
 	else
 		Velocity = ((abs(radian) - maxRotateRadian) * originVelocity + maxRotateRadian * targetVelocity) / radian;
 	Velocity = speed * Velocity.Normalize();
-	Rotation = atan2(Velocity.y, Velocity.x) + ALLEGRO_PI / 2;
+	Rotation = atan2(Velocity.y, Velocity.x) + ALLEGRO_PI / 4;
 	Bullet::Update(deltaTime);
 }
 void StarArcher_Bullet::OnExplode(Character* character) {
