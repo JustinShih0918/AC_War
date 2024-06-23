@@ -11,7 +11,7 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-StoneTitan::StoneTitan(int x, int y, int player) : Character("play/enemy-3.png", x, y, 70, 50, 2000, 2, 1, player) {
+StoneTitan::StoneTitan(int x, int y, int player) : Character("mainPlay/stonetitan.png", x, y, 70, 50, 2000, 2, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "Stone_Titan";
 	type = MEELE;
@@ -26,4 +26,4 @@ void StoneTitan::CreateBullet(Character* character) {
 	// Change bullet position to the front of the gun barrel.
 	getMainPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
-}
+}	
