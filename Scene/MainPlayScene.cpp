@@ -23,6 +23,7 @@
 #include "Character/Shadow_Sniper.hpp"
 #include "Character/Sky_Dragon.hpp"
 #include "UI/Animation/Warning.hpp"
+#include "UI/Component/Label.hpp"
 #include <iostream>
 #include <queue>
 
@@ -45,12 +46,23 @@ void MainPlayScene::Initialize() {
     character_img[4] = "character-select/character-circle/titan_circle.png";
     character_img[5] = "character-select/character-circle/shadow_circle.png";
     character_img[6] = "character-select/character-circle/dragon_circle.png";
+	cost[0] = 0;
+	cost[1] = 3;
+	cost[2] = 1;
+	cost[3] = 4;
+	cost[4] = 7;
+	cost[5] = 4;
+	cost[6] = 9;
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
 	for(int i = 0;i < 3;i++) {
 		selectImg_1[i] = nullptr;
 		selectImg_2[i] = nullptr;
+	}
+	for(int i = 0;i<3;i++){
+		Cost_1[i] = nullptr;
+		Cost_2[i] = nullptr;
 	}
 	selected_1.clear();
 	selected_2.clear();
@@ -618,14 +630,21 @@ void MainPlayScene::UpdateSelectedImg(){
 	for(int i = 0;i<3;i++) if(selectImg_1[i]) RemoveObject(selectImg_1[i]->GetObjectIterator());
 	for(int i = 0;i<3;i++) if(selectImg_2[i]) RemoveObject(selectImg_2[i]->GetObjectIterator());
 
+	for(int i = 0;i<3;i++) if(Cost_1[i]) RemoveObject(Cost_1[i]->GetObjectIterator());
+	for(int i = 0;i<3;i++) if(Cost_2[i]) RemoveObject(Cost_2[i]->GetObjectIterator());
+
 	for(int i = 0;i<3;i++) {
 		selectImg_1[i] = new Engine::Image(character_img[selected_1[i]], 50, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_1[i]);
+		Cost_1[i] = new Engine::Label(to_string(cost[selected_1[i]]), "pirulen.ttf", 36, 180, 200 + detY * i, 255,234,190);
+		AddNewObject(Cost_1[i]);
 	}
 	
 	for(int i = 0;i<3;i++) {
 		selectImg_2[i] = new Engine::Image(character_img[selected_2[i]], 1400, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_2[i]);
+		Cost_2[i] = new Engine::Label(to_string(cost[selected_2[i]]), "pirulen.ttf", 36, 1400, 200 + detY * i,255,234,190);
+		AddNewObject(Cost_2[i]);
 	}
 	
 }
