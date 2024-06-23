@@ -21,6 +21,7 @@ MainTower_Bullet::MainTower_Bullet(Engine::Point position, Engine::Point forward
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void MainTower_Bullet::Update(float deltaTime) {
+	cout << "main tower nullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

@@ -21,6 +21,7 @@ StarArcher_Bullet::StarArcher_Bullet(Engine::Point position, Engine::Point forwa
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void StarArcher_Bullet::Update(float deltaTime) {
+	cout << "star_ancher_bullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

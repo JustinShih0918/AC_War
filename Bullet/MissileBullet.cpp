@@ -21,6 +21,7 @@ MissileBullet::MissileBullet(Engine::Point position, Engine::Point forwardDirect
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void MissileBullet::Update(float deltaTime) {
+	cout << "missile bullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

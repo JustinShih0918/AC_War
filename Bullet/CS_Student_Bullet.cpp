@@ -21,6 +21,7 @@ CS_Student_Bullet::CS_Student_Bullet(Engine::Point position, Engine::Point forwa
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void CS_Student_Bullet::Update(float deltaTime) {
+	cout << "CS_Student bullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

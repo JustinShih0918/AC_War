@@ -21,6 +21,7 @@ Shadow_Sniper_Bullet::Shadow_Sniper_Bullet(Engine::Point position, Engine::Point
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void Shadow_Sniper_Bullet::Update(float deltaTime) {
+	cout << "shadow sniper bullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);

@@ -21,6 +21,7 @@ StoneTitan_Bullet::StoneTitan_Bullet(Engine::Point position, Engine::Point forwa
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void StoneTitan_Bullet::Update(float deltaTime) {
+	cout << "stonestitan bullet update\n";
 	if(parent == nullptr) {
 		cout << "hi\n";
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
