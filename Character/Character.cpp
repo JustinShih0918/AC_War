@@ -322,7 +322,7 @@ void Character::Hit(float damage) {
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[2])
 					getMainPlayScene()->mapDistance_Player2_Right = getMainPlayScene()->mapDistance_Player2_Middle;
 				else if(BlockPoint == getMainPlayScene()->TowerPoint_1[0]){
-					getMainPlayScene()->Win = 1;
+					getMainPlayScene()->Win = 2;
 				}
 				else
 					cout << "Tower destroy error\n";

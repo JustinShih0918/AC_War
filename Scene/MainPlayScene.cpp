@@ -125,12 +125,17 @@ void MainPlayScene::Update(float deltatime){
 	IScene::Update(deltatime);
 	UpdateMoney();
 	ticks += deltatime;
-	if(Win){
-		cout << "win\n";
+	if(Win == 1){
+		cout << "player1 win\n";
 		Engine::GameEngine::GetInstance().ChangeScene("win");
 		cout << "change success\n";
 	}
-	if(ticks >= 1.1){
+	else if (Win == 2){
+		cout << "player2 win\n";
+		Engine::GameEngine::GetInstance().ChangeScene("win");
+		cout << "change success\n";
+	}
+	if(ticks >= 0.3){
 		if (money1 < 10) money1++;
 		if (money2 < 10) money2++;
 		ticks = 0;

@@ -11,7 +11,7 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-Sky_Dragon::Sky_Dragon(int x, int y, int player) : Character("Mainplay/Sky_Dragon.png", x, y, 300, 30, 500, 5, 1, player) {
+Sky_Dragon::Sky_Dragon(int x, int y, int player) : Character("Mainplay/Sky_Dragon.png", x, y, 180, 18, 600, 9, 1.5, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "fly";
 	type = FLY;
