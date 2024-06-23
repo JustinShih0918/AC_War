@@ -142,9 +142,12 @@ void MainPlayScene::Initialize() {
 	UIGroup->AddNewObject(imgTarget1.second);
 	UIGroup->AddNewObject(imgTarget2.first);
 	UIGroup->AddNewObject(imgTarget2.second);
+	bgmInstance = AudioHelper::PlaySample("mission_impossible_theme.ogg", true, AudioHelper::BGMVolume);
 }
 
 void MainPlayScene::Terminate() {
+	AudioHelper::StopSample(bgmInstance);
+    bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 

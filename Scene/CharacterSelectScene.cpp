@@ -111,9 +111,12 @@ void CharacterSelectScene::Initialize() {
     int detY = 185;
     DrawCircle();
     UpdateCircle();
+    bgmInstance = AudioHelper::PlaySample("interstellar_theme.ogg", true, AudioHelper::BGMVolume);
 }
 
 void CharacterSelectScene::Terminate() {
+    AudioHelper::StopSample(bgmInstance);
+    bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 

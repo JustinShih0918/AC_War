@@ -9,7 +9,10 @@
 #include <memory>
 #include "Engine/IScene.hpp"
 class StartScene final : public Engine::IScene {
+protected:
+    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
 public:
+    Engine::Group *AnimationGroup;
     explicit StartScene() = default;
     void Initialize() override;
     void Terminate() override;

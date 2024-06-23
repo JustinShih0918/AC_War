@@ -5,6 +5,7 @@
 #include <memory>
 #include "Engine/IScene.hpp"
 #include "UI/Component/Label.hpp"
+#include "UI/Component/Label.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -33,6 +34,7 @@ public:
 	Engine::Image* selectedImg_1[5];
 	Engine::Image* selectedImg_2[5];
 	string character_img[7];
+	Engine::Group* UIGroup;
 	Engine::Label* Title;
 	Engine::Image* rec;
 	Engine::Point circlePos;
@@ -56,6 +58,7 @@ public:
 	void DrawCircle();
 	void UpdateSelectImg();
 	void DrawIntroduction(int index);
+	bool Check();
 };
 
 #endif // CharacterSelectScene_HPP
