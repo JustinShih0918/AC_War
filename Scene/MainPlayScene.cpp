@@ -52,6 +52,8 @@ void MainPlayScene::Initialize() {
 		selectImg_1[i] = nullptr;
 		selectImg_2[i] = nullptr;
 	}
+	selected_1.clear();
+	selected_2.clear();
 	Mon1.clear();
 	Mon2.clear();
 	Win = 0;
@@ -60,6 +62,19 @@ void MainPlayScene::Initialize() {
 	SpeedMult = 1;
 	player1 = Engine::Point(7,4);
 	player2 = Engine::Point(7,10);
+	playerName_1.clear();
+	playerName_2.clear();
+	imgTarget1.first = nullptr;
+	imgTarget1.second = nullptr;
+	imgTarget2.first = nullptr;
+	imgTarget2.second = nullptr;
+	mapState.clear();
+	mapDistance_Player1_Left.clear();
+	mapDistance_Player1_Middle.clear();
+	mapDistance_Player1_Right.clear();
+	mapDistance_Player2_Left.clear();
+	mapDistance_Player2_Middle.clear();
+	mapDistance_Player2_Right.clear();
 	GetTransmitData();
 	imgTarget1.first = new Engine::Image("mainPlay/target.png", player1.x * BlockSize + 320, player1.y * BlockSize);
 	imgTarget2.first = new Engine::Image("mainPlay/target.png", player2.x * BlockSize, player2.y * BlockSize);
@@ -135,7 +150,7 @@ void MainPlayScene::Update(float deltatime){
 		Engine::GameEngine::GetInstance().ChangeScene("win");
 		cout << "change success\n";
 	}
-	if(ticks >= 0.3){
+	if(ticks >= 0.7){
 		if (money1 < 10) money1++;
 		if (money2 < 10) money2++;
 		ticks = 0;
