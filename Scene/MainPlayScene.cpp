@@ -78,19 +78,19 @@ void MainPlayScene::Initialize() {
 	mapDistance_Player2_Right = CalculateBFSDistance(TowerPoint_1[2]);
 	// mapDistance_Player"X" means X need to call the function.
 
-	MainTower* character = new MainTower(TowerPoint_1[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[0].y * BlockSize + BlockSize / 2, 1);
+	MainTower* character = new MainTower(TowerPoint_1[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[0].y * BlockSize + BlockSize / 2, 1, "mainPlay/Tower/greenTower.png");
 	character->UpdatePath(mapDistance_Player1_Middle, "Player1");
 	TowerGroup_Player1->AddNewObject(character);
 	for(int i = 1;i<3;i++) {
-		ArrowTower* character = new ArrowTower(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1);
+		ArrowTower* character = new ArrowTower(TowerPoint_1[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_1[i].y * BlockSize + BlockSize / 2, 1, "mainPlay/Tower/greenArrow.png");
 		character->UpdatePath(mapDistance_Player1_Middle, "Player1");
 		TowerGroup_Player1->AddNewObject(character);
 	}
-	character = new MainTower(TowerPoint_2[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[0].y * BlockSize + BlockSize / 2, 2);
+	character = new MainTower(TowerPoint_2[0].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[0].y * BlockSize + BlockSize / 2, 2, "mainPlay/Tower/redTower.png");
 	character->UpdatePath(mapDistance_Player2_Middle, "Player2");
 	TowerGroup_Player2->AddNewObject(character);
 	for(int i = 1;i<3;i++) {
-		ArrowTower* character = new ArrowTower(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2);
+		ArrowTower* character = new ArrowTower(TowerPoint_2[i].x * BlockSize + BlockSize / 2 + initX, TowerPoint_2[i].y * BlockSize + BlockSize / 2, 2, "mainPlay/Tower/redArrow.png");
 		character->UpdatePath(mapDistance_Player2_Middle, "Player2");
 		TowerGroup_Player2->AddNewObject(character);
 	}
@@ -113,7 +113,9 @@ void MainPlayScene::Update(float deltatime){
 	UpdateMoney();
 	ticks += deltatime;
 	if(Win){
+		cout << "win\n";
 		Engine::GameEngine::GetInstance().ChangeScene("win");
+		cout << "change success\n";
 	}
 	if(ticks >= 1.1){
 		if (money1 < 10) money1++;
