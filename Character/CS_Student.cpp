@@ -11,7 +11,7 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-CS_Student::CS_Student(int x, int y, int player) : Character("Mainplay/CS_Student.png", x, y, 70, 50, 2000, 2, 1, player) {
+CS_Student::CS_Student(int x, int y, int player) : Character("Mainplay/CS_Student.png", x, y, 70, 50, 300, 1, 0.5, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "melle";
 	type = MEELE;

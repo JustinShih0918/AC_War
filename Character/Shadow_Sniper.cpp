@@ -10,7 +10,7 @@
 #include "Engine/Group.hpp"
 #include "Engine/Point.hpp"
 
-Shadow_Sniper::Shadow_Sniper(int x, int y, int player) : Character("Mainplay/Shadow_Sniper.png", x, y, 400, 30, 500, 3, 1, player) {
+Shadow_Sniper::Shadow_Sniper(int x, int y, int player) : Character("Mainplay/Shadow_Sniper.png", x, y, 360, 20, 200, 4, 1.5, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "remote";
 	type = REMOTE;

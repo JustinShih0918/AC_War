@@ -11,7 +11,7 @@
 #include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-Bomber::Bomber(int x, int y, int player) : Character("play/enemy-2.png", x, y, 200, 20, 200, 5, 1, player) {
+Bomber::Bomber(int x, int y, int player) : Character("play/enemy-2.png", x, y, 125, 40, 360, 4, 2, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "fly";
 	type = FLY;

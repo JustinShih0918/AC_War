@@ -12,7 +12,7 @@
 #include "Engine/Point.hpp"
 #include "Bullet/Arrow.hpp"
 
-ArrowTower::ArrowTower(int x, int y, int player, std::string img) : Character(img, x, y, 250, 0, 1200, 5, 1, player) {
+ArrowTower::ArrowTower(int x, int y, int player, std::string img) : Character(img, x, y, 250, 0, 1000, 5, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "tower";
 	type = TOWER;

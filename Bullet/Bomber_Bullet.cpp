@@ -14,7 +14,7 @@
 
 
 Bomber_Bullet::Bomber_Bullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target) :
-	Bullet("play/bullet-3.png", 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
+	Bullet("play/bullet-3.png", 300, 100, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
 		if(!Target)
 			std::cout << "Target Miss!\n";
 		Target->lockedBullets.push_back(this);
