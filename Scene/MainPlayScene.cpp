@@ -38,6 +38,13 @@ Engine::Point MainPlayScene::GetClientSize() {
 }
 void MainPlayScene::Initialize() {
 	AddNewObject(new Engine::Image("mainPlay/Background.png", 0, 0, 0, 0, 0.0, 0.0));
+	character_img[0] = "character-select/Selected.png";
+    character_img[1] = "character-select/character-circle/archer_circle.png";
+    character_img[2] = "character-select/character-circle/cs_circle.png";
+    character_img[3] = "character-select/character-circle/bomber_circle.png";
+    character_img[4] = "character-select/character-circle/titan_circle.png";
+    character_img[5] = "character-select/character-circle/shadow_circle.png";
+    character_img[6] = "character-select/character-circle/dragon_circle.png";
 	SpeedMult = 1;
 	int initX = 320;
 	ticks = 0;
@@ -260,7 +267,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,0);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100, 24));
@@ -278,7 +285,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,1);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -296,7 +303,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				GroundGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,2);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -314,7 +321,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,3);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -332,7 +339,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,4);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -350,7 +357,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "path determine error\n";
 				FlyGroup_Player1->AddNewObject(acter);
 				money1 -= acter->getMoney();
-				UpdateSelected(1,4);
+				UpdateSelected(1,pos);
 			}
 			else{
 				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
@@ -371,7 +378,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,0);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -389,7 +396,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				FlyGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,1);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -407,7 +414,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,2);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -425,7 +432,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,3);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -443,7 +450,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,4);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -461,7 +468,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 					cout << "Path Determine Error\n";
 				GroundGroup_Player2->AddNewObject(acter);
 				money2 -= acter->getMoney();
-				UpdateSelected(2,5);
+				UpdateSelected(2,pos);
 			}
 			else{
 				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
@@ -546,18 +553,22 @@ std::vector<std::vector<int>> MainPlayScene::CalculateBFSDistance(Engine::Point 
 }
 
 void MainPlayScene::GetTransmitData(){
+	int detY = 100;
 	CharacterSelectScene* scene = dynamic_cast<CharacterSelectScene*>(Engine::GameEngine::GetInstance().GetScene("character-select"));
 	for(int i = 0;i<5;i++) selected_1.push_back(scene->selected_1[i]);
 	for(int i = 0;i<5;i++) selected_2.push_back(scene->selected_2[i]);
 
 	for(int i = 0;i<scene->playerName_1.size();i++) playerName_1.push_back(scene->playerName_1[i]);
 	for(int i = 0;i<scene->playerName_2.size();i++) playerName_2.push_back(scene->playerName_2[i]);
+
+	UpdateSelected(0,0);
 }
 
 void MainPlayScene::UpdateSelected(int player, int pos){
 	if(player == 1){
 		selected_1.push_back(selected_1[pos]);
 		deque<int>::iterator it = selected_1.begin() + pos;
+		cout << *it << "\n";
 		selected_1.erase(it);
 		cout << "selected_1:";
 		for(int i = 0;i<selected_1.size();i++) cout << " " << selected_1[i];
@@ -571,4 +582,22 @@ void MainPlayScene::UpdateSelected(int player, int pos){
 		for(int i = 0;i<selected_2.size();i++) cout << " " << selected_2[i];
 		cout << "\n";
 	}
+	UpdateSelectedImg();
+}
+
+void MainPlayScene::UpdateSelectedImg(){
+	int detY = 200;
+	for(int i = 0;i<3;i++) if(selectImg_1[i]) RemoveObject(selectImg_1[i]->GetObjectIterator());
+	for(int i = 0;i<3;i++) if(selectImg_2[i]) RemoveObject(selectImg_2[i]->GetObjectIterator());
+
+	for(int i = 0;i<3;i++) {
+		selectImg_1[i] = new Engine::Image(character_img[selected_1[i]], 50, 200 + detY * i, 150, 150);
+		AddNewObject(selectImg_1[i]);
+	}
+	
+	for(int i = 0;i<3;i++) {
+		selectImg_2[i] = new Engine::Image(character_img[selected_2[i]], 1400, 200 + detY * i, 150, 150);
+		AddNewObject(selectImg_2[i]);
+	}
+	
 }

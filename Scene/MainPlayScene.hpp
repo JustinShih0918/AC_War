@@ -29,6 +29,9 @@ public:
 	int MapId;
 	int Win;
 	static bool DebugMode;
+	string character_img[7];
+	Engine::Image* selectImg_1[3];
+	Engine::Image* selectImg_2[3];
 	deque<int> selected_1;
 	deque<int> selected_2;
 	vector<Engine::Image*> Mon1;
@@ -77,6 +80,7 @@ public:
 	void DoSelect(int player, int pos);
 	void GetTransmitData();
 	void UpdateSelected(int player, int pos);
+	void UpdateSelectedImg();
 	std::vector<std::vector<int>> CalculateBFSDistance(Engine::Point distination);
 };
 
