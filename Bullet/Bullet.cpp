@@ -153,7 +153,7 @@ void Bullet::Update(float deltaTime) {
 		}
 	}
 	*/
-	if(Engine::Collider::IsCircleOverlap(Position,CollisionRadius, Target->Position, Target->CollisionRadius)) {
+	if(Target != nullptr && Engine::Collider::IsCircleOverlap(Position,CollisionRadius, Target->Position, Target->CollisionRadius)) {
 		OnExplode(Target);
 		Target->Hit(damage);
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
