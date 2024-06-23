@@ -21,6 +21,12 @@ CS_Student_Bullet::CS_Student_Bullet(Engine::Point position, Engine::Point forwa
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void CS_Student_Bullet::Update(float deltaTime) {
+	if(parent == nullptr) {
+		cout << "hi\n";
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		Target->lockedBullets.erase(lockedBulletIterator);
+		return;
+	}
 	if (!Target) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;

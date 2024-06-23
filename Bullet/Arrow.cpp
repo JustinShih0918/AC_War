@@ -21,6 +21,12 @@ Arrow::Arrow(Engine::Point position, Engine::Point forwardDirection, float rotat
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void Arrow::Update(float deltaTime) {
+	if(parent == nullptr) {
+		cout << "hi\n";
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		Target->lockedBullets.erase(lockedBulletIterator);
+		return;
+	}
 	if (!Target) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;
