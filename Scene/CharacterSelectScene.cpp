@@ -34,9 +34,12 @@ const float posY_2[5] = {initY_2, initY_2, initY_2 + detY, initY_2 + detY, initY
 void CharacterSelectScene::Initialize() {
     Title = nullptr;
     circle = nullptr;
+    intro = nullptr;
+    rec = nullptr;
     player = 1;
     player1_select = 0;
     player2_select = 0;
+    display = false;
     characterList[0][0] = 1;
     characterList[0][1] = 2;
     characterList[0][2] = 3;
@@ -254,9 +257,16 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
         else if(keyCode == ALLEGRO_KEY_LEFT) circlePos.y--;
         UpdateCircle();
     }
-    else if(keyCode == ALLEGRO_KEY_ENTER || keyCode == ALLEGRO_KEY_TAB && (player1_select || player2_select)){
+    else if(keyCode == ALLEGRO_KEY_ENTER || keyCode == ALLEGRO_KEY_TAB || keyCode == ALLEGRO_KEY_LSHIFT || keyCode == ALLEGRO_KEY_RSHIFT && (player1_select || player2_select)){
         if(keyCode == ALLEGRO_KEY_ENTER) UpdateSelected(1);
         else if(keyCode == ALLEGRO_KEY_TAB) UpdateSelected(2);
+        else if(keyCode == ALLEGRO_KEY_LSHIFT || keyCode == ALLEGRO_KEY_RSHIFT){
+            if(!display) DrawIntroduction(characterList[(int)circlePos.x][(int)circlePos.y]);
+            else{
+                RemoveObject(intro->GetObjectIterator());
+                display = false;
+            }
+        }
         UpdateSelectImg();
     }
 }
@@ -351,4 +361,11 @@ void CharacterSelectScene::UpdateSelectImg(){
         selectedImg_2[i] = new Engine::Image(character_img[selected_2[i]], posX_2[i] - detX/2 - 1, posY_2[i] - detY/2 + 10, 187, 167);
         AddNewObject(selectedImg_2[i]);
     }
+}
+void CharacterSelectScene::DrawIntroduction(int index){
+    // if(intro) RemoveObject(intro->GetObjectIterator());
+
+    intro = new Engine::Image("introduce/" + to_string(index) + ".png", 800, 420, 800, 800, 0.5, 0.5);
+    AddNewObject(intro);
+    display = true;
 }
