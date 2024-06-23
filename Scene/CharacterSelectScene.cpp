@@ -37,11 +37,24 @@ void CharacterSelectScene::Initialize() {
     player = 1;
     player1_select = 0;
     player2_select = 0;
-    for(int i = 0;i<3;i++){
-        for(int j = 0;j<4;j++){
-            characterList[i][j] = i+1;
-        }
-    }
+    characterList[0][0] = 1;
+    characterList[0][1] = 2;
+    characterList[0][2] = 3;
+    characterList[0][3] = 4;
+    characterList[1][0] = 5;
+    characterList[1][1] = 6;
+    characterList[1][2] = 1;
+    characterList[1][3] = 1;
+    characterList[2][0] = 1;
+    characterList[2][1] = 1;
+    characterList[2][2] = 1;
+    characterList[2][3] = 1;
+    character_img[1] = "character-select/character-circle/archer_circle.png";
+    character_img[2] = "character-select/character-circle/cs_circle.png";
+    character_img[3] = "character-select/character-circle/bomber_circle.png";
+    character_img[4] = "character-select/character-circle/titan_circle.png";
+    character_img[5] = "character-select/character-circle/shadow_circle.png";
+    character_img[6] = "character-select/character-circle/dragon_circle.png";
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
@@ -86,6 +99,7 @@ void CharacterSelectScene::Initialize() {
     int initY = 89;
     int detX = 185;
     int detY = 185;
+    DrawCircle();
     for(int i = 0;i<3;i++){
         for(int j = 0;j<4;j++){
             Engine::Label *label = new Engine::Label(to_string(characterList[i][j]), "pirulen.ttf", 32, initX + detX * j + 80, initY + detY * i + 80);
@@ -133,6 +147,21 @@ bool CharacterSelectScene::Check(){
     }
 
     return true;
+}
+
+void CharacterSelectScene::DrawCircle(){
+    int initX = 420;
+    int initY = 89;
+    int detX = 185;
+    int detY = 185;
+    Engine::Image* circle;
+
+    for(int i = 0;i<3;i++){
+        for(int j = 0;j<4;j++){
+            circle = new Engine::Image(character_img[characterList[i][j]], initX + detX*j + 96, initY + detY*i + 80,125,125,0.5,0.5);
+            AddNewObject(circle);
+        }
+    }
 }
 
 void CharacterSelectScene::UpdateCircle(){

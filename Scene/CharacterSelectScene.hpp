@@ -28,6 +28,7 @@ public:
 	int y2;
 	int selected_1[5];
 	int selected_2[5];
+	string character_img[7];
 	Engine::Label* Title;
 	Engine::Image* rec;
 	Engine::Point circlePos;
@@ -48,6 +49,7 @@ public:
 	void UpdateCircle();
 	void UpdateSelected(int mode); // 1 for add, 2 for delete
 	bool Check();
+	void DrawCircle();
 };
 
 #endif // CharacterSelectScene_HPP
