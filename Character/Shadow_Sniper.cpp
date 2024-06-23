@@ -19,10 +19,10 @@ Shadow_Sniper::Shadow_Sniper(int x, int y, int player) : Character("Mainplay/Sha
 
 
 void Shadow_Sniper::CreateBullet(Character* character) {
-	Engine::Point diff = Engine::Point(cos(Rotation), sin(Rotation));
+	Engine::Point diff = Engine::Point(0, 1);
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getMainPlayScene()->BulletGroup->AddNewObject(new Shadow_Sniper_Bullet(Position + normalized * 36, diff, rotation, this, character));
+	getMainPlayScene()->BulletGroup->AddNewObject(new Shadow_Sniper_Bullet(Engine::Point(character->Position.x,character->Position.y-100), diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
 }
