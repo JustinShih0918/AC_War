@@ -13,8 +13,8 @@
 #include "Engine/Point.hpp"
 
 
-MainTower_Bullet::MainTower_Bullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target) :
-	Bullet("play/bullet-3.png", 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
+MainTower_Bullet::MainTower_Bullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target, std::string img) :
+	Bullet(img, 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
 		if(!Target)
 			std::cout << "Target Miss!\n";
 		Target->lockedBullets.push_back(this);
