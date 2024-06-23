@@ -112,6 +112,12 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Character/MainTower.cpp
         Character/ArrowTower.hpp
         Character/ArrowTower.cpp
+        Character/Sky_Dragon.cpp
+        Character/Sky_Dragon.hpp
+        Character/StoneTitan.cpp
+        Character/StoneTitan.hpp
+        Character/Shadow_Sniper.cpp
+        Character/Shadow_Sniper.hpp
         Enemy/DoubleTankEnemy.cpp 
         Enemy/DoubleTankEnemy.hpp
         Turret/LightTurret.cpp 

@@ -15,7 +15,7 @@ CS_Student::CS_Student(int x, int y, int player) : Character("play/enemy-3.png",
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "melle";
 	type = MEELE;
-	index = 0;
+	index = 2;
 }
 
 
