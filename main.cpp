@@ -12,6 +12,7 @@
 #include "Scene/CharacterSelectScene.hpp"
 #include "Scene/ScoreBoard.hpp"
 #include "Scene/MainPlayScene.hpp"
+#include "Scene/HeadScene.hpp"
 #include <iostream>
 using namespace std;
 int main(int argc, char **argv) {
@@ -25,12 +26,13 @@ int main(int argc, char **argv) {
 	game.AddNewScene("scoreboard-scene", new ScoreBoard());
 	game.AddNewScene("character-select",new CharacterSelectScene());
 	game.AddNewScene("play", new PlayScene());
+	game.AddNewScene("head", new HeadScene());
 	game.AddNewScene("MainPlay", new MainPlayScene());
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
 
     // TODO: [HACKATHON-1-SCENE] (4/4): Change the start scene
-	game.Start("start", 60, 1600, 832);
+	game.Start("head", 60, 1600, 832);
 	// game.Start("settings", 60, 1600, 832);
 	return 0;
 }

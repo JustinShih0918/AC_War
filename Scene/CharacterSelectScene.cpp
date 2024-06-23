@@ -72,9 +72,12 @@ void CharacterSelectScene::Initialize() {
     AddNewObject(new Engine::Label("Go", "pirulen.ttf", 36, halfW, halfH / 2 + 550, 0, 0, 0, 255, 0.5, 0.5));
 
     UpdateCircle();
+    bgmInstance = AudioHelper::PlaySample("interstellar_theme.ogg", true, AudioHelper::BGMVolume);
 }
 
 void CharacterSelectScene::Terminate() {
+    AudioHelper::StopSample(bgmInstance);
+    bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 
