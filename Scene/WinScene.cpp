@@ -28,7 +28,7 @@ void WinScene::Initialize() {
 	int halfW = w / 2;
 	int halfH = h / 2;
 	
-	AddNewObject(new Engine::Image("win/benjamin-sad.png", halfW, halfH + 50, 0, 0, 0.5, 0.5));
+	AddNewObject(new Engine::Image("win/ac.png", halfW, halfH + 50, 0, 0, 0.5, 0.5));
 	cout << getMainPlayScene()->Win;
 	if (getMainPlayScene()->Win == 1) {
 		cout << "Win scene init\n";
