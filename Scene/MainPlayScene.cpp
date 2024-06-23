@@ -19,6 +19,9 @@
 #include "Character/Bomber.hpp"
 #include "Character/StarArcher.hpp"
 #include "Character/ArrowTower.hpp"
+#include "Character/StoneTitan.hpp"
+#include "Character/Shadow_Sniper.hpp"
+#include "Character/Sky_Dragon.hpp"
 #include "UI/Animation/Warning.hpp"
 #include <iostream>
 #include <queue>
@@ -245,7 +248,7 @@ void MainPlayScene::OnKeyDown(int keyCode){
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(selected_1[pos] == 1){
-			CS_Student *acter = new CS_Student(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize +32, 1);
+			StarArcher *acter = new StarArcher(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize +32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7){
 					cout << "Trace player2 right\n";
@@ -265,7 +268,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 2){
-			Bomber *acter = new Bomber(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+			CS_Student *acter = new CS_Student(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
@@ -283,7 +286,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 3){
-			StarArcher *acter = new StarArcher(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+			Bomber *acter = new Bomber(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
@@ -300,11 +303,65 @@ void MainPlayScene::DoSelect(int player, int pos){
 				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
 			}
 		}
+		else if(selected_1[pos] == 4){
+			StoneTitan *acter = new StoneTitan(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
+				if(player1.x > 7)
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				FlyGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
+				UpdateSelected(1,3);
+			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+			}
+		}
+		else if(selected_1[pos] == 5){
+			Shadow_Sniper *acter = new Shadow_Sniper(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
+				if(player1.x > 7)
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				FlyGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
+				UpdateSelected(1,4);
+			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+			}
+		}
+		else if(selected_1[pos] == 6){
+			Sky_Dragon *acter = new Sky_Dragon(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
+				if(player1.x > 7)
+					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
+				else if(player1.x <= 7)
+					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+				else
+					cout << "path determine error\n";
+				FlyGroup_Player1->AddNewObject(acter);
+				money1 -= acter->getMoney();
+				UpdateSelected(1,4);
+			}
+			else{
+				if(money1 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,80,100,24));
+				else if(mapState[player1.y][player1.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,80,100,24));
+			}
+		}
+		else cout << "Character index undefined\n";
 	}
 	else if(player == 2){
 		if(selected_2[pos] == 1){
-			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
-			CS_Student *acter = new CS_Student(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			StarArcher *acter = new StarArcher(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -322,7 +379,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 2){
-			Bomber *acter = new Bomber(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			CS_Student *acter = new CS_Student(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -340,7 +397,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 3){
-			StarArcher *acter = new StarArcher(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			Bomber *acter = new Bomber(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -357,6 +414,61 @@ void MainPlayScene::DoSelect(int player, int pos){
 				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
 			}
 		}
+		else if(selected_2[pos] == 4){
+			StoneTitan *acter = new StoneTitan(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				GroundGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+				UpdateSelected(2,3);
+			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
+			}
+		}
+		else if(selected_2[pos] == 5){
+			Shadow_Sniper *acter = new Shadow_Sniper(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				GroundGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+				UpdateSelected(2,4);
+			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
+			}
+		}
+		else if(selected_2[pos] == 6){
+			Sky_Dragon *acter = new Sky_Dragon(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
+				if(player2.x > 7)
+					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
+				else if(player2.x <= 7)
+					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+				else
+					cout << "Path Determine Error\n";
+				GroundGroup_Player2->AddNewObject(acter);
+				money2 -= acter->getMoney();
+				UpdateSelected(2,5);
+			}
+			else{
+				if(money2 < acter->getMoney()) UIGroup->AddNewObject(new Warning(3,1400,100, 24));
+				else if(mapState[player2.y][player2.x] != TILE_DIRT) UIGroup->AddNewObject(new Warning(4,1400,100, 24));
+			}
+		}
+		else cout << "Character index undefined\n";
 	}
 	else cout << "error doing selecting\n";
 }
