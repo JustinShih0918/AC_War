@@ -29,5 +29,6 @@ void ArrowTower::CreateBullet(Character* character) {
 	if(player == 1) a = "mainPlay/Tower/arrowGreen.png";
 	else a = "mainPlay/Tower/arrowRed.png";
 	getMainPlayScene()->BulletGroup->AddNewObject(new Arrow(Position + normalized * 36, diff, rotation, this, character, a));
+	
 	AudioHelper::PlayAudio("gun.wav");
 }
