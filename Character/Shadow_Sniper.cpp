@@ -6,7 +6,7 @@
 #include <string>
 
 #include "Engine/AudioHelper.hpp"
-#include "Bullet/MissileBullet.hpp"
+#include "Bullet/Shadow_Sniper_Bullet.hpp"
 #include "Engine/Group.hpp"
 #include "Engine/Point.hpp"
 
@@ -23,6 +23,6 @@ void Shadow_Sniper::CreateBullet(Character* character) {
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getMainPlayScene()->BulletGroup->AddNewObject(new MissileBullet(Position + normalized * 36, diff, rotation, this, character));
+	getMainPlayScene()->BulletGroup->AddNewObject(new Shadow_Sniper_Bullet(Position + normalized * 36, diff, rotation, this, character));
 	AudioHelper::PlayAudio("gun.wav");
 }
