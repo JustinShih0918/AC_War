@@ -34,6 +34,7 @@ protected:
 	virtual void OnExplode();
 public:
 	int player;
+	int index;
 	float reachEndTime;
 	std::list<Character*> lockedCharacters;
 	std::list<Character*>::iterator lockedCharacterIterator; // for the one attaking this one.

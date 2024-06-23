@@ -19,6 +19,8 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Engine/AudioHelper.hpp
         Bullet/Bullet.cpp
         Bullet/Bullet.hpp
+        Bullet/Arrow.cpp
+        Bullet/Arrow.hpp
         Engine/Collider.cpp
         Engine/Collider.hpp
         UI/Animation/DirtyEffect.cpp
