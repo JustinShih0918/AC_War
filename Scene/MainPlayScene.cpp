@@ -277,13 +277,16 @@ void MainPlayScene::DoSelect(int player, int pos){
 		else if(selected_1[pos] == 2){
 			CS_Student *acter = new CS_Student(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
-				if(player1.x > 7)
-					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
-				else if(player1.x <= 7)
-					acter->UpdatePath(mapDistance_Player1_Left, "Player1");
-				else
-					cout << "path determine error\n";
-				FlyGroup_Player1->AddNewObject(acter);
+				for(int i = 0;i < acter->repeat;i++) {
+					acter = new CS_Student(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
+					GroundGroup_Player1->AddNewObject(acter);
+					if(player1.x > 7)
+						acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
+					else if(player1.x <= 7)
+						acter->UpdatePath(mapDistance_Player1_Left, "Player1");
+					else
+						cout << "path determine error\n";
+				}
 				money1 -= acter->getMoney();
 				UpdateSelected(1,pos);
 			}
@@ -388,13 +391,16 @@ void MainPlayScene::DoSelect(int player, int pos){
 		else if(selected_2[pos] == 2){
 			CS_Student *acter = new CS_Student(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
-				if(player2.x > 7)
-					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
-				else if(player2.x <= 7)
-					acter->UpdatePath(mapDistance_Player2_Left, "Player2");
-				else
-					cout << "Path Determine Error\n";
-				FlyGroup_Player2->AddNewObject(acter);
+				for(int i = 0;i < acter->repeat;i++) {
+					acter = new CS_Student(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
+					GroundGroup_Player2->AddNewObject(acter);
+					if(player2.x > 7)
+						acter->UpdatePath(mapDistance_Player2_Right, "Player2");	
+					else if(player2.x <= 7)
+						acter->UpdatePath(mapDistance_Player2_Left, "Player2");
+					else
+						cout << "path determine error\n";
+				}
 				money2 -= acter->getMoney();
 				UpdateSelected(2,pos);
 			}
