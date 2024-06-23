@@ -236,7 +236,7 @@ void MainPlayScene::OnKeyDown(int keyCode){
 void MainPlayScene::DoSelect(int player, int pos){
 	if(player == 1){
 		if(selected_1[pos] == 1){
-			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			TestMeeleCharacter *acter = new TestMeeleCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7){
 					cout << "Trace player2 right\n";
@@ -256,7 +256,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 2){
-			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			TestFlyCharacter *acter = new TestFlyCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");	
@@ -274,7 +274,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_1[pos] == 3){
-			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize, 1);
+			TestCharacter *acter = new TestCharacter(player1.x * BlockSize + BlockSize / 2 + 320, player1.y * BlockSize + 32, 1);
 			if (money1 >= acter->getMoney() && mapState[player1.y][player1.x] == TILE_DIRT){
 				if(player1.x > 7)
 					acter->UpdatePath(mapDistance_Player1_Right, "Player1");
@@ -295,7 +295,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 	else if(player == 2){
 		if(selected_2[pos] == 1){
 			cout << "Player2 x coordinate:" << player2.x << "  "<< MapWidth * BlockSize / 2 + 320 << "\n";
-			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			TestMeeleCharacter *acter = new TestMeeleCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -313,7 +313,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 2){
-			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			TestFlyCharacter *acter = new TestFlyCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
@@ -331,7 +331,7 @@ void MainPlayScene::DoSelect(int player, int pos){
 			}
 		}
 		else if(selected_2[pos] == 3){
-			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize, 2);
+			TestCharacter *acter = new TestCharacter(player2.x * BlockSize + BlockSize / 2 + 320, player2.y * BlockSize + 32, 2);
 			if (money2 >= acter->getMoney() && mapState[player2.y][player2.x] == TILE_DIRT){
 				if(player2.x > 7)
 					acter->UpdatePath(mapDistance_Player2_Right, "Player2");
