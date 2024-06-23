@@ -39,7 +39,13 @@ void CharacterSelectScene::Initialize() {
     player = 1;
     player1_select = 0;
     player2_select = 0;
+    playerName_1.clear();
+    playerName_2.clear();
     display = false;
+    for(int i = 0;i<5;i++){
+        selectedImg_1[i] = nullptr;
+        selectedImg_2[i] = nullptr;
+    }
     characterList[0][0] = 1;
     characterList[0][1] = 2;
     characterList[0][2] = 3;
