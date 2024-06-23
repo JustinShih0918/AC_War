@@ -10,7 +10,7 @@
 #include "Engine/Group.hpp"
 #include "Engine/Point.hpp"
 
-StarArcher::StarArcher(int x, int y, int player) : Character("play/enemy-4.png", x, y, 400, 30, 500, 3, 1, player) {
+StarArcher::StarArcher(int x, int y, int player) : Character("Mainplay/archer.png", x, y, 400, 30, 500, 3, 1, player) {
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "remote";
 	type = REMOTE;
