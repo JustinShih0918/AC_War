@@ -73,7 +73,7 @@ void MainPlayScene::Initialize() {
 	mapState.clear();
 	SpeedMult = 1;
 	player1 = Engine::Point(7,4);
-	player2 = Engine::Point(7,10);
+	player2 = Engine::Point(7,8);
 	playerName_1.clear();
 	playerName_2.clear();
 	imgTarget1.first = nullptr;
@@ -165,8 +165,6 @@ void MainPlayScene::Update(float deltatime){
 	if(ticks >= 0.1){
 		if (money1 < 10) money1++;
 		if (money2 < 10) money2++;
-		if(money1 < 0) money1 = 0;
-		if(money2 < 0) money2 = 0;
 		ticks = 0;
 	}
 }
@@ -207,38 +205,26 @@ void MainPlayScene::UpdateMoney(){
 	int initX_2 = 1308;
 	int initY = 750;
 	int detY = 65;
-	cout << Mon1.size() << "\n";
 	for(int i = 0;i<Mon1.size();i++){
-		cout << "ready to delete money1:" << i << "\n";
 		RemoveObject(Mon1[i]->GetObjectIterator());
-		cout << "finish delete money1:" << i << "\n";
 	}
-	cout << Mon2.size() << "\n";
+
 	for(int i = 0;i<Mon2.size();i++){
-		cout << "ready to delete money2:" << i << "\n";
 		RemoveObject(Mon2[i]->GetObjectIterator());
-		cout << "finish delete money2:" << i << "\n";
 	}
 
 	Mon1.clear();
 	Mon2.clear();
-	cout << "clear money success\n";
 	Engine::Image* img;
-	if(money1 > 10) money1 = 10;
 	for(int i = 0;i < money1;i++){
-		cout << "ready to add money1:" << i << "\n";
 		img = new Engine::Image("mainPlay/money.png", initX_1, initY - detY * i, 0, 0, 0.0, 0.0);
 		Mon1.push_back(img);
 		AddNewObject(img);
-		cout << "finish add money1:" << i << "\n";
 	}
-	if(money2 > 10) money2 = 10;
 	for(int i = 0;i < money2;i++){
-		cout << "ready to add money2:" << i << "\n";
 		img = new Engine::Image("mainPlay/money.png", initX_2, initY - detY * i, 0, 0, 0.0, 0.0);
 		Mon2.push_back(img);
 		AddNewObject(img);
-		cout << "finish add money2:" << i << "\n";
 	}
 }
 
