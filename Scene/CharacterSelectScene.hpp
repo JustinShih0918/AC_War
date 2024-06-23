@@ -28,6 +28,8 @@ public:
 	int y2;
 	int selected_1[5];
 	int selected_2[5];
+	Engine::Image* selectedImg_1[5];
+	Engine::Image* selectedImg_2[5];
 	string character_img[7];
 	Engine::Label* Title;
 	Engine::Image* rec;
@@ -50,6 +52,7 @@ public:
 	void UpdateSelected(int mode); // 1 for add, 2 for delete
 	bool Check();
 	void DrawCircle();
+	void UpdateSelectImg();
 };
 
 #endif // CharacterSelectScene_HPP
