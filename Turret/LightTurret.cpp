@@ -20,7 +20,7 @@ void LightTurret::CreateBullet() {
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getPlayScene()->BulletGroup->AddNewObject(new LightBullet(Position + normalized * 36, diff, rotation, nullptr));
+	getMainPlayScene()->BulletGroup->AddNewObject(new LightBullet(Position + normalized * 36, diff, rotation, nullptr));
 	AudioHelper::PlayAudio("gun.wav");
 }
 

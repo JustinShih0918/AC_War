@@ -19,6 +19,8 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Engine/AudioHelper.hpp
         Bullet/Bullet.cpp
         Bullet/Bullet.hpp
+        Bullet/Arrow.cpp
+        Bullet/Arrow.hpp
         Engine/Collider.cpp
         Engine/Collider.hpp
         UI/Animation/DirtyEffect.cpp
@@ -88,6 +90,8 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Scene/WinScene.hpp
 
         # TODO: [HACKATHON-1-SCENE] (2/4) Add the new scene source files here
+        UI/Animation/Warning.cpp 
+        UI/Animation/Warning.hpp 
         UI/Animation/TestAnimation.cpp 
         UI/Animation/TestAnimation.hpp 
         UI/Animation/HeadAnimation.cpp 
@@ -106,14 +110,38 @@ add_executable(2024_I2P2_TowerDefense_with_answer
         Scene/CharacterSelectScene.cpp 
         Character/Character.hpp
         Character/Character.cpp
-        Character/TestCharacter.hpp
-        Character/TestCharacter.cpp
-        Character/TestFlyCharacter.hpp
-        Character/TestFlyCharacter.cpp
-        Character/TestMeeleCharacter.hpp
-        Character/TestMeeleCharacter.cpp
-        Character/TestTowerCharacter.hpp
-        Character/TestTowerCharacter.cpp
+        Character/StarArcher.hpp
+        Character/StarArcher.cpp
+        Character/Bomber.hpp
+        Character/Bomber.cpp
+        Character/CS_Student.hpp
+        Character/CS_Student.cpp
+        Character/MainTower.hpp
+        Character/MainTower.cpp
+        Character/ArrowTower.hpp
+        Character/ArrowTower.cpp
+        Character/Sky_Dragon.cpp
+        Character/Sky_Dragon.hpp
+        Character/StoneTitan.cpp
+        Character/StoneTitan.hpp
+        Character/Shadow_Sniper.cpp
+        Character/Shadow_Sniper.hpp
+        Bullet/Arrow.cpp
+        Bullet/Arrow.hpp
+        Bullet/Bomber_Bullet.cpp
+        Bullet/Bomber_Bullet.hpp
+        Bullet/CS_Student_Bullet.cpp
+        Bullet/CS_Student_Bullet.hpp
+        Bullet/MainTower_Bullet.cpp
+        Bullet/MainTower_Bullet.hpp
+        Bullet/Shadow_Sniper_Bullet.cpp
+        Bullet/Shadow_Sniper_Bullet.hpp
+        Bullet/Sky_Dragon_Bullet.cpp
+        Bullet/Sky_Dragon_Bullet.hpp
+        Bullet/Star_Archer_Bullet.cpp
+        Bullet/Star_Archer_Bullet.hpp
+        Bullet/StoneTitan_Bullet.cpp
+        Bullet/StoneTitan_Bullet.hpp
         Enemy/DoubleTankEnemy.cpp 
         Enemy/DoubleTankEnemy.hpp
         Turret/LightTurret.cpp 

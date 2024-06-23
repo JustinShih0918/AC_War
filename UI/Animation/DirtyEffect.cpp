@@ -6,10 +6,10 @@
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
 #include "Engine/IScene.hpp"
-#include "Scene/PlayScene.hpp"
+#include "Scene/MainPlayScene.hpp"
 
-PlayScene* DirtyEffect::getPlayScene() {
-	return dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
+MainPlayScene* DirtyEffect::getMainPlayScene() {
+	return dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
 DirtyEffect::DirtyEffect(std::string img, float timeSpan, float x, float y) : Sprite(img, x, y), timeSpan(timeSpan), alpha(1) {
 	std::random_device dev;
@@ -20,7 +20,7 @@ DirtyEffect::DirtyEffect(std::string img, float timeSpan, float x, float y) : Sp
 void DirtyEffect::Update(float deltaTime) {
 	alpha -= deltaTime / timeSpan;
 	if (alpha <= 0) {
-		getPlayScene()->GroundEffectGroup->RemoveObject(objectIterator);
+		getMainPlayScene()->GroundEffectGroup->RemoveObject(objectIterator);
 		return;
 	}
 	unsigned char r, g ,b, a = alpha * 255;

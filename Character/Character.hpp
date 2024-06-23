@@ -9,12 +9,16 @@
 #include <allegro5/base.h>
 #include <list>
 #include <string>
-
+#include "Scene/MainPlayScene.hpp"
 #include "Engine/Sprite.hpp"
 
 class Bullet;
-class PlayScene;
+class MainPlayScene;
 class Turret;
+
+enum CharacterType {
+	MEELE,REMOTE,FLY,TOWER,
+};
 
 class Character : public Engine::Sprite {
 protected:
@@ -26,10 +30,11 @@ protected:
 	float reload = 0;
 	float rotateRadian = 2 * ALLEGRO_PI;
 	float AttackRadius;
-	PlayScene* getPlayScene();
+	MainPlayScene* getMainPlayScene();
 	virtual void OnExplode();
 public:
 	int player;
+	int index;
 	float reachEndTime;
 	std::list<Character*> lockedCharacters;
 	std::list<Character*>::iterator lockedCharacterIterator; // for the one attaking this one.
@@ -42,6 +47,7 @@ public:
 	virtual void CreateBullet(Character* character) = 0;
 	Character* Target = nullptr;
 	std::string name;
-	std::string type;
+	CharacterType type;
+	int getMoney();
 };
 #endif // ENEMY_HPP

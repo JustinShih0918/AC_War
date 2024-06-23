@@ -9,10 +9,9 @@
 #include "Engine/Group.hpp"
 #include "Engine/IObject.hpp"
 #include "MissileBullet.hpp"
-#include "Scene/PlayScene.hpp"
+#include "Scene/MainPlayScene.hpp"
 #include "Engine/Point.hpp"
 
-class Turret;
 
 MissileBullet::MissileBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Character* parent, Character* target) :
 	Bullet("play/bullet-3.png", 300, 20, position, forwardDirection, rotation + ALLEGRO_PI / 2, parent, target) {
@@ -22,12 +21,19 @@ MissileBullet::MissileBullet(Engine::Point position, Engine::Point forwardDirect
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void MissileBullet::Update(float deltaTime) {
+	cout << "missile bullet update\n";
+	if(parent == nullptr) {
+		cout << "hi\n";
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		Target->lockedBullets.erase(lockedBulletIterator);
+		return;
+	}
 	if (!Target) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;
 		if (parent->player == 1){
-			if (parent->type == "meele"){
-				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+			if (parent->type == MEELE){
+				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -35,7 +41,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player2->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -44,8 +50,8 @@ void MissileBullet::Update(float deltaTime) {
 					}
 				}
 			}
-			else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
-				for (auto& it : getPlayScene()->GroundGroup_Player2->GetObjects()) {
+			else if (parent->type == REMOTE || parent->type == TOWER || parent->type == FLY){
+				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -53,7 +59,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player2->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -61,7 +67,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->FlyGroup_Player2->GetObjects()) {
+				for (auto& it : getMainPlayScene()->FlyGroup_Player2->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -72,8 +78,8 @@ void MissileBullet::Update(float deltaTime) {
 			}
 		}
 		else if (parent->player == 2){
-			if (parent->type == "meele"){
-				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+			if (parent->type == MEELE){
+				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -81,7 +87,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player1->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -90,8 +96,8 @@ void MissileBullet::Update(float deltaTime) {
 					}
 				}
 			}
-			else if (parent->type == "remote" || parent->type == "tower" || parent->type == "fly"){
-				for (auto& it : getPlayScene()->GroundGroup_Player1->GetObjects()) {
+			else if (parent->type == REMOTE || parent->type == TOWER || parent->type == FLY){
+				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -99,7 +105,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->TowerGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->TowerGroup_Player1->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -107,7 +113,7 @@ void MissileBullet::Update(float deltaTime) {
 						character = c;
 					}
 				}
-				for (auto& it : getPlayScene()->FlyGroup_Player1->GetObjects()) {
+				for (auto& it : getMainPlayScene()->FlyGroup_Player1->GetObjects()) {
 					Character* c = dynamic_cast<Character*>(it);
 					float distance = (c->Position - Position).Magnitude();
 					if (distance < minDistance) {
@@ -146,6 +152,6 @@ void MissileBullet::OnExplode(Character* character) {
 	Target->lockedBullets.erase(lockedBulletIterator);
 	std::random_device dev;
 	std::mt19937 rng(dev());
-	std::uniform_int_distribution<std::mt19937::result_type> dist(4, 10);
-	getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-3.png", dist(rng), character->Position.x, character->Position.y));
+	std::uniform_int_distribution<std::mt19937::result_type> dist(2, 5);
+	getMainPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-3.png", 1, character->Position.x, character->Position.y));
 }

@@ -17,7 +17,7 @@ protected:
     float rotateRadian = 2 * ALLEGRO_PI;
     Sprite imgBase;
     std::list<Turret*>::iterator lockedTurretIterator;
-    PlayScene* getPlayScene();
+    PlayScene* getMainPlayScene();
     // Reference: Design Patterns - Factory Method.
     virtual void CreateBullet() = 0;
 

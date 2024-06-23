@@ -12,25 +12,40 @@
 #include "Engine/Point.hpp"
 #include "WinScene.hpp"
 #include "PlayScene.hpp"
+#include "MainPlayScene.hpp"
 using namespace std;
+
+
+MainPlayScene* WinScene::getMainPlayScene() {
+	return dynamic_cast<MainPlayScene*>(Engine::GameEngine::GetInstance().GetScene("MainPlay"));
+}
+
 void WinScene::Initialize() {
 	ticks = 0;
-	playerName.clear();
 	nowDrawing.clear();
 	int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
 	int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
 	int halfW = w / 2;
 	int halfH = h / 2;
+	
 	AddNewObject(new Engine::Image("win/benjamin-sad.png", halfW, halfH + 50, 0, 0, 0.5, 0.5));
-	AddNewObject(new Engine::Label("You Win!", "pirulen.ttf", 48, halfW, halfH / 4 - 40, 255, 255, 255, 255, 0.5, 0.5));
+	cout << getMainPlayScene()->Win;
+	if (getMainPlayScene()->Win == 1) {
+		cout << "Win scene init\n";
+		AddNewObject(new Engine::Label(getMainPlayScene()->playerName_1 + " Win!" , "pirulen.ttf", 48, halfW, halfH / 4 - 40, 255, 255, 255, 255, 0.5, 0.5));
+	}
+	else if (getMainPlayScene()->Win == 2){
+		AddNewObject(new Engine::Label(getMainPlayScene()->playerName_2 + " Win!" , "pirulen.ttf", 48, halfW, halfH / 4 - 40, 255, 255, 255, 255, 0.5, 0.5));
+	}
+	else {
+		cout << "no one win\n";
+	}
 	Engine::ImageButton* btn;
 	btn = new Engine::ImageButton("win/dirt.png", "win/floor.png", halfW - 200, halfH * 7 / 4 - 50, 400, 100);
 	btn->SetOnClickCallback(std::bind(&WinScene::BackOnClick, this, 2));
 	AddNewControlObject(btn);
 	AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
 	bgmId = AudioHelper::PlayAudio("win.wav");
-
-	AddNewObject(new Engine::Image("win/textInput.png", halfW, halfH / 4 + 80, 800, 100,0.5,0.5));
 }
 void WinScene::Terminate() {
 	IScene::Terminate();
@@ -46,6 +61,7 @@ void WinScene::Update(float deltaTime) {
 }
 void WinScene::BackOnClick(int stage) {
 	// Change to select scene.
+	/*
 	ofstream ofin;
 	ofin.open("./Resource/scoreboard.txt",ios::app);
 	ofin << "\n";
@@ -62,9 +78,10 @@ void WinScene::BackOnClick(int stage) {
 	}
 	ofin << " " << dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"))->score << "\n";
 	ofin.close();
-	Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+	*/
+	Engine::GameEngine::GetInstance().ChangeScene("start");
 }
-
+/*
 char WinScene::parseKeyCode(int keyCode,int mode){
 	if(mode == 0){
 		if(keyCode <= 26 && keyCode >= 1) return keyCode + 96;
@@ -86,15 +103,18 @@ void WinScene::DrawName(){
 	AddNewObject(draw);
 	nowDrawing.push_back(draw);
 }
-
+*/
+/*
 void WinScene::RemoveChar(){
 	if(nowDrawing.empty()) return;
 	RemoveObject(nowDrawing.back()->GetObjectIterator());
 	nowDrawing.pop_back();
 }
+*/
 
 void WinScene::OnKeyDown(int keyCode){
 	IScene::OnKeyDown(keyCode);
+	/*
 	char del;
 	if(keyCode == ALLEGRO_KEY_BACKSPACE){
 		if(playerName.empty()) return;
@@ -114,4 +134,5 @@ void WinScene::OnKeyDown(int keyCode){
 		}
 		DrawName();
 	}
+	*/
 }

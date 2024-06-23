@@ -45,11 +45,11 @@ void StageSelectScene::Initialize() {
     AddNewObject(new Engine::Label("Main Game", "pirulen.ttf", 36, halfW + 500, halfH / 2 + 300, 0, 0, 0, 255, 0.5, 0.5));
 
     // Not safe if release resource while playing, however we only free while change scene, so it's fine.
-	bgmInstance = AudioHelper::PlaySample("select.ogg", true, AudioHelper::BGMVolume);
+	// bgmInstance = AudioHelper::PlaySample("select.ogg", true, AudioHelper::BGMVolume);
 }
 void StageSelectScene::Terminate() {
-	AudioHelper::StopSample(bgmInstance);
-	bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
+	// AudioHelper::StopSample(bgmInstance);
+	// bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
 	IScene::Terminate();
 }
 void StageSelectScene::BackOnClick(int stage) {
