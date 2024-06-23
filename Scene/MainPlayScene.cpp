@@ -226,16 +226,16 @@ void MainPlayScene::OnKeyDown(int keyCode){
 	}
 	else if(keyCode == ALLEGRO_KEY_W || keyCode == ALLEGRO_KEY_S || keyCode == ALLEGRO_KEY_A || keyCode == ALLEGRO_KEY_D){
 		if(keyCode == ALLEGRO_KEY_W) player1.y--;
-		else if(keyCode == ALLEGRO_KEY_S) player1.y++;
-		else if(keyCode == ALLEGRO_KEY_A) player1.x--;
-		else if(keyCode == ALLEGRO_KEY_D) player1.x++;
+		else if(keyCode == ALLEGRO_KEY_S && player1.y < 5) player1.y++;
+		else if(keyCode == ALLEGRO_KEY_A && player1.x > 1) player1.x--;
+		else if(keyCode == ALLEGRO_KEY_D && player1.x < 13) player1.x++;
 		UpdateTarget(1);
 	}
 	else if(keyCode == ALLEGRO_KEY_UP || keyCode == ALLEGRO_KEY_DOWN || keyCode == ALLEGRO_KEY_LEFT || keyCode == ALLEGRO_KEY_RIGHT){
-		if(keyCode == ALLEGRO_KEY_UP) player2.y--;
+		if(keyCode == ALLEGRO_KEY_UP && player2.y > 7) player2.y--;
 		else if(keyCode == ALLEGRO_KEY_DOWN) player2.y++;
-		else if(keyCode == ALLEGRO_KEY_LEFT) player2.x--;
-		else if(keyCode == ALLEGRO_KEY_RIGHT) player2.x++;
+		else if(keyCode == ALLEGRO_KEY_LEFT && player2.x > 1) player2.x--;
+		else if(keyCode == ALLEGRO_KEY_RIGHT && player2.x < 13) player2.x++;
 		UpdateTarget(2);
 	}
 	else if(keyCode == ALLEGRO_KEY_1 || keyCode == ALLEGRO_KEY_2 || keyCode == ALLEGRO_KEY_3) DoSelect(1, keyCode - 28);
