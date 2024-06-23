@@ -197,7 +197,6 @@ void CharacterSelectScene::OnKeyDown(int keyCode){
 
         for(int i = 0;i<5;i++){
             int a = i+1;
-            if(a > 3) a = 3;
             selected_1[i] = a;
             selected_2[i] = a;
         }
