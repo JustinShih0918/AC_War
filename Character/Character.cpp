@@ -140,13 +140,15 @@ void Character::Update(float deltaTime) {
 		// However simply loop through all enemies is enough for this program.
 		if (player == 1){
 			if(type == MEELE) {
-				for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
-					Engine::Point diff = it->Position - Position;
-					if (diff.Magnitude() <= AttackRadius) {
-						Target = dynamic_cast<Character*>(it);
-						Target->lockedCharacters.push_back(this);
-						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
-						break;
+				if (name != "Stone_Titan"){
+					for (auto& it : getMainPlayScene()->GroundGroup_Player2->GetObjects()) {
+						Engine::Point diff = it->Position - Position;
+						if (diff.Magnitude() <= AttackRadius) {
+							Target = dynamic_cast<Character*>(it);
+							Target->lockedCharacters.push_back(this);
+							lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
+							break;
+						}
 					}
 				}
 				for (auto& it : getMainPlayScene()->TowerGroup_Player2->GetObjects()) {
@@ -191,13 +193,15 @@ void Character::Update(float deltaTime) {
 		}
 		else if (player == 2){
 			if(type == MEELE) {
-				for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
-					Engine::Point diff = it->Position - Position;
-					if (diff.Magnitude() <= AttackRadius) {
-						Target = dynamic_cast<Character*>(it);
-						Target->lockedCharacters.push_back(this);
-						lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
-						break;
+				if (name != "Stone_Titan"){
+					for (auto& it : getMainPlayScene()->GroundGroup_Player1->GetObjects()) {
+						Engine::Point diff = it->Position - Position;
+						if (diff.Magnitude() <= AttackRadius) {
+							Target = dynamic_cast<Character*>(it);
+							Target->lockedCharacters.push_back(this);
+							lockedCharacterIterator = std::prev(Target->lockedCharacters.end());
+							break;
+						}
 					}
 				}
 				for (auto& it : getMainPlayScene()->TowerGroup_Player1->GetObjects()) {

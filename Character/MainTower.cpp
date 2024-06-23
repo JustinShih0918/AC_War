@@ -24,6 +24,9 @@ void MainTower::CreateBullet(Character* character) {
 	float rotation = atan2(diff.y, diff.x);
 	Engine::Point normalized = diff.Normalize();
 	// Change bullet position to the front of the gun barrel.
-	getMainPlayScene()->BulletGroup->AddNewObject(new MainTower_Bullet(Position + normalized * 36, diff, rotation, this, character));
+	std::string a;
+	if (player == 1) a = "mainPlay/Green_Tower_Bullet.png";
+	else if (player == 2) a = "mainPlay/Red_Tower_Bullet.png";
+	getMainPlayScene()->BulletGroup->AddNewObject(new MainTower_Bullet(Position + normalized * 36, diff, rotation, this, character, a));
 	AudioHelper::PlayAudio("gun.wav");
 }

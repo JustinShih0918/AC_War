@@ -586,17 +586,17 @@ void MainPlayScene::UpdateSelected(int player, int pos){
 }
 
 void MainPlayScene::UpdateSelectedImg(){
-	int detY = 100;
+	int detY = 200;
 	for(int i = 0;i<3;i++) if(selectImg_1[i]) RemoveObject(selectImg_1[i]->GetObjectIterator());
 	for(int i = 0;i<3;i++) if(selectImg_2[i]) RemoveObject(selectImg_2[i]->GetObjectIterator());
 
 	for(int i = 0;i<3;i++) {
-		selectImg_1[i] = new Engine::Image(character_img[selected_1[i]], 50, 300 + detY * i, 60, 60);
+		selectImg_1[i] = new Engine::Image(character_img[selected_1[i]], 50, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_1[i]);
 	}
 	
 	for(int i = 0;i<3;i++) {
-		selectImg_2[i] = new Engine::Image(character_img[selected_2[i]], 1400, 300 + detY * i, 60, 60);
+		selectImg_2[i] = new Engine::Image(character_img[selected_2[i]], 1400, 200 + detY * i, 150, 150);
 		AddNewObject(selectImg_2[i]);
 	}
 	
