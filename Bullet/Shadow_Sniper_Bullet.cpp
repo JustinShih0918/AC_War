@@ -21,6 +21,12 @@ Shadow_Sniper_Bullet::Shadow_Sniper_Bullet(Engine::Point position, Engine::Point
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void Shadow_Sniper_Bullet::Update(float deltaTime) {
+	if(parent == nullptr) {
+		cout << "hi\n";
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		Target->lockedBullets.erase(lockedBulletIterator);
+		return;
+	}
 	if (!Target) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;

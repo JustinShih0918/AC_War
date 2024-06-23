@@ -21,6 +21,12 @@ Sky_Dragon_Bullet::Sky_Dragon_Bullet(Engine::Point position, Engine::Point forwa
 		lockedBulletIterator = std::prev(Target->lockedBullets.end());
 }
 void Sky_Dragon_Bullet::Update(float deltaTime) {
+	if(parent == nullptr) {
+		cout << "hi\n";
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		Target->lockedBullets.erase(lockedBulletIterator);
+		return;
+	}
 	if (!Target) {
 		float minDistance = INFINITY;
 		Character* character = nullptr;
