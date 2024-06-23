@@ -27,6 +27,8 @@ void Bullet::Update(float deltaTime) {
 	MainPlayScene* scene = getMainPlayScene();
 	// Can be improved by Spatial Hash, Quad Tree, ...
 	// However simply loop through all enemies is enough for this program.
+	
+	/*
 	if (parent->player == 1) {
 		if (parent->type == MEELE){
 			for (auto& it : scene->GroundGroup_Player2->GetObjects()) {
@@ -150,7 +152,13 @@ void Bullet::Update(float deltaTime) {
 			}
 		}
 	}
-	
+	*/
+	if(Engine::Collider::IsCircleOverlap(Position,CollisionRadius, Target->Position, Target->CollisionRadius)) {
+		OnExplode(Target);
+		Target->Hit(damage);
+		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
+		return;
+	}
 	// Check if out of boundary.
 	if (!Engine::Collider::IsRectOverlap(Position - Size / 2, Position + Size / 2, Engine::Point(0, 0), MainPlayScene::GetClientSize()))
 		getMainPlayScene()->BulletGroup->RemoveObject(objectIterator);
