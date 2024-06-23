@@ -15,6 +15,7 @@ MainTower::MainTower(int x, int y, int player) : Character("play/enemy-1.png", x
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "tower";
 	type = TOWER;
+	index = 0;
 }
 
 

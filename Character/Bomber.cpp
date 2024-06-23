@@ -15,6 +15,7 @@ Bomber::Bomber(int x, int y, int player) : Character("play/enemy-2.png", x, y, 3
 	// TODO: [CUSTOM-TOOL] You can imitate the 2 files: 'SoldierEnemy.hpp', 'SoldierEnemy.cpp' to create a new enemy.
 	name = "fly";
 	type = FLY;
+	index = 3;
 }
 
 
