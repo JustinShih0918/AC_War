@@ -122,7 +122,7 @@ void Sky_Dragon_Bullet::Update(float deltaTime) {
 				}
 			}
 		}
-		else std::cout << "MissileBullet Update error\n";
+		else std::cout << "DragonBullet Update error\n";
 		if (!character) {
 			Bullet::Update(deltaTime);
 			return;
