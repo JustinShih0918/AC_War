@@ -2,6 +2,7 @@
 #define WINSCENE_HPP
 #include <allegro5/allegro_audio.h>
 #include "Engine/IScene.hpp"
+#include "Scene/MainPlayScene.hpp"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -22,6 +23,7 @@ public:
 	void DrawName();
 	void RemoveChar();
 	int startIndex;
+	MainPlayScene* getMainPlayScene();
 };
 
 #endif // WINSCENE_HPP
